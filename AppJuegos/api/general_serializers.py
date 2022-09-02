@@ -2,6 +2,8 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework import generics
 
+
+# Solo GET
 class GeneralListApiView(generics.ListAPIView):
     serializer_class = None
 
@@ -9,8 +11,10 @@ class GeneralListApiView(generics.ListAPIView):
         model = self.get_serializer().Meta.model
         return model.objects.all()
 
-class GeneralCreateApiView(generics.CreateAPIView):
+# GET Y POST
+class GeneralListCreateApiView(generics.ListCreateAPIView):
     serializer_class = None
+    queryset = None
 
     def post(self, request):
         serializer = self.get_serializer(data=request.data)
@@ -20,24 +24,24 @@ class GeneralCreateApiView(generics.CreateAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class GeneralRetrieveApiView(generics.RetrieveAPIView):
+# GET, PUT y DELETE
+class GeneralRetrieveUpdateDestroyApiView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = None
 
-    def get_queryset(self):
+    def get_queryset(self, pk = None):
+        if pk is None:
+            return self.get_serializer().Meta.model.objects.all()
+        else:
+            return self.get_serializer().Meta.model.objects.filter(pk=pk).first()
+
+    def put(self, request, pk):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
         model = self.get_serializer().Meta.model
-        return model.objects.all()
-
-class GeneralDestroyApiView(generics.DestroyAPIView):
-    serializer_class = None
-
-    def get_queryset(self):
-        model = self.get_serializer().Meta.model
-        return model.objects.all()
-
-    def delete(self, request, pk=None):
-        instance = self.get_queryset().filter(id=pk).first()
-        if instance:
-            instance.delete()
-            return Response(status=status.HTTP_204_NO_CONTENT)
-        return Response(status=status.HTTP_404_NOT_FOUND)
-    
+        model.objects.get(pk=pk).delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
