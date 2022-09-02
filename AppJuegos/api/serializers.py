@@ -35,6 +35,23 @@ class UserSerializer(serializers.ModelSerializer):
         user.modified = timezone.now()
         user.save()
         return user
+    
+    def to_representation(self, instance):
+        return {
+            'id': instance.id,
+            'cedula': instance.cedula,
+            'first_name': instance.first_name,
+            'second_name': instance.second_name,
+            'father_last_name': instance.father_last_name,
+            'mother_last_name': instance.mother_last_name,
+            'email': instance.email,
+            'phone': instance.phone,
+            'password': instance.password,
+            'sex': instance.sex,
+            'addres' : instance.addres,
+            'rol' : instance.rol.name,
+            'state': instance.state
+        } 
 
 class RolSerializer(serializers.ModelSerializer):
     class Meta:
