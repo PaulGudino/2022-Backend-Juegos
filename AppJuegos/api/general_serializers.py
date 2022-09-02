@@ -34,11 +34,13 @@ class GeneralRetrieveUpdateDestroyApiView(generics.RetrieveUpdateDestroyAPIView)
         else:
             return self.get_serializer().Meta.model.objects.filter(pk=pk).first()
 
-    def put(self, request, pk):
-        serializer = self.get_serializer(data=request.data)
+    def put(self, request, pk, format=None):
+        model = self.get_serializer().Meta.model
+        instance = model.objects.get(pk=pk)
+        serializer = self.get_serializer(instance, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):

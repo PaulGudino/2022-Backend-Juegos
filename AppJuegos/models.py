@@ -33,7 +33,7 @@ class User(models.Model):
     father_last_name = models.CharField(max_length=50, verbose_name='Apellido Paterno')
     mother_last_name = models.CharField(max_length=50, verbose_name='Apellido Materno')
     email = models.EmailField(max_length=255, unique=True, verbose_name='Correo Electronico')
-    password = models.CharField(max_length=255, verbose_name='Contraseña', unique=True)
+    password = models.CharField(max_length=255, verbose_name='Contraseña')
     phone = models.CharField(max_length=10, verbose_name='Telefono')
     sex = models.CharField(max_length=1, choices=sex , default='M')
     address = models.CharField(max_length=255, verbose_name='Direccion')
