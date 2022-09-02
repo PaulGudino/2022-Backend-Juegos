@@ -48,7 +48,7 @@ class UserSerializer(serializers.ModelSerializer):
             'phone': instance.phone,
             'password': instance.password,
             'sex': instance.sex,
-            'addres' : instance.addres,
+            'address' : instance.address,
             'rol' : instance.rol.name,
             'state': instance.state
         } 
