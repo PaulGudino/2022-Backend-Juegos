@@ -65,7 +65,7 @@ class Permission(models.Model):
     class Meta:
         verbose_name = 'Permiso'
         verbose_name_plural = 'Permisos'
-        ordering = ['name']
+        ordering = ['id']
 
 class RolPermission(models.Model):
     id = models.AutoField(primary_key=True)
