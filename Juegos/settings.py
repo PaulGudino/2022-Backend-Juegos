@@ -26,6 +26,7 @@ SECRET_KEY = 'django-insecure-47=alantoxcgi6$@4&xv-mj&ifbcni=+(3dw9wl+^@i*gj4p&$
 DEBUG = True
 
 ALLOWED_HOSTS = ['juegos.pythonanywhere.com']
+# ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -91,6 +92,16 @@ DATABASES = {
         'PORT': '3306'
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'juegos',
+#         'USER': 'admin',
+#         'PASSWORD': 'Root@123',
+#         'HOST': 'localhost',
+#         'PORT': '3306'
+#     }
+# }
 
 
 # Password validation

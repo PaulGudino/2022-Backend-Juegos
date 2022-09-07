@@ -8,21 +8,19 @@ from django.utils import timezone
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = [
-            'id',
-            'cedula',
-            'first_name',
-            'second_name',
-            'father_last_name',
-            'mother_last_name',
-            'email',
-            'phone',
-            'password',
-            'sex',
-            'address',
-            'rol',
-            'state'
-        ]
+        exclude = ('created','modified','last_session',)
+
+    def validate_phone(self, value):
+        if value.isnumeric():
+            return value
+        else:
+            raise serializers.ValidationError("El telefono debe ser númerico")
+
+    def validate_cedula(self, value):
+        if value.isnumeric():
+            return value
+        else:
+            raise serializers.ValidationError("La cedula debe ser númerico")
 
     def create(self, validated_data):
         user = User(**validated_data)
@@ -41,23 +39,34 @@ class UserSerializer(serializers.ModelSerializer):
         return {
             'id': instance.id,
             'cedula': instance.cedula,
-            'first_name': instance.first_name,
-            'second_name': instance.second_name,
-            'father_last_name': instance.father_last_name,
-            'mother_last_name': instance.mother_last_name,
+            'names': instance.names,
+            'surnames': instance.surnames,
             'email': instance.email,
             'phone': instance.phone,
             'password': instance.password,
             'sex': instance.sex,
             'address' : instance.address,
             'rol' : instance.rol.name,
-            'state': instance.state
+            'state': instance.state, 
+            'created': instance.created.strftime('%d/%m/%Y %H:%M:%S'),
+            'modified': instance.modified.strftime('%d/%m/%Y %H:%M:%S'),
+            'last_session': instance.last_session.strftime('%d/%m/%Y %H:%M:%S')
         } 
 
 class RolSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rol
-        fields = 'id', 'name', 'description', 'state'
+        exclude = ('created','modified',)
+
+    def to_representation(self, instance):
+        return {
+            'id': instance.id,
+            'name': instance.name,
+            'description': instance.description,
+            'state': instance.state,
+            'created': instance.created.strftime('%d/%m/%Y %H:%M:%S'),
+            'modified': instance.modified.strftime('%d/%m/%Y %H:%M:%S')
+        }
 
 class PermissionSerializer(serializers.ModelSerializer):
     class Meta:
