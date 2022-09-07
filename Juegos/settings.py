@@ -42,9 +42,15 @@ INSTALLED_APPS = [
     'simple_history',
     'rest_framework.authtoken',
     'werkzeug',
-    'AppJuegos',
     'corsheaders',
+    'drf_yasg',
+    'AppJuegos',
+    
 ]
+
+SWAGGER_SETTINGS = {
+    'DOC_EXPANSION': 'None',
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

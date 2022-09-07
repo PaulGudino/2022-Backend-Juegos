@@ -33,7 +33,13 @@ class CRUDViewSet(viewsets.ModelViewSet):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class OnlyListViewSet(viewsets.ModelViewSet):
+    def destroy(self, request, pk):
+        model = self.get_serializer().Meta.model
+        instance = model.objects.get(pk=pk)
+        instance.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+class OnlyListViewSet(viewsets.ReadOnlyModelViewSet):
     
     serializer_class = None
 
@@ -48,11 +54,9 @@ class OnlyListViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def create(self, request):
-        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
-
-    def update(self, request, pk):
-        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
-
-    def destroy(self, request, pk):
-        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+    def retrieve(self, request, pk):
+        model = self.get_serializer().Meta.model
+        instance = model.objects.get(pk=pk)
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+        

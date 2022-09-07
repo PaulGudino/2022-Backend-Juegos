@@ -7,9 +7,9 @@ from AppJuegos.api.api import (
 )
 
 router = DefaultRouter()
-router.register(r'user', UserViewSet)
-router.register(r'rol', RolViewSet)
-router.register(r'permission', PermissionViewSet)
-router.register(r'rolpermission', RolPermissionViewSet)
+router.register(r'user', UserViewSet, basename='user')
+router.register(r'rol', RolViewSet, basename='rol')
+router.register(r'permission', PermissionViewSet, basename='permission')
+router.register(r'rolpermission', RolPermissionViewSet, basename='rolpermission')
 
 urlpatterns = router.urls
