@@ -1,6 +1,6 @@
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
-from AppJuegos.api.serializers import CustomTokenObtainPairSerializer, CustomUserSerializer
+from AppJuegos.api.serializers import CustomTokenObtainPairSerializer, CustomUserSerializer, CustomRolPermissionSerializer
 from django.contrib.auth import authenticate
 from rest_framework.response import Response
 from rest_framework import status
@@ -19,10 +19,12 @@ class Login(TokenObtainPairView):
             login_serializer = self.get_serializer(data=request.data)
             if login_serializer.is_valid():
                 user_serializer = CustomUserSerializer(user)
+                permisos_serializer = CustomRolPermissionSerializer(user.rol.rolpermission_set.all(), many=True)
                 return Response({
                     'token': login_serializer.validated_data.get('access'),
                     'refresh': login_serializer.validated_data.get('refresh'),
                     'user': user_serializer.data,
+                    'permisos': permisos_serializer.data,
                     'message': 'Login Successful'
                 }, status=status.HTTP_200_OK)
             return Response({'error':'The username or password are incorrect'}, status=status.HTTP_400_BAD_REQUEST)

@@ -5,12 +5,27 @@ from django.utils import timezone
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
-    pass
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        data['user'] = User.objects.get(id=self.user.id)
+        return data
 
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username', 'email', 'names', 'surnames')
+
+class CustomRolPermissionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RolPermission
+        fields = ('id', 'rol', 'permission')
+
+    def to_representation(self, instance):
+        return {
+            'id': instance.id,
+            'rol': instance.rol.name,
+            'permission': instance.permission.name
+        }
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
