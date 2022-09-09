@@ -1,9 +1,7 @@
 from django.urls import path
-
-from AppJuegos.api.views import LoginAPIView, LogoutAPIView, RefreshAPIView
+from AppJuegos.api.views import Login, Logout
 
 urlpatterns = [
-    path('login/', LoginAPIView.as_view(), name='login'),
-    path('logout/', LogoutAPIView.as_view(), name='logout'),
-    path('refresh/', RefreshAPIView.as_view(), name='refresh'),
+    path('login/', Login.as_view(), name='login'),
+    path('logout/', Logout.as_view(), name='logout'),
 ]

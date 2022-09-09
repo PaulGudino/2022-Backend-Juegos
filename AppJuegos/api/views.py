@@ -1,48 +1,41 @@
-from rest_framework.authentication import get_authorization_header
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.tokens import RefreshToken
+from AppJuegos.api.serializers import CustomTokenObtainPairSerializer, CustomUserSerializer
+from django.contrib.auth import authenticate
 from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework.exceptions import APIException, AuthenticationFailed
-
-from AppJuegos.api.authentication import create_access_token, create_refresh_token, decode_access_token, decode_refresh_token
-from AppJuegos.api.serializers import UserSerializer
+from rest_framework import status
+from rest_framework.generics import GenericAPIView
 from AppJuegos.models import User
 
-class LoginAPIView(APIView):
-    def post(self, request):
-        user = User.objects.filter(email=request.data['email']).first()
+class Login(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
 
-        if not user:
-            raise APIException('Invalid credentials!')
+    def post(self, request, *args, **kwargs):
+        username = request.data.get('username', None)
+        password = request.data.get('password', None)
+        user = authenticate(username=username, password=password)
 
-        if not user.check_password(request.data['password']):
-            raise APIException('Invalid credentials!')
+        if user :
+            login_serializer = self.get_serializer(data=request.data)
+            if login_serializer.is_valid():
+                user_serializer = CustomUserSerializer(user)
+                return Response({
+                    'token': login_serializer.validated_data.get('access'),
+                    'refresh': login_serializer.validated_data.get('refresh'),
+                    'user': user_serializer.data,
+                    'message': 'Login Successful'
+                }, status=status.HTTP_200_OK)
+            return Response({'error':'The username or password are incorrect'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'error':'The username or password are incorrect'}, status=status.HTTP_400_BAD_REQUEST)
 
-        access_token = create_access_token(user.id)
-        refresh_token = create_refresh_token(user.id)
+class Logout(GenericAPIView):
+    def post(self, request, *args, **kwargs):
+        user = User.objects.filter(id=request.data.get('id', None))
+        if user.exists():
+            RefreshToken.for_user(user.first())
+            return Response({'message':'Logout Successful'}, status=status.HTTP_200_OK)
+        return Response({'error':'User not found'}, status=status.HTTP_400_BAD_REQUEST)
 
-        response = Response()
 
-        response.set_cookie(key='refreshToken', value=refresh_token, httponly=True)
-        response.data = {
-            'token': access_token
-        }
 
-        return response
 
-class RefreshAPIView(APIView):
-    def post(self, request):
-        refresh_token = request.COOKIES.get('refreshToken')
-        id = decode_refresh_token(refresh_token)
-        access_token = create_access_token(id)
-        return Response({
-            'token': access_token
-        })
-
-class LogoutAPIView(APIView):
-    def post(self, _):
-        response = Response()
-        response.delete_cookie(key="refreshToken")
-        response.data = {
-            'message': 'success'
-        }
-        return response
