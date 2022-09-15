@@ -1,14 +1,36 @@
 from AppJuegos.models import User, Rol, Permission, RolPermission
-from AppJuegos.api.serializers import UserSerializer, RolSerializer, PermissionSerializer, RolPermissionSerializer
+from AppJuegos.api.serializers import UserSerializer, RolSerializer, PermissionSerializer, RolPermissionSerializer, UserUpdateSerializer
 
 from AppJuegos.api.general_api import CRUDViewSet, OnlyListViewSet
 from rest_framework.response import Response
 from rest_framework import status
 
+from rest_framework.filters import SearchFilter
+from django_filters.rest_framework import DjangoFilterBackend
 
-class UserViewSet(CRUDViewSet):
+from rest_framework import generics
+
+
+class UserCreateViewSet(CRUDViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
+
+    def list(self, request):
+        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+    def update(self, request, pk):
+        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+    def destroy(self, request, pk):
+        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+
+class UserViewSet(CRUDViewSet):
+    serializer_class = UserUpdateSerializer
+    queryset = User.objects.all()
+
+    def create(self, request):
+        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
     def update(self, request, pk):
         if int(pk) == 1:
@@ -44,6 +66,33 @@ class PermissionViewSet(OnlyListViewSet):
 class RolPermissionViewSet(CRUDViewSet):
     serializer_class = RolPermissionSerializer
     queryset = RolPermission.objects.all()
+
+class RolPermissionFilter(generics.ListAPIView):
+    serializer_class = RolPermissionSerializer
+    queryset = RolPermission.objects.all()
+    filter_backends = [SearchFilter, DjangoFilterBackend]
+    search_fields = ['rol__name']
+    ordering_fields = ['rol__name']
+    filterset_fields = ['rol__name']
+
+class RolFilter(generics.ListAPIView):
+    serializer_class = RolSerializer
+    queryset = Rol.objects.all()
+    filter_backends = [SearchFilter, DjangoFilterBackend]
+    search_fields = ['name']
+    ordering_fields = ['name']
+    filterset_fields = ['name']
+
+class UserFilter(generics.ListAPIView):
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
+    filter_backends = [SearchFilter, DjangoFilterBackend]
+    search_fields = ['rol__name']
+    ordering_fields = ['rol__name']
+    filterset_fields = ['rol__name']
+
+
+
 
 
 
