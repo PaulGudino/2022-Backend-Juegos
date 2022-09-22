@@ -1,20 +1,18 @@
 # Requirements
 
-* asgiref               3.5.2
-* backports.zoneinfo    0.2.1
-* Django                4.1
-* django-cors-headers   3.13.0
-* django-simple-history 3.1.1
-* djangorestframework   3.13.1
-* MarkupSafe            2.1.1
-* mysqlclient           2.1.1
-* pip                   20.2.3
-* PyJWT                 2.4.0
-* pytz                  2022.2.1
-* setuptools            49.2.1
-* sqlparse              0.4.2
-* tzdata                2022.2
-* Werkzeug              2.2.2
+* asgiref==3.5.2
+* backports.zoneinfo==0.2.1
+* Django==4.1.1
+* django-cors-headers==3.13.0
+* django-filter==22.1
+* django-simple-history==3.1.1
+* djangorestframework==3.13.1
+* djangorestframework-simplejwt==5.2.0
+* mysqlclient==2.1.1
+* PyJWT==2.4.0
+* pytz==2022.2.1
+* sqlparse==0.4.2
+* tzdata==2022.2
 
 ## Requierements
 
@@ -96,6 +94,6 @@ source venv/bin/activate
 ```
 # Install packages
 ```python
-pip install Django django-cors-headers djangorestframework mysqlclient PyJWT pytz tzdata Werkzeug 
+pip install -r requerimientos.txt
 ```
 
