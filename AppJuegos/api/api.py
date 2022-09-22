@@ -1,5 +1,11 @@
 from AppJuegos.models import User, Rol, Permission, RolPermission
-from AppJuegos.api.serializers import UserSerializer, RolSerializer, PermissionSerializer, RolPermissionSerializer, UserUpdateSerializer
+from AppJuegos.api.serializers import (
+    UserSerializer, 
+    RolSerializer, 
+    PermissionSerializer, 
+    RolPermissionSerializer, 
+    UserUpdateSerializer,
+    CustomRolPermissionSerializer)
 
 from AppJuegos.api.general_api import CRUDViewSet, OnlyListViewSet
 from rest_framework.response import Response
@@ -67,20 +73,21 @@ class RolPermissionViewSet(CRUDViewSet):
     serializer_class = RolPermissionSerializer
     queryset = RolPermission.objects.all()
 
+
+
+
 class RolPermissionFilter(generics.ListAPIView):
-    serializer_class = RolPermissionSerializer
+    serializer_class = CustomRolPermissionSerializer
     queryset = RolPermission.objects.all()
     filter_backends = [SearchFilter, DjangoFilterBackend]
-    search_fields = ['rol__name']
-    ordering_fields = ['rol__name']
-    filterset_fields = ['rol__name']
+    search_fields = ['rol']
+    filterset_fields = ['rol']
 
 class RolFilter(generics.ListAPIView):
     serializer_class = RolSerializer
     queryset = Rol.objects.all()
     filter_backends = [SearchFilter, DjangoFilterBackend]
     search_fields = ['name']
-    ordering_fields = ['name']
     filterset_fields = ['name']
 
 class UserFilter(generics.ListAPIView):
@@ -88,8 +95,7 @@ class UserFilter(generics.ListAPIView):
     queryset = User.objects.all()
     filter_backends = [SearchFilter, DjangoFilterBackend]
     search_fields = ['rol__name']
-    ordering_fields = ['rol__name']
-    filterset_fields = ['rol__name']
+    filterset_fields = ['rol']
 
 
 

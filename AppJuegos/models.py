@@ -6,7 +6,7 @@ from django.contrib.auth.models import AbstractUser
 
 class Rol(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
-    name = models.CharField(max_length=50, verbose_name='Nombre')
+    name = models.CharField(max_length=50, unique=True, verbose_name='Nombre')
     description = models.TextField(max_length=100, verbose_name='Descripcion')
     created = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creacion')
     modified = models.DateTimeField(auto_now=True, verbose_name='Fecha de modificacion')

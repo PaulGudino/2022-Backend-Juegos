@@ -20,13 +20,7 @@ class CustomRolPermissionSerializer(serializers.ModelSerializer):
     class Meta:
         model = RolPermission
         fields = ('id', 'rol', 'permission')
-
-    def to_representation(self, instance):
-        return {
-            'id': instance.id,
-            'rol': instance.rol.name,
-            'permission': instance.permission.name
-        }
+        
 
 class UserUpdateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -75,11 +69,6 @@ class UserSerializer(serializers.ModelSerializer):
         else:
             raise serializers.ValidationError("El telefono debe ser númerico")
 
-    def validate_username(self, value):
-        if User.objects.filter(username=value).exists():
-            raise serializers.ValidationError("El usuario ya existe o ese nombre de usuario ya esta en uso")
-        return value
-
     def validate_cedula(self, value):
         if User.objects.filter(cedula=value).exists():
             raise serializers.ValidationError("La cedula ya existe")
@@ -95,15 +84,16 @@ class UserSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
+    def to_representation(self, instance):
+        return {
+            'cedula': instance.cedula,
+            'rol': instance.rol.name,
+        }
+
 class RolSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rol
         exclude = ('created','modified',)
-
-    def validate_name(self, value):
-        if Rol.objects.filter(name=value).exists():
-            raise serializers.ValidationError("El rol ya existe")
-        return value
 
     def to_representation(self, instance):
         return {
