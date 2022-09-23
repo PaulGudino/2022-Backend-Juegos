@@ -56,7 +56,21 @@ class RolViewSet(CRUDViewSet):
         if int(pk) == 1:
             return Response({'error': 'No puedes modificar el rol administrador'}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            print('Modificando rol')
+            estado = request.data.get('is_active', None)
+            if estado == None or estado == "false":
+                user = User.objects.filter(rol=pk)
+                if user.exists():
+                    for u in user:
+                        print(u)
+                        u.is_active = False
+                        u.save()
+            else:
+                user = User.objects.filter(rol=pk)
+                if user.exists():
+                    for u in user:
+                        print(u)
+                        u.is_active = True
+                        u.save()
             return super().update(request, pk)
 
     def destroy(self, request, pk):
@@ -81,7 +95,7 @@ class RolPermissionFilter(generics.ListAPIView):
     queryset = RolPermission.objects.all()
     filter_backends = [SearchFilter, DjangoFilterBackend]
     search_fields = ['rol']
-    filterset_fields = ['rol']
+    filterset_fields = ['rol', 'permission']
 
 class RolFilter(generics.ListAPIView):
     serializer_class = RolSerializer
