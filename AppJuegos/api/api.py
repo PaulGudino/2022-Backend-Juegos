@@ -5,7 +5,9 @@ from AppJuegos.api.serializers import (
     PermissionSerializer, 
     RolPermissionSerializer, 
     UserUpdateSerializer,
-    CustomRolPermissionSerializer)
+    CustomRolPermissionSerializer,
+    ChangePasswordSerializer
+    )
 
 from AppJuegos.api.general_api import CRUDViewSet, OnlyListViewSet
 from rest_framework.response import Response
@@ -15,6 +17,7 @@ from rest_framework.filters import SearchFilter
 from django_filters.rest_framework import DjangoFilterBackend
 
 from rest_framework import generics
+from rest_framework.decorators import action
 
 
 class UserCreateViewSet(CRUDViewSet):
@@ -47,6 +50,18 @@ class UserViewSet(CRUDViewSet):
         if int(pk) == 1:
             return Response({'error': 'No puedes eliminar el rol administrador'}, status=status.HTTP_400_BAD_REQUEST)
         return super().destroy(request, pk)
+
+    @action(detail=True, methods=['post'])
+    def change_password(self, request, pk=None):
+        user = self.get_object()
+        change_serializer = ChangePasswordSerializer(data=request.data)
+        if change_serializer.is_valid():
+            if not user.check_password(change_serializer.data.get("old_password")):
+                return Response({"old_password": ["Wrong password."]}, status=status.HTTP_400_BAD_REQUEST)
+            user.set_password(change_serializer.data.get("new_password"))
+            user.save()
+            return Response({'message': "La contraseña se actualizo correctamente"},status=status.HTTP_200_OK)
+        return Response(change_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             
 class RolViewSet(CRUDViewSet):
     serializer_class = RolSerializer
@@ -61,14 +76,12 @@ class RolViewSet(CRUDViewSet):
                 user = User.objects.filter(rol=pk)
                 if user.exists():
                     for u in user:
-                        print(u)
                         u.is_active = False
                         u.save()
             else:
                 user = User.objects.filter(rol=pk)
                 if user.exists():
                     for u in user:
-                        print(u)
                         u.is_active = True
                         u.save()
             return super().update(request, pk)
@@ -110,7 +123,6 @@ class UserFilter(generics.ListAPIView):
     filter_backends = [SearchFilter, DjangoFilterBackend]
     search_fields = ['rol__name']
     filterset_fields = ['rol']
-
 
 
 

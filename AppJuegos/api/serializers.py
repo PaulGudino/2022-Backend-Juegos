@@ -1,7 +1,6 @@
-from dataclasses import field
 from rest_framework import serializers
-from AppJuegos.models import User, Rol, Permission, RolPermission
-from django.utils import timezone
+from AppJuegos.models import User, Rol, Permission, RolPermission, ForgotPassword
+
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
@@ -21,6 +20,8 @@ class CustomRolPermissionSerializer(serializers.ModelSerializer):
         model = RolPermission
         fields = ('id', 'rol', 'permission')
         
+class LogoutSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
 
 class UserUpdateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -78,6 +79,11 @@ class UserSerializer(serializers.ModelSerializer):
         else:
             raise serializers.ValidationError("La cedula debe ser númerico")
 
+    def validate_password(self, value):
+        if len(value) < 8:
+            raise serializers.ValidationError("La contraseña debe tener al menos 8 caracteres")
+        return value
+
     def create(self, validated_data):
         user = User(**validated_data)
         user.set_password(validated_data['password'])
@@ -122,4 +128,39 @@ class RolPermissionSerializer(serializers.ModelSerializer):
             'rol': instance.rol.name,
             'permission': instance.permission.name
         }
+
+class ForgotPasswordSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ForgotPassword
+        exclude = ('created','code',)
+
+class ResetForgotPasswordSerializer(serializers.Serializer):
+
+    email = serializers.EmailField(required=True)
+    password = serializers.CharField(required=True)
+    code = serializers.CharField(required=True)
+
+class ChangePasswordSerializer(serializers.Serializer):
+
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+    confirm_password = serializers.CharField(required=True)
+
+    def validate_new_password(self, value):
+        if len(value) < 8:
+            raise serializers.ValidationError("La contraseña debe tener al menos 8 caracteres")
+        return value
+
+    def validate_confirm_password(self, value):
+        if len(value) < 8:
+            raise serializers.ValidationError("La contraseña debe tener al menos 8 caracteres")
+        return value
+
+    def validate(self, data):
+        if data['new_password'] != data['confirm_password']:
+            raise serializers.ValidationError("Las contraseñas no coinciden")
+        return data
+
+
 

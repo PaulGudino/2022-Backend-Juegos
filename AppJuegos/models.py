@@ -81,6 +81,21 @@ class RolPermission(models.Model):
         verbose_name_plural = 'RolPermisos'
         ordering = ['rol', 'permission']
 
-    
+
+# Modelos de contraseña
+
+class ForgotPassword(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
+    email = models.EmailField(max_length=100, unique=True, verbose_name='Correo Electronico')
+    code = models.CharField(max_length=6, verbose_name='Codigo')
+    created = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creacion')
+
+    def __str__(self):
+        return self.email
+
+    class Meta:
+        verbose_name = 'RecuperarContraseña'
+        verbose_name_plural = 'RecuperarContraseñas'
+        ordering = ['email', 'code']
 
 
