@@ -160,7 +160,7 @@ class ChangePasswordSerializer(serializers.Serializer):
 
     def validate(self, data):
         if data['new_password'] != data['confirm_password']:
-            raise serializers.ValidationError("Las contraseñas no coinciden")
+            raise serializers.ValidationError("Las nuevas contraseñas no coinciden")
         return data
 
 

@@ -57,7 +57,7 @@ class UserViewSet(CRUDViewSet):
         change_serializer = ChangePasswordSerializer(data=request.data)
         if change_serializer.is_valid():
             if not user.check_password(change_serializer.data.get("old_password")):
-                return Response({"old_password": ["Wrong password."]}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({"old_password": ["La contraseña es incorrecta"]}, status=status.HTTP_400_BAD_REQUEST)
             user.set_password(change_serializer.data.get("new_password"))
             user.save()
             return Response({'message': "La contraseña se actualizo correctamente"},status=status.HTTP_200_OK)
