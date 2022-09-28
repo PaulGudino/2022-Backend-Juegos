@@ -16,6 +16,16 @@ from django.core.mail import send_mail
 from django.conf import settings
 import random
 from django.contrib.auth.hashers import make_password
+import re
+
+regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+def check(email):
+ 
+    if(re.fullmatch(regex, email)):
+        return True
+ 
+    else:
+        return False
 
 class Login(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
@@ -60,9 +70,11 @@ class ForgotPasswordView(GenericAPIView):
 
     def post(self, request, *args, **kwargs):
         email = request.data.get('email', None)
+        if check(email) == False:
+            return Response({'error':'Ingrese un email válido'}, status=status.HTTP_400_BAD_REQUEST)
         user = User.objects.filter(email=email)
-        email_usuario_forgot = user.first().email
         if user.exists():
+            email_usuario_forgot = user.first().email
             forgot_password = ForgotPassword.objects.filter(email=email_usuario_forgot)
             code = random.randint(100000, 999999)
             if forgot_password.exists():
@@ -93,13 +105,18 @@ class ResetForgotPasswordView(GenericAPIView):
 
     def post(self, request, *args, **kwargs):
         email = request.data.get('email', None)
+        if check(email) == False:
+            return Response({'error':'Ingrese un email válido'}, status=status.HTTP_400_BAD_REQUEST)
+        user = User.objects.filter(email=email)
         code = request.data.get('code', None)
         password = make_password(request.data.get('password', None))
         forgot_password = ForgotPassword.objects.filter(email=email, code=code)
-        if forgot_password.exists():
-            user = User.objects.filter(email=email)
-            user.update(password=password)
-            forgot_password.delete()
-            return Response({'message':'Contraseña actualizada'}, status=status.HTTP_200_OK)
-        return Response({'error':'El codigo proporcionado es incorrecto o no existe'}, status=status.HTTP_400_BAD_REQUEST)
+        if user.exists():
+            if forgot_password.exists():
+                user = User.objects.filter(email=email)
+                user.update(password=password)
+                forgot_password.delete()
+                return Response({'message':'Contraseña actualizada'}, status=status.HTTP_200_OK)
+            return Response({'error':'El codigo no existe o es incorrecto'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'error':'El email no existe en el sistema'}, status=status.HTTP_400_BAD_REQUEST)
 

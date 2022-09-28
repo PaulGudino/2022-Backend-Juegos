@@ -135,6 +135,7 @@ class ForgotPasswordSerializer(serializers.ModelSerializer):
         model = ForgotPassword
         exclude = ('created','code',)
 
+
 class ResetForgotPasswordSerializer(serializers.Serializer):
 
     email = serializers.EmailField(required=True)
