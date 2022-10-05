@@ -1,6 +1,6 @@
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
-from AppJuegos.api.serializers import ( 
+from AppJuegos.api.Auth.AuthSerializers import ( 
     CustomTokenObtainPairSerializer, 
     CustomUserSerializer, 
     ForgotPasswordSerializer,
@@ -11,7 +11,10 @@ from django.contrib.auth import authenticate
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.generics import GenericAPIView
-from AppJuegos.models import User, ForgotPassword
+from AppJuegos.models import (
+    User,
+    ForgotPassword
+)
 from django.core.mail import send_mail
 from django.conf import settings
 import random

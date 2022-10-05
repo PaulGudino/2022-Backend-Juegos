@@ -15,6 +15,8 @@ urlpatterns = [
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
     path('admin/', admin.site.urls),
-    path('auth/', include('AppJuegos.api.urls')),
-    path('api/', include('AppJuegos.api.routers')),
+    path('auth/', include('AppJuegos.api.Auth.AuthUrls')),
+    path('api/', include('AppJuegos.api.User.UserUrl')),
+    path('api/', include('AppJuegos.api.Permission.PermissionUrl')),
+    path('api/', include('AppJuegos.api.Rol.RolUrl')),
 ]

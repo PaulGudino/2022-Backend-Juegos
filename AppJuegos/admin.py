@@ -1,5 +1,10 @@
 from django.contrib import admin
-from .models import User, Rol, Permission, RolPermission
+from AppJuegos.models import (
+    Rol,
+    RolPermission,
+    Permission,
+    User
+)
 
 # Register your models here.
 

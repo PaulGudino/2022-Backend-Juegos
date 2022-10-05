@@ -1,5 +1,10 @@
 from django.urls import path
-from AppJuegos.api.views import Login, Logout, ForgotPasswordView, ResetForgotPasswordView
+from AppJuegos.api.Auth.AuthApiviews import (
+    Login, 
+    Logout, 
+    ForgotPasswordView, 
+    ResetForgotPasswordView
+)
 
 urlpatterns = [
     path('login/', Login.as_view(), name='login'),
