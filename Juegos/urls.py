@@ -8,7 +8,8 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
-
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
@@ -19,4 +20,8 @@ urlpatterns = [
     path('api/', include('AppJuegos.api.User.UserUrl')),
     path('api/', include('AppJuegos.api.Permission.PermissionUrl')),
     path('api/', include('AppJuegos.api.Rol.RolUrl')),
+    path('api/', include('AppJuegos.api.Premios.PremiosUrl')),
+    path('api/', include('AppJuegos.api.ImagenesJuegos.ImagenesJuegosUrl')),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

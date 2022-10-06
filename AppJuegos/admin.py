@@ -3,7 +3,8 @@ from AppJuegos.models import (
     Rol,
     RolPermission,
     Permission,
-    User
+    User,
+    Premios,
 )
 
 # Register your models here.
@@ -20,5 +21,6 @@ admin.site.register(User)
 admin.site.register(Rol)
 admin.site.register(Permission, PemissionAdmin)
 admin.site.register(RolPermission)
+admin.site.register(Premios)
 
 

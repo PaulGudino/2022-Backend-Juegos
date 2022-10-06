@@ -1,5 +1,7 @@
+from email.policy import default
+from statistics import mode
 from django.db import models
-from .choices import sex
+from .choices import sex, category
 from simple_history.models import HistoricalRecords
 from django.contrib.auth.models import AbstractUser
 
@@ -80,6 +82,36 @@ class RolPermission(models.Model):
         verbose_name_plural = 'RolPermisos'
         ordering = ['rol', 'permission']
 
+class Premios(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
+    name = models.CharField(max_length=50, verbose_name='Nombre')
+    description = models.TextField(max_length=100, verbose_name='Descripcion')
+    image = models.ImageField(upload_to='premios/', verbose_name='Imagen')
+    initial_stock = models.IntegerField(verbose_name='Stock inicial')
+    current_stock = models.IntegerField(verbose_name='Stock actual', default=0)
+    prizes_awarded = models.IntegerField(verbose_name='Premios entregados', default=0)
+    created = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creacion')
+    modified = models.DateTimeField(auto_now=True, verbose_name='Fecha de modificacion')
+    is_active = models.BooleanField(default=True)
+    cedula_register = models.CharField(max_length=10, verbose_name='Cédula')
+    user_register = models.CharField(max_length=255, verbose_name='Usuario que registro')
+    cedula_modify = models.CharField(max_length=10, verbose_name='Cédula', default="----------")
+    user_modify = models.CharField(max_length=255, verbose_name='Usuario que modifico', default="Sin modificar")
+    category = models.CharField(max_length=1, choices=category, default='C', verbose_name='Categoria')
+    history = HistoricalRecords()
+
+    def __str__(self):
+        return self.name
+
+    def delete(self, using=None, keep_parents=False):
+        self.image.storage.delete(self.image.name)
+        super().delete()
+
+    class Meta:
+        verbose_name = 'Premio'
+        verbose_name_plural = 'Premios'
+        ordering = ['id','name','description', 'initial_stock', 'current_stock', 'prizes_awarded']
+
 
 # Modelos de contraseña
 
@@ -96,5 +128,23 @@ class ForgotPassword(models.Model):
         verbose_name = 'RecuperarContraseña'
         verbose_name_plural = 'RecuperarContraseñas'
         ordering = ['email', 'code']
+
+
+class ImagenesJuegos(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
+    imagen = models.ImageField(upload_to='imagenes_juegos/', verbose_name='Imagen')
+
+    def __str__(self):
+        return self.imagen
+
+    def delete(self, using=None, keep_parents=False):
+        self.imagen.storage.delete(self.imagen.name)
+        super().delete()
+
+    class Meta:
+        verbose_name = 'ImagenJuego'
+        verbose_name_plural = 'ImagenesJuegos'
+        ordering = ['imagen']
+
 
 
