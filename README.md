@@ -1,7 +1,7 @@
 # Requirements
 
 * asgiref==3.5.2
-* backports.zoneinfo==0.2.1 <--- Esta dando error
+* backports.zoneinfo==0.2.1 <--- Not in testing branch
 * Django==4.1.1
 * django-cors-headers==3.13.0
 * django-filter==22.1
@@ -15,6 +15,18 @@
 * tzdata==2022.2
 
 ## Requierements
+
+### Clone Repository
+
+```bash
+git clone https://github.com/PaulGudino/2022-Backend-Juegos.git && cd 2022-Backend-Juegos
+```
+
+### Change Branch
+
+```bash
+git checkout testing
+```
 
 ### Create the mysql database or Deleted if exist
 
@@ -68,15 +80,15 @@ pip install -r requerimientos.txt
 ### Run the server
 
 ```python
-py manage.py makemigrations
-py manage.py migrate
-py manage.py runserver
+python manage.py makemigrations
+python manage.py migrate
+python manage.py runserver
 ```
 
 ### Create a django super user
 
 ```python
-py manage.py createsuperuser
+python manage.py createsuperuser
 ```
 Recomended
 - username: admin
