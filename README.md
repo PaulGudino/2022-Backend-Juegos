@@ -1,7 +1,7 @@
 # Requirements
 
 * asgiref==3.5.2
-* backports.zoneinfo==0.2.1 <--- Est
+* backports.zoneinfo==0.2.1 <--- Esta dando error
 * Django==4.1.1
 * django-cors-headers==3.13.0
 * django-filter==22.1
