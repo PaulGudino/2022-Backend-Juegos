@@ -2,10 +2,10 @@ from rest_framework import serializers
 from AppJuegos.models import User
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UserCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        exclude = ('created','modified','last_session',)
+        exclude = ('created','modified', 'is_active')
 
     def validate_phone(self, value):
         if value.isnumeric():
@@ -42,7 +42,7 @@ class UserSerializer(serializers.ModelSerializer):
 class UserUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        exclude = ('created','modified','last_session','password',)
+        exclude = ('created','modified','password',)
         
     def validate_phone(self, value):
         if value.isnumeric():
@@ -72,7 +72,6 @@ class UserUpdateSerializer(serializers.ModelSerializer):
             'is_active': instance.is_active, 
             'created': instance.created.strftime('%d/%m/%Y %H:%M:%S'),
             'modified': instance.modified.strftime('%d/%m/%Y %H:%M:%S'),
-            'last_session': instance.last_session.strftime('%d/%m/%Y %H:%M:%S')
         }
 
 class ChangePasswordSerializer(serializers.Serializer):
@@ -95,4 +94,3 @@ class ChangePasswordSerializer(serializers.Serializer):
         if data['new_password'] != data['confirm_password']:
             raise serializers.ValidationError("Las nuevas contraseñas no coinciden")
         return data
-

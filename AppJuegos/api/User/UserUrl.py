@@ -3,7 +3,8 @@ from django.urls import path
 from AppJuegos.api.User.UserApiviews import (
     UserCreateViewSet,
     UserViewSet,
-    UserFilter
+    UserFilterRol,
+    UserFilterIsEliminated
 )
 
 
@@ -13,7 +14,8 @@ router.register(r'create/user', UserCreateViewSet, basename='createuser')
 router.register(r'user', UserViewSet, basename='user')
 
 urlpatterns = router.urls + [ 
-    path('userfilter/', UserFilter.as_view(), name='userfilter'),
+    path('userfilterrol/', UserFilterRol.as_view(), name='userfilter'),
+    path('userfilteriseliminated/', UserFilterIsEliminated.as_view(), name='userfilteriseliminated'),
 ]
 
 

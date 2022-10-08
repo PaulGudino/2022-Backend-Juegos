@@ -37,7 +37,6 @@ class User(AbstractUser):
     created = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creacion')
     modified = models.DateTimeField(auto_now=True, verbose_name='Fecha de modificacion')
     history = HistoricalRecords()
-    last_session = models.DateTimeField(auto_now=True, verbose_name='Ultima sesion')
     is_active = models.BooleanField(default=True)
 
     first_name = None
@@ -93,10 +92,8 @@ class Premios(models.Model):
     created = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creacion')
     modified = models.DateTimeField(auto_now=True, verbose_name='Fecha de modificacion')
     is_active = models.BooleanField(default=True)
-    cedula_register = models.CharField(max_length=10, verbose_name='Cédula')
-    user_register = models.CharField(max_length=255, verbose_name='Usuario que registro')
-    cedula_modify = models.CharField(max_length=10, verbose_name='Cédula', default="----------")
-    user_modify = models.CharField(max_length=255, verbose_name='Usuario que modifico', default="Sin modificar")
+    user_register = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que registra', related_name='user_register')
+    user_modify = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que modifica', related_name='user_modify', null=True, blank=True)
     category = models.CharField(max_length=1, choices=category, default='C', verbose_name='Categoria')
     history = HistoricalRecords()
 

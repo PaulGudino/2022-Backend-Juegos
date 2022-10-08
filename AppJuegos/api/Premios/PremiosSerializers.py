@@ -1,8 +1,8 @@
+from dataclasses import field
 from xml.etree.ElementInclude import include
 from rest_framework import serializers
 from AppJuegos.models import (
     Premios,
-    User
 )
 
 class PremiosSerializer(serializers.ModelSerializer):
@@ -22,31 +22,26 @@ class PremiosSerializer(serializers.ModelSerializer):
             'is_active': instance.is_active, 
             'created': instance.created.strftime('%d/%m/%Y %H:%M:%S'),
             'modified': instance.modified.strftime('%d/%m/%Y %H:%M:%S'),
-            'cedula_register': instance.cedula_register,
-            'user_register': instance.user_register,
-            'user_modify': instance.user_modify,
+            'user_register': instance.user_register.names + ' ' + instance.user_register.surnames,
+            'user_modify': instance.user_modify.names + ' ' + instance.user_modify.surnames if instance.user_modify else None,
             'category': instance.category,
         }
 
-class PremiosSerializerPost(serializers.ModelSerializer):
+class PremiosSerializerCreate(serializers.ModelSerializer):
     class Meta:
         model = Premios
-        fields = ('id','name','description','image', 'initial_stock', 'is_active', 'cedula_register', 'category' )
+        fields = ('id', 'name', 'description', 'image', 'initial_stock', 'is_active', 'user_register', 'category')
 
     def validate_initial_stock(self, value):
         if value <= 0:
             raise serializers.ValidationError('El stock inicial no puede ser negativo o cero')
         return value
    
-    def validate_cedula_register(self, value):
-        if not User.objects.filter(cedula=value).exists():
-            raise serializers.ValidationError('El usuario que agrega el premio no existe')
-        return value
 
-class PremiosSerializerPut(serializers.ModelSerializer):
+class PremiosSerializerUpdate(serializers.ModelSerializer):
     class Meta:
         model = Premios
-        fields = ('id','name','description','image', 'initial_stock', 'is_active', 'category', 'cedula_modify' )
+        fields = ('id', 'name', 'description', 'image', 'initial_stock', 'is_active', 'user_modify', 'category')
 
     def validate_initial_stock(self, value):
         if value <= 0:

@@ -8,14 +8,14 @@ from AppJuegos.api.general_api import CRUDViewSet
 from rest_framework import generics
 from rest_framework.decorators import action 
 from AppJuegos.api.User.UserSerializers import  (
-    UserSerializer,
+    UserCreateSerializer,
     UserUpdateSerializer,
-    ChangePasswordSerializer
+    ChangePasswordSerializer,
 )
 
 
 class UserCreateViewSet(CRUDViewSet):
-    serializer_class = UserSerializer
+    serializer_class = UserCreateSerializer
     queryset = User.objects.all()
 
     def list(self, request):
@@ -31,6 +31,9 @@ class UserViewSet(CRUDViewSet):
     serializer_class = UserUpdateSerializer
     queryset = User.objects.all()
 
+    def list(self, request):
+        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
     def create(self, request):
         return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
@@ -42,7 +45,18 @@ class UserViewSet(CRUDViewSet):
     def destroy(self, request, pk):
         if int(pk) == 1:
             return Response({'error': 'No puedes eliminar el rol administrador'}, status=status.HTTP_400_BAD_REQUEST)
-        return super().destroy(request, pk)
+        user = self.get_object()
+        user.is_active = False
+        user.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    @action(detail=True, methods=['post'])
+    def activate_user(self, request, pk):
+        user = self.get_object()
+        user.is_active = True
+        user.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 
     @action(detail=True, methods=['post'])
     def change_password(self, request, pk=None):
@@ -56,12 +70,18 @@ class UserViewSet(CRUDViewSet):
             return Response({'message': "La contraseña se actualizo correctamente"},status=status.HTTP_200_OK)
         return Response(change_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class UserFilter(generics.ListAPIView):
-    serializer_class = UserSerializer
+class UserFilterRol(generics.ListAPIView):
+    serializer_class = UserCreateSerializer
     queryset = User.objects.all()
     filter_backends = [SearchFilter, DjangoFilterBackend]
     search_fields = ['rol__name']
     filterset_fields = ['rol']
+
+class UserFilterIsEliminated(generics.ListAPIView):
+    serializer_class = UserUpdateSerializer
+    queryset = User.objects.all()
+    filter_backends = [ DjangoFilterBackend]
+    filterset_fields = ['is_active']
 
 
 
