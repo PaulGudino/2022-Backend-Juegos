@@ -15,8 +15,8 @@ SECRET_KEY = 'django-insecure-47=alantoxcgi6$@4&xv-mj&ifbcni=+(3dw9wl+^@i*gj4p&$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['juegos.pythonanywhere.com']
-# ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ['juegos.pythonanywhere.com']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -95,7 +95,7 @@ WSGI_APPLICATION = 'Juegos.wsgi.application'
 #    }
 #}
 
- DATABASES = {
+DATABASES = {
      'default': {
          'ENGINE': 'django.db.backends.mysql',
          'NAME': 'juegos',
