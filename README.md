@@ -68,15 +68,15 @@ pip install -r requerimientos.txt
 ### Run the server
 
 ```python
-py manage.py makemigrations
-py manage.py migrate
-py manage.py runserver
+python manage.py makemigrations
+python manage.py migrate
+python manage.py runserver
 ```
 
 ### Create a django super user
 
 ```python
-py manage.py createsuperuser
+python manage.py createsuperuser
 ```
 Recomended
 - username: admin
