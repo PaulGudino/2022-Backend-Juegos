@@ -60,6 +60,11 @@ source venv/bin/activate
 pip install --upgrade pip
 ```
 
+### Install packages
+```python
+pip install -r requerimientos.txt
+```
+
 ### Run the server
 
 ```python
@@ -77,28 +82,4 @@ Recomended
 - username: admin
 - email: email@example.com
 - password: Root@123
-
-
-
-# Install requirements
-
-### Create the python virtual environment
-
-Windows
-
-```cmd
-python -m venv venv
-venv\Scripts\activate
-```
-
-Linux
-
-```bash
-python3 -m venv venv
-source venv/bin/activate
-```
-# Install packages
-```python
-pip install -r requerimientos.txt
-```
 
