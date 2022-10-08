@@ -55,6 +55,11 @@ python3 -m venv venv
 source venv/bin/activate
 ```
 
+### Upgrade pip
+```bash
+pip install --upgrade pip
+```
+
 ### Run the server
 
 ```python
