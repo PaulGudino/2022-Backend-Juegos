@@ -16,6 +16,18 @@
 
 ## Requierements
 
+### Clone Repository
+
+```bash
+git clone https://github.com/PaulGudino/2022-Backend-Juegos.git && cd 2022-Backend-Juegos
+```
+
+### Change Branch
+
+```bash
+git checkout testing
+```
+
 ### Create the mysql database or Deleted if exist
 
 Enter mysql-server from Window cmd or Linux bash
