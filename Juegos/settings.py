@@ -177,6 +177,6 @@ EMAIL_HOST_USER = 'appjuegos2022@gmail.com'
 EMAIL_HOST_PASSWORD = 'xuxzbcmxuicalsns'
 EMAIL_USE_TLS = True
 
-MEDIA_ROOT = '/home/juegos/2022-Backend-Juegos/media'
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = 'media/'
+# MEDIA_ROOT = '/home/juegos/2022-Backend-Juegos/media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'

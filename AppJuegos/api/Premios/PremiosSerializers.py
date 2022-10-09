@@ -10,38 +10,20 @@ class PremiosSerializer(serializers.ModelSerializer):
         model = Premios
         exclude = ('created','modified',)
 
-    def to_representation(self, instance):
-        return {
-            'id': instance.id,
-            'name': instance.name,
-            'description': instance.description,
-            'image': instance.image.url,
-            'initial_stock': instance.initial_stock,
-            'current_stock': instance.current_stock,
-            'prizes_awarded': instance.prizes_awarded,
-            'is_active': instance.is_active, 
-            'created': instance.created.strftime('%d/%m/%Y %H:%M:%S'),
-            'modified': instance.modified.strftime('%d/%m/%Y %H:%M:%S'),
-            'user_register': instance.user_register.names + ' ' + instance.user_register.surnames,
-            'user_modify': instance.user_modify.names + ' ' + instance.user_modify.surnames if instance.user_modify else None,
-            'category': instance.category,
-        }
-
 class PremiosSerializerCreate(serializers.ModelSerializer):
     class Meta:
         model = Premios
-        fields = ('id', 'name', 'description', 'image', 'initial_stock', 'is_active', 'user_register', 'category')
+        fields = ('id', 'name', 'description', 'imagen', 'initial_stock', 'is_active', 'user_register', 'category', 'juego')
 
     def validate_initial_stock(self, value):
         if value <= 0:
             raise serializers.ValidationError('El stock inicial no puede ser negativo o cero')
         return value
    
-
 class PremiosSerializerUpdateImage(serializers.ModelSerializer):
     class Meta:
         model = Premios
-        fields = ('id', 'name', 'description', 'image', 'initial_stock', 'is_active', 'user_modify', 'category')
+        fields = ('id', 'name', 'description', 'imagen', 'initial_stock', 'is_active', 'user_modify', 'category', 'juego')
 
     def validate_initial_stock(self, value):
         if value <= 0:
@@ -51,7 +33,7 @@ class PremiosSerializerUpdateImage(serializers.ModelSerializer):
 class PremiosSerializerUpdateSinImage(serializers.ModelSerializer):
     class Meta:
         model = Premios
-        fields = ('id', 'name', 'description', 'initial_stock', 'is_active', 'user_modify', 'category')
+        fields = ('id', 'name', 'description', 'initial_stock', 'is_active', 'user_modify', 'category', 'juego')
 
     def validate_initial_stock(self, value):
         if value <= 0:

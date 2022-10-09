@@ -1,7 +1,7 @@
 from email.policy import default
 from statistics import mode
 from django.db import models
-from .choices import sex, category
+from .choices import sex, category, juego
 from simple_history.models import HistoricalRecords
 from django.contrib.auth.models import AbstractUser
 
@@ -85,7 +85,7 @@ class Premios(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     name = models.CharField(max_length=50, verbose_name='Nombre')
     description = models.TextField(max_length=100, verbose_name='Descripcion')
-    image = models.ImageField(upload_to='premios/', verbose_name='Imagen')
+    imagen = models.ImageField(upload_to='premios/', verbose_name='Imagen')
     initial_stock = models.IntegerField(verbose_name='Stock inicial')
     current_stock = models.IntegerField(verbose_name='Stock actual', default=0)
     prizes_awarded = models.IntegerField(verbose_name='Premios entregados', default=0)
@@ -95,13 +95,14 @@ class Premios(models.Model):
     user_register = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que registra', related_name='user_register')
     user_modify = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que modifica', related_name='user_modify', null=True, blank=True)
     category = models.CharField(max_length=1, choices=category, default='C', verbose_name='Categoria')
+    juego = models.CharField(max_length=1, choices=juego, default='T', verbose_name='Juego')
     history = HistoricalRecords()
 
     def __str__(self):
         return self.name
 
     def delete(self, using=None, keep_parents=False):
-        self.image.storage.delete(self.image.name)
+        self.imagen.storage.delete(self.imagen.name)
         super().delete()
 
     class Meta:

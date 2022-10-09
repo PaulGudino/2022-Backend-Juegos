@@ -1,10 +1,7 @@
-from email.mime import image
 import os
 from AppJuegos.models import (
     Premios,
-    # User
 )
-# from rest_framework.generics import GenericAPIView
 from AppJuegos.api.general_api import CRUDViewSet
 from AppJuegos.api.Premios.PremiosSerializers import (
     PremiosSerializer,
@@ -14,6 +11,9 @@ from AppJuegos.api.Premios.PremiosSerializers import (
 )
 from rest_framework import status
 from rest_framework.response import Response
+from rest_framework import generics
+from django_filters.rest_framework import DjangoFilterBackend
+
 
 
 class PremiosViewSet(CRUDViewSet):
@@ -29,11 +29,12 @@ class PremiosViewSet(CRUDViewSet):
     
     def update(self, request, pk):
         premio = Premios.objects.get(id=pk)
-        new_image = request.data.get('image')
+        new_image = request.data.get('imagen')
         if new_image:
             serializer = PremiosSerializerUpdateImage(premio, data=request.data)
             if serializer.is_valid():
-                old_image = premio.image
+                old_image = premio.imagen
+                print(old_image.url)
                 os.remove(old_image.path)
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -44,6 +45,12 @@ class PremiosViewSet(CRUDViewSet):
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+class PremiosFilterbyGame(generics.ListAPIView):
+    serializer_class = PremiosSerializer
+    queryset = Premios.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['juego']
 
 
 

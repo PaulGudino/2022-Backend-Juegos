@@ -6,7 +6,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         exclude = ('created','modified', 'is_active')
-
+    
     def validate_phone(self, value):
         if value.isnumeric():
             return value
