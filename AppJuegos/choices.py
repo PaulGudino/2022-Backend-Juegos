@@ -1,14 +1,17 @@
-sex=(
+sex = (
+    ('N', 'Ninguno'),
     ('F', 'Femenino'),
     ('M', 'Masculino')
 )
-category=(
+
+category = (
     ('L', 'Legendaria'),
     ('E', 'Epica'),
     ('R', 'Rara'),
     ('C', 'Comun'),
     ('P', 'Publicidad')
 )
-juego=(
+
+juego = (
     ('T', 'Traga Monedas'),
 )
