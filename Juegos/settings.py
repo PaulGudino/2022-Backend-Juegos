@@ -15,7 +15,10 @@ SECRET_KEY = 'django-insecure-47=alantoxcgi6$@4&xv-mj&ifbcni=+(3dw9wl+^@i*gj4p&$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# For deployment environment
 # ALLOWED_HOSTS = ['juegos.pythonanywhere.com']
+
+# For testing environment
 ALLOWED_HOSTS = []
 
 
@@ -42,9 +45,12 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    )
+    
+    # Added for security purposes
+    
+    #'DEFAULT_PERMISSION_CLASSES': (
+    #    'rest_framework.permissions.IsAuthenticated',
+    #)
 
 }
 
@@ -84,6 +90,8 @@ WSGI_APPLICATION = 'Juegos.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# For deployment environment
+
 # DATABASES = {
 #    'default': {
 #        'ENGINE': 'django.db.backends.mysql',
@@ -94,6 +102,8 @@ WSGI_APPLICATION = 'Juegos.wsgi.application'
 #        'PORT': '3306'
 #    }
 #}
+
+# For testing environment
 
 DATABASES = {
      'default': {
