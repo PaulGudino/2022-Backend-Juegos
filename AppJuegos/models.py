@@ -1,5 +1,3 @@
-from email.policy import default
-from statistics import mode
 from django.db import models
 from .choices import sex, category, juego
 from simple_history.models import HistoricalRecords
