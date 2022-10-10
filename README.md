@@ -72,6 +72,12 @@ source venv/bin/activate
 pip install --upgrade pip
 ```
 
+### Install python-devel for Fedora
+```bash
+sudo dnf install python3-devel
+```
+
+
 ### Install packages
 ```python
 pip install -r requerimientos.txt
