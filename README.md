@@ -101,3 +101,16 @@ Recomended
 - email: email@example.com
 - password: Root@123
 
+### Update Permissions
+
+1- Delete the entire database
+```sql
+DROP DATABASE juegos
+```
+
+2- Create the database again
+```sql
+CREATE DATABASE juegos
+```
+
+3- Run the Python commands to run the server (Above 👆↑)
