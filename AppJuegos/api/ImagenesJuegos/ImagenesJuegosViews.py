@@ -9,4 +9,9 @@ class ImagenesJuegosViewSet(CRUDViewSet):
     def get_permissions(self):
         return [] 
 
+    def create(self, request):
+        hola = request.data.get('Hola')
+        print(hola)
+        return super().create(request)
+
     
