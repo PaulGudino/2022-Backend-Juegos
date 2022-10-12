@@ -79,6 +79,48 @@ class RolPermission(models.Model):
         verbose_name_plural = 'RolPermisos'
         ordering = ['rol', 'permission']
 
+# ==================================================================================================================
+#
+# Client Model
+
+# Example taken from https://docs.djangoproject.com/en/4.0/ref/models/fields/
+
+NONE = 'NO'
+ACTIVE = 'AC'
+INACTIVE = 'IN'
+DISABLED = 'DI'
+
+STATES = [
+    (NONE, 'None'),
+    (ACTIVE, 'Active'),
+    (INACTIVE, 'Inactive'),
+    (DISABLED, 'Disabled')
+]
+
+class Client(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
+    cedula = models.CharField(max_length=10, unique=True, verbose_name='Cédula')
+    names = models.CharField(max_length=100, verbose_name='Nombres')
+    surnames = models.CharField(max_length=100, verbose_name='Apellidos')
+    email = models.EmailField(max_length=100, unique=True, verbose_name='Correo Electronico')
+    phone = models.CharField(max_length=10, verbose_name='Telefono')
+    sex = models.CharField(max_length=1, choices=sex , default='N', verbose_name='Sexo')
+    address = models.CharField(max_length=500, verbose_name='Direccion')
+    created = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creacion')
+    modified = models.DateTimeField(auto_now=True, verbose_name='Fecha de modificacion')
+    history = HistoricalRecords()
+    state = models.CharField(max_length=2, choices=STATES, default='N', verbose_name='Estado')
+
+    def __str__(self):
+        return self.names + ' ' + self.surnames + ' - ' + self.email
+
+    class Meta:
+        verbose_name = 'Cliente'
+        verbose_name_plural = 'Clientes'
+        ordering = ['id', 'cedula', 'names', 'surnames','email', 'phone']
+
+# ================================================================================================================== 
+
 class Premios(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     name = models.CharField(max_length=50, verbose_name='Nombre')

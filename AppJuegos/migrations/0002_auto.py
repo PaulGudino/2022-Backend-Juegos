@@ -27,7 +27,16 @@ class Migration(migrations.Migration):
         rol_edit_permission = Permission(name='Editar Rol')
         rol_delete_permission = Permission(name='Eliminar Rol')
 
-        cliente_create_permission = Permission(name='Crear Cliente')
+		# ==================================================================================================================
+		#
+		# Client permissions
+        
+        client_create_permission = Permission(name='Crear Cliente')
+        client_view_permission = Permission(name='Ver Cliente')
+        client_edit_permission = Permission(name='Editar Cliente')
+        client_delete_permission = Permission(name='Eliminar Cliente')
+
+		# ==================================================================================================================
 
 
         user_create_permission.save()
@@ -40,7 +49,15 @@ class Migration(migrations.Migration):
         rol_edit_permission.save()
         rol_delete_permission.save()
 
-        cliente_create_permission.save()
+		# ==================================================================================================================
+                
+        client_create_permission.save()
+        client_view_permission.save()
+        client_edit_permission.save()
+        client_delete_permission.save()
+        
+		# ==================================================================================================================
+        
         
         admin_rol = Rol(name='Administrador', description='Administrador del sistema')
         admin_rol.save()
@@ -67,8 +84,17 @@ class Migration(migrations.Migration):
         RolPermission_6 =  RolPermission(rol_id=admin_rol.id, permission_id=rol_view_permission.id)
         RolPermission_7 =  RolPermission(rol_id=admin_rol.id, permission_id=rol_edit_permission.id)
         RolPermission_8 =  RolPermission(rol_id=admin_rol.id, permission_id=rol_delete_permission.id)
-        RolPermission_9 =  RolPermission(rol_id=admin_rol.id, permission_id=cliente_create_permission.id)
+        
+		# ==================================================================================================================
+        
+        RolPermission_9 =  RolPermission(rol_id=admin_rol.id, permission_id=client_create_permission.id)
+        RolPermission_10 =  RolPermission(rol_id=admin_rol.id, permission_id=client_view_permission.id)
+        RolPermission_11 =  RolPermission(rol_id=admin_rol.id, permission_id=client_edit_permission.id)
+        RolPermission_12 =  RolPermission(rol_id=admin_rol.id, permission_id=client_delete_permission.id)
 
+		# ==================================================================================================================
+        
+        
         RolPermission_1.save()
         RolPermission_2.save()
         RolPermission_3.save()
@@ -77,8 +103,17 @@ class Migration(migrations.Migration):
         RolPermission_6.save()
         RolPermission_7.save()
         RolPermission_8.save()
+        
+		# ==================================================================================================================        
+        
         RolPermission_9.save()
+        RolPermission_10.save()
+        RolPermission_11.save()
+        RolPermission_12.save()
 
+		# ==================================================================================================================
+    
+    
     operations = [
         migrations.RunPython(insert_data),
     ]
