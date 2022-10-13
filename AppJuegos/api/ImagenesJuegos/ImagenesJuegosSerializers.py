@@ -7,4 +7,6 @@ class ImagenesJuegosSerializer(serializers.ModelSerializer):
     class Meta:
         model = ImagenesJuegos
         fields = '__all__'
+    
+
 

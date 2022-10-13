@@ -15,8 +15,11 @@ SECRET_KEY = 'django-insecure-47=alantoxcgi6$@4&xv-mj&ifbcni=+(3dw9wl+^@i*gj4p&$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['juegos.pythonanywhere.com']
-# ALLOWED_HOSTS = []
+# For deployment environment
+# ALLOWED_HOSTS = ['juegos.pythonanywhere.com']
+
+# For testing environment
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -84,26 +87,31 @@ WSGI_APPLICATION = 'Juegos.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'juegos$default',
-        'USER': 'juegos',
-        'PASSWORD': 'Root@123',
-        'HOST': 'juegos.mysql.pythonanywhere-services.com',
-        'PORT': '3306'
-    }
-}
+# For deployment environment
+
 # DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'juegos',
-#         'USER': 'admin',
-#         'PASSWORD': 'Root@123',
-#         'HOST': 'localhost',
-#         'PORT': '3306'
-#     }
-# }
+#    'default': {
+#        'ENGINE': 'django.db.backends.mysql',
+#        'NAME': 'juegos$default',
+#        'USER': 'juegos',
+#        'PASSWORD': 'Root@123',
+#        'HOST': 'juegos.mysql.pythonanywhere-services.com',
+#        'PORT': '3306'
+#    }
+#}
+
+# For testing environment
+
+DATABASES = {
+     'default': {
+         'ENGINE': 'django.db.backends.mysql',
+         'NAME': 'juegos',
+         'USER': 'admin',
+         'PASSWORD': 'Root@123',
+         'HOST': 'localhost',
+         'PORT': '3306'
+     }
+ }
 
 
 # Password validation
@@ -176,6 +184,6 @@ EMAIL_HOST_USER = 'appjuegos2022@gmail.com'
 EMAIL_HOST_PASSWORD = 'xuxzbcmxuicalsns'
 EMAIL_USE_TLS = True
 
-MEDIA_ROOT = '/home/juegos/2022-Backend-Juegos/media'
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = 'media/'
+# MEDIA_ROOT = '/home/juegos/2022-Backend-Juegos/media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
