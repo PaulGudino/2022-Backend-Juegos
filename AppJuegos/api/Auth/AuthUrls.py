@@ -3,7 +3,7 @@ from AppJuegos.api.Auth.AuthApiviews import (
     Login, 
     Logout, 
     ForgotPasswordView, 
-    ResetForgotPasswordView
+    ResetForgotPasswordView,
 )
 
 urlpatterns = [

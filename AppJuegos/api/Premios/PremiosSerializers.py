@@ -9,8 +9,8 @@ class PremiosSerializer(serializers.ModelSerializer):
         exclude = ('created','modified',)
 
     def to_representation(self, instance):
-        juego = instance.get_juego_display()
-        category = instance.get_category_display()
+        # juego = instance.get_juego_display()
+        # category = instance.get_category_display()
         return {
             'id': instance.id,
             'name': instance.name,
@@ -24,8 +24,8 @@ class PremiosSerializer(serializers.ModelSerializer):
             'modified': instance.modified.strftime('%d/%m/%Y %H:%M:%S'),
             'user_register': instance.user_register.names + ' ' + instance.user_register.surnames,
             'user_modify': instance.user_modify.names + ' ' + instance.user_modify.surnames if instance.user_modify else None,
-            'category': category, 
-            'juego': juego,  
+            'category': instance.category, 
+            'juego': instance.juego,  
         }
 
 class PremiosSerializerCreate(serializers.ModelSerializer):

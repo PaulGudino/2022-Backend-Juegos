@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from AppJuegos.models import User, ForgotPassword
+from rest_framework_simplejwt.tokens import RefreshToken
 
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -18,7 +19,14 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
         
 class LogoutSerializer(serializers.Serializer):
-    id = serializers.IntegerField()
+    refresh = serializers.CharField()
+
+    def validate(self, attrs):
+        self.token = attrs['refresh']
+        return attrs
+
+    def save(self, **kwargs):
+        RefreshToken(self.token).blacklist()
 
 
 class ForgotPasswordSerializer(serializers.ModelSerializer):
@@ -33,6 +41,5 @@ class ResetForgotPasswordSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
     password = serializers.CharField(required=True)
     code = serializers.CharField(required=True)
-
 
 

@@ -5,7 +5,7 @@ from AppJuegos.api.Auth.AuthSerializers import (
     CustomUserSerializer, 
     ForgotPasswordSerializer,
     ResetForgotPasswordSerializer,
-    LogoutSerializer
+    LogoutSerializer,
     )
 from django.contrib.auth import authenticate
 from rest_framework.response import Response
@@ -55,14 +55,18 @@ class Login(TokenObtainPairView):
 class Logout(GenericAPIView):
 
     serializer_class = LogoutSerializer
-
+    
     def post(self, request, *args, **kwargs):
-        user = User.objects.filter(id=request.data.get('id', None))
-        if user.exists():
-            token = RefreshToken.for_user(user.first())
-            token.blacklist()
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        if serializer.is_valid():
+            serializer.save()
             return Response({'message':'Logout Successful'}, status=status.HTTP_200_OK)
-        return Response({'error':'User not found'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'error':'Logout Failed'}, status=status.HTTP_400_BAD_REQUEST)
+
+        
+
+
 
 class ForgotPasswordView(GenericAPIView):
     serializer_class = ForgotPasswordSerializer
@@ -122,4 +126,8 @@ class ResetForgotPasswordView(GenericAPIView):
                 return Response({'message':'Contraseña actualizada'}, status=status.HTTP_200_OK)
             return Response({'error':'El codigo no existe o es incorrecto'}, status=status.HTTP_400_BAD_REQUEST)
         return Response({'error':'El email no existe en el sistema'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+    
+        
 
