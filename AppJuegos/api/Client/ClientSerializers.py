@@ -1,38 +1,36 @@
 from rest_framework import serializers
-from AppJuegos.models import User, ForgotPassword
+from AppJuegos.models import (
+    Client,
+)
 
-
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-
-
-class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
-    def validate(self, attrs):
-        data = super().validate(attrs)
-        data['user'] = User.objects.get(id=self.user.id)
-        return data
-
-class CustomUserSerializer(serializers.ModelSerializer):
+class ClientSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
-        fields = ('id', 'username', 'email', 'names', 'surnames')
+        model = Client
+        exclude = ('created','modified')
 
-        
-class LogoutSerializer(serializers.Serializer):
-    id = serializers.IntegerField()
+    def to_representation(self, instance):
+        return {
+            'id': instance.id,
+            'cedula': instance.cedula,
+            'names': instance.names,
+            'surnames': instance.surnames,
+            'email': instance.email,
+            'phone': instance.phone,
+            'sex': instance.sex,
+            'address': instance.address,
+            'created': instance.created.strftime('%d/%m/%Y %H:%M:%S'),
+            'modified': instance.created.strftime('%d/%m/%Y %H:%M:%S'),
+            'user_register': instance.user_client_register.names + ' ' + instance.user_client_register.surnames,
+            'user_modify':instance.user_client_modify.names + ' ' + instance.user_client_modify.surnames if instance.user_client_modify else None,
+            'state': instance.state,
+        }
 
-
-class ForgotPasswordSerializer(serializers.ModelSerializer):
-
+class ClientSerializerCreate(serializers.ModelSerializer):
     class Meta:
-        model = ForgotPassword
-        exclude = ('created','code',)
-
-
-class ResetForgotPasswordSerializer(serializers.Serializer):
-
-    email = serializers.EmailField(required=True)
-    password = serializers.CharField(required=True)
-    code = serializers.CharField(required=True)
-
-
-
+        model = Client
+        fields = ('id', 'cedula', 'names', 'surnames', 'email', 'phone', 'sex', 'address', 'user_client_register', 'state')
+   
+class ClientSerializerUpdate(serializers.ModelSerializer):
+    class Meta:
+        model = Client
+        fields = ('id', 'cedula', 'names', 'surnames', 'email', 'phone', 'sex', 'address', 'user_client_modify', 'state')
