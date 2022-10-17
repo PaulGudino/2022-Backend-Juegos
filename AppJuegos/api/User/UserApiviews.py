@@ -11,6 +11,7 @@ from AppJuegos.api.User.UserSerializers import  (
     UserCreateSerializer,
     UserUpdateSerializer,
     ChangePasswordSerializer,
+    RelationshipCheckSerializer
 )
 
 
@@ -31,8 +32,8 @@ class UserViewSet(CRUDViewSet):
     serializer_class = UserUpdateSerializer
     queryset = User.objects.all()
 
-    def list(self, request):
-        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+    # def list(self, request):
+    #     return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
     def create(self, request):
         return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
@@ -45,9 +46,18 @@ class UserViewSet(CRUDViewSet):
     def destroy(self, request, pk):
         if int(pk) == 1:
             return Response({'error': 'No puedes eliminar el rol administrador'}, status=status.HTTP_400_BAD_REQUEST)
-        user = self.get_object()
-        user.is_active = False
-        user.save()
+        # user = self.get_object()
+        # user.is_active = False
+        # user.save()
+        
+        user = User.objects.get(id=pk)
+        serializer = RelationshipCheckSerializer(user, data=request.data)
+        if serializer.is_valid():
+            return super().destroy(request, pk)
+        else:
+            user = self.get_object()
+            user.is_active = False
+            user.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     @action(detail=True, methods=['post'])

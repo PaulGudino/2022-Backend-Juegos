@@ -28,6 +28,30 @@ class PremiosSerializer(serializers.ModelSerializer):
             'juego': instance.juego,  
         }
 
+class PremioSerializerList(serializers.ModelSerializer):
+    class Meta:
+        model = Premios
+        exclude = ('created','modified',)
+
+    def to_representation(self, instance):
+        juego = instance.get_juego_display()
+        category = instance.get_category_display()
+        return {
+            'id': instance.id,
+            'name': instance.name,
+            'description': instance.description,
+            'imagen': 'http://' + self.context['request'].META['HTTP_HOST'] + instance.imagen.url,
+            'initial_stock': instance.initial_stock,
+            'current_stock': instance.current_stock,
+            'prizes_awarded': instance.prizes_awarded,
+            'is_active': instance.is_active, 
+            'created': instance.created.strftime('%d/%m/%Y %H:%M:%S'),
+            'modified': instance.modified.strftime('%d/%m/%Y %H:%M:%S'),
+            'user_register': instance.user_register.names + ' ' + instance.user_register.surnames,
+            'user_modify': instance.user_modify.names + ' ' + instance.user_modify.surnames if instance.user_modify else None,
+            'category': category,
+            'juego': juego,
+        }
 class PremiosSerializerCreate(serializers.ModelSerializer):
     class Meta:
         model = Premios

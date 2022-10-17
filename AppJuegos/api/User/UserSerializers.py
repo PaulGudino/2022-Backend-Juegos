@@ -1,5 +1,8 @@
 from rest_framework import serializers
-from AppJuegos.models import User
+from AppJuegos.models import (
+    User,
+    Premios
+)
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
@@ -94,3 +97,16 @@ class ChangePasswordSerializer(serializers.Serializer):
         if data['new_password'] != data['confirm_password']:
             raise serializers.ValidationError("Las nuevas contraseñas no coinciden")
         return data
+
+class RelationshipCheckSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id',)
+
+    def validate_id(self, value):
+        if Premios.objects.filter(user_register=value).exists() or Premios.objects.filter(user_modify=value).exists():
+            print("El usuario tiene premios asociados", value)
+            return True
+        else:
+            print("El usuario no tiene premios asociados", value)
+            return False

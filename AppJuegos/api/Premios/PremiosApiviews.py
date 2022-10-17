@@ -2,12 +2,13 @@ import os
 from AppJuegos.models import (
     Premios,
 )
-from AppJuegos.api.general_api import CRUDViewSet
+from AppJuegos.api.general_api import CRUDViewSet, OnlyListViewSet
 from AppJuegos.api.Premios.PremiosSerializers import (
     PremiosSerializer,
     PremiosSerializerCreate,
     PremiosSerializerUpdateImage,
     PremiosSerializerUpdateSinImage,
+    PremioSerializerList,
 )
 from rest_framework import status
 from rest_framework.response import Response
@@ -45,6 +46,9 @@ class PremiosViewSet(CRUDViewSet):
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class PremiosListViewSet(OnlyListViewSet):
+    serializer_class = PremioSerializerList
+    queryset = Premios.objects.all()
 
 class PremiosFilterbyGame(generics.ListAPIView):
     serializer_class = PremiosSerializer
