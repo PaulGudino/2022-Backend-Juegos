@@ -1,3 +1,4 @@
+from turtle import update
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.response import Response
 from rest_framework import status
@@ -42,6 +43,15 @@ class RolViewSet(CRUDViewSet):
     def destroy(self, request, pk):
         if int(pk) == 1:
             return Response({'error': 'No puedes eliminar el rol administrador'}, status=status.HTTP_400_BAD_REQUEST)
+        user_rol = User.objects.filter(rol=pk)
+        if user_rol.exists():
+            rol = self.get_object()
+            rol.is_active = False
+            rol.save()
+            for u in user_rol:
+                u.is_active = False
+                u.save()
+            return Response({'error': 'No puedes eliminar el rol porque tiene usuarios asociados, el rol se desactivará'}, status=status.HTTP_400_BAD_REQUEST)
         else:
             return super().destroy(request, pk)
 

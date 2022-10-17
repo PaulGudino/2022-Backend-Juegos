@@ -91,10 +91,10 @@ INACTIVE = 'IN'
 DISABLED = 'DI'
 
 STATES = [
-    (NONE, 'None'),
-    (ACTIVE, 'Active'),
-    (INACTIVE, 'Inactive'),
-    (DISABLED, 'Disabled')
+    (NONE, 'Ninguno'),
+    (ACTIVE, 'Activo'),
+    (INACTIVE, 'Inactivo'),
+    (DISABLED, 'Desabilitado')
 ]
 
 class Client(models.Model):

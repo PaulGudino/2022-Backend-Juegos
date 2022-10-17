@@ -1,9 +1,11 @@
-
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.filters import SearchFilter
-from AppJuegos.models import User
+from AppJuegos.models import (
+    User,
+    Premios
+)
 from AppJuegos.api.general_api import CRUDViewSet
 from rest_framework import generics
 from rest_framework.decorators import action 
@@ -11,7 +13,6 @@ from AppJuegos.api.User.UserSerializers import  (
     UserCreateSerializer,
     UserUpdateSerializer,
     ChangePasswordSerializer,
-    RelationshipCheckSerializer
 )
 
 
@@ -46,19 +47,16 @@ class UserViewSet(CRUDViewSet):
     def destroy(self, request, pk):
         if int(pk) == 1:
             return Response({'error': 'No puedes eliminar el rol administrador'}, status=status.HTTP_400_BAD_REQUEST)
-        # user = self.get_object()
-        # user.is_active = False
-        # user.save()
-        
-        user = User.objects.get(id=pk)
-        serializer = RelationshipCheckSerializer(user, data=request.data)
-        if serializer.is_valid():
-            return super().destroy(request, pk)
-        else:
+
+        user_premio_register = Premios.objects.filter(user_register=pk).first()
+        user_premio_modify = Premios.objects.filter(user_modify=pk).first()
+        if user_premio_register or user_premio_modify:
             user = self.get_object()
             user.is_active = False
             user.save()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+            return Response({'error': 'No puedes eliminar el usuario porque tiene campos asociados, el usuario se desactivará'}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return super().destroy(request, pk)
 
     @action(detail=True, methods=['post'])
     def activate_user(self, request, pk):
