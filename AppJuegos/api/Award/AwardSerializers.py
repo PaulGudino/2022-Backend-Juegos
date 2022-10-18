@@ -1,11 +1,11 @@
 from rest_framework import serializers
 from AppJuegos.models import (
-    Premios,
+    Award,
 )
 
-class PremiosSerializer(serializers.ModelSerializer):
+class AwardSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Premios
+        model = Award
         exclude = ('created','modified',)
 
     def to_representation(self, instance):
@@ -28,9 +28,9 @@ class PremiosSerializer(serializers.ModelSerializer):
             'juego': instance.juego,  
         }
 
-class PremioSerializerList(serializers.ModelSerializer):
+class AwarderializerList(serializers.ModelSerializer):
     class Meta:
-        model = Premios
+        model = Award
         exclude = ('created','modified',)
 
     def to_representation(self, instance):
@@ -52,9 +52,9 @@ class PremioSerializerList(serializers.ModelSerializer):
             'category': category,
             'juego': juego,
         }
-class PremiosSerializerCreate(serializers.ModelSerializer):
+class AwardSerializerCreate(serializers.ModelSerializer):
     class Meta:
-        model = Premios
+        model = Award
         fields = ('id', 'name', 'description', 'imagen', 'initial_stock', 'is_active', 'user_register', 'category', 'juego')
 
     def validate_initial_stock(self, value):
@@ -62,9 +62,9 @@ class PremiosSerializerCreate(serializers.ModelSerializer):
             raise serializers.ValidationError('El stock inicial no puede ser negativo o cero')
         return value
    
-class PremiosSerializerUpdateImage(serializers.ModelSerializer):
+class AwardSerializerUpdateImage(serializers.ModelSerializer):
     class Meta:
-        model = Premios
+        model = Award
         fields = ('id', 'name', 'description', 'imagen', 'initial_stock', 'is_active', 'user_modify', 'category', 'juego')
 
     def validate_initial_stock(self, value):
@@ -72,9 +72,9 @@ class PremiosSerializerUpdateImage(serializers.ModelSerializer):
             raise serializers.ValidationError('El stock inicial no puede ser negativo o cero')
         return value
 
-class PremiosSerializerUpdateSinImage(serializers.ModelSerializer):
+class AwardSerializerUpdateSinImage(serializers.ModelSerializer):
     class Meta:
-        model = Premios
+        model = Award
         fields = ('id', 'name', 'description', 'initial_stock', 'is_active', 'user_modify', 'category', 'juego')
 
     def validate_initial_stock(self, value):

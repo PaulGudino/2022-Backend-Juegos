@@ -4,7 +4,7 @@ from AppJuegos.models import (
     RolPermission,
     Permission,
     User,
-    Premios,
+    Award,
 )
 
 # Register your models here.
@@ -21,6 +21,6 @@ admin.site.register(User)
 admin.site.register(Rol)
 admin.site.register(Permission, PemissionAdmin)
 admin.site.register(RolPermission)
-admin.site.register(Premios)
+admin.site.register(Award)
 
 

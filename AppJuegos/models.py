@@ -123,7 +123,7 @@ class Client(models.Model):
 
 # ================================================================================================================== 
 
-class Premios(models.Model):
+class Award(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     name = models.CharField(max_length=50, verbose_name='Nombre')
     description = models.TextField(max_length=100, verbose_name='Descripcion')

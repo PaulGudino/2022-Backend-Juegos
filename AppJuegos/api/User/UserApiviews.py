@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.filters import SearchFilter
 from AppJuegos.models import (
     User,
-    Premios
+    Award
 )
 from AppJuegos.api.general_api import CRUDViewSet
 from rest_framework import generics
@@ -33,8 +33,8 @@ class UserViewSet(CRUDViewSet):
     serializer_class = UserUpdateSerializer
     queryset = User.objects.all()
 
-    # def list(self, request):
-    #     return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+    def list(self, request):
+        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
     def create(self, request):
         return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
@@ -48,9 +48,9 @@ class UserViewSet(CRUDViewSet):
         if int(pk) == 1:
             return Response({'error': 'No puedes eliminar el rol administrador'}, status=status.HTTP_400_BAD_REQUEST)
 
-        user_premio_register = Premios.objects.filter(user_register=pk).first()
-        user_premio_modify = Premios.objects.filter(user_modify=pk).first()
-        if user_premio_register or user_premio_modify:
+        user_award_register = Award.objects.filter(user_register=pk).first()
+        user_award_modify = Award.objects.filter(user_modify=pk).first()
+        if user_award_register or user_award_modify:
             user = self.get_object()
             user.is_active = False
             user.save()

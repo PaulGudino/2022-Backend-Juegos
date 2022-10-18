@@ -9,7 +9,6 @@ category = (
     ('E', 'Epica'),
     ('R', 'Rara'),
     ('C', 'Comun'),
-    ('P', 'Publicidad')
 )
 
 juego = (
