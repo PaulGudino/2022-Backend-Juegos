@@ -181,7 +181,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'appjuegos2022@gmail.com'
-EMAIL_HOST_PASSWORD = 'xuxzbcmxuicalsns'
+EMAIL_HOST_PASSWORD = 'mzjjzaleimlomqwu'
 EMAIL_USE_TLS = True
 
 # MEDIA_ROOT = '/home/juegos/2022-Backend-Juegos/media'
