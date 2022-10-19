@@ -7,10 +7,10 @@ from AppJuegos.api.Award.AwardApiviews import (
 )
 
 router = DefaultRouter()
-router.register(r'Award', AwardViewSet, basename='Award')
-router.register(r'Awardlist', AwardListViewSet, basename='Awardlist')
+router.register(r'award', AwardViewSet, basename='Award')
+router.register(r'awardlist', AwardListViewSet, basename='Awardlist')
 
 urlpatterns = router.urls + [
-    path('Awardfilterbygame/', AwardFilterbyGame.as_view(), name='Awardfilterbygame'),
+    path('awardfilterbygame/', AwardFilterbyGame.as_view(), name='Awardfilterbygame'),
 ]
 
