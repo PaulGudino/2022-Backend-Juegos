@@ -109,9 +109,9 @@ class Client(models.Model):
     created = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creacion')
     modified = models.DateTimeField(auto_now=True, verbose_name='Fecha de modificacion')
     history = HistoricalRecords()
-    state = models.CharField(max_length=2, choices=STATES, default='N', verbose_name='Estado')
-    user_register = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que registra', related_name='user_client_register')
-    user_modify = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que modifica', related_name='user_client_modify', null=True, blank=True)
+    state = models.CharField(max_length=2, choices=STATES, default='NO', verbose_name='Estado')
+    user_client_register = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que registra', related_name='user_client_register')
+    user_client_modify = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que modifica', related_name='user_client_modify', null=True, blank=True)
 
     def __str__(self):
         return self.names + ' ' + self.surnames + ' - ' + self.email
