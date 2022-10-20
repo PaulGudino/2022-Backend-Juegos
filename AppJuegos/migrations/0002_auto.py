@@ -31,8 +31,8 @@ class Migration(migrations.Migration):
 		# Rol permissions
 
         rol_create_permission = Permission(name='Crear Rol')
-        rol_view_permission = Permission(name='Ver Rol')
-        rol_edit_permission = Permission(name='Permisos Rol')
+        rol_view_permission = Permission(name='Permisos Rol')
+        rol_edit_permission = Permission(name='Editar Rol')
         rol_delete_permission = Permission(name='Eliminar Rol')
 
 		# ==================================================================================================================
