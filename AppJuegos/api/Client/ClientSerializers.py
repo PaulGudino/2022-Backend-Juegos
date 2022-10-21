@@ -20,8 +20,8 @@ class ClientSerializer(serializers.ModelSerializer):
             'address': instance.address,
             'created': instance.created.strftime('%d/%m/%Y %H:%M:%S'),
             'modified': instance.created.strftime('%d/%m/%Y %H:%M:%S'),
-            'user_register': instance.user_client_register.names + ' ' + instance.user_client_register.surnames,
-            'user_modify':instance.user_client_modify.names + ' ' + instance.user_client_modify.surnames if instance.user_client_modify else None,
+            'user_client_register': instance.user_client_register.names + ' ' + instance.user_client_register.surnames,
+            'user_client_modify':instance.user_client_modify.names + ' ' + instance.user_client_modify.surnames if instance.user_client_modify else None,
             'state': instance.state,
         }
 

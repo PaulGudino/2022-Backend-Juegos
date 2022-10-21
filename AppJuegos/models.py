@@ -85,10 +85,10 @@ class RolPermission(models.Model):
 
 # Example taken from https://docs.djangoproject.com/en/4.0/ref/models/fields/
 
-NONE = 'NO'
-ACTIVE = 'AC'
-INACTIVE = 'IN'
-DISABLED = 'DI'
+NONE = 'Ninguno'
+ACTIVE = 'Activo'
+INACTIVE = 'Inactivo'
+DISABLED = 'Deshabilitado'
 
 STATES = [
     (NONE, 'Ninguno'),
@@ -109,7 +109,7 @@ class Client(models.Model):
     created = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creacion')
     modified = models.DateTimeField(auto_now=True, verbose_name='Fecha de modificacion')
     history = HistoricalRecords()
-    state = models.CharField(max_length=2, choices=STATES, default='NO', verbose_name='Estado')
+    state = models.CharField(max_length=100, choices=STATES, default='Ninguno', verbose_name='Estado')
     user_client_register = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que registra', related_name='user_client_register')
     user_client_modify = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que modifica', related_name='user_client_modify', null=True, blank=True)
 
