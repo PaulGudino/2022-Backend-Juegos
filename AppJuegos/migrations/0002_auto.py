@@ -16,24 +16,6 @@ class Migration(migrations.Migration):
         Rol = apps.get_model('AppJuegos', 'Rol')
         User = apps.get_model('AppJuegos', 'User')
         RolPermission = apps.get_model('AppJuegos', 'RolPermission')
-        Award = apps.get_model('AppJuegos', 'Award')
-
-        # ==================================================================================================================
-		# User permissions
-
-        user_create_permission = Permission(name='Crear Usuario')
-        user_view_permission = Permission(name='Ver Usuario')
-        user_edit_permission = Permission(name='Editar Usuario')
-        user_delete_permission = Permission(name='Eliminar Usuario')
-        user_activate_permission = Permission(name='Activar Usuario')
-
-        # ==================================================================================================================
-		# Rol permissions
-
-        rol_create_permission = Permission(name='Crear Rol')
-        rol_view_permission = Permission(name='Permisos Rol')
-        rol_edit_permission = Permission(name='Editar Rol')
-        rol_delete_permission = Permission(name='Eliminar Rol')
 
 		# ==================================================================================================================
 		# Client permissions
@@ -52,18 +34,6 @@ class Migration(migrations.Migration):
         award_delete_permission = Permission(name='Eliminar Premio')
 
 		# ==================================================================================================================
-
-
-        user_create_permission.save()
-        user_view_permission.save()
-        user_edit_permission.save()
-        user_delete_permission.save()
-        user_activate_permission.save()
-
-        rol_create_permission.save()
-        rol_view_permission.save()
-        rol_edit_permission.save()
-        rol_delete_permission.save()
                 
         client_create_permission.save()
         client_view_permission.save()
@@ -95,50 +65,28 @@ class Migration(migrations.Migration):
         )
         admin_user.save()
 
-        RolPermission_1 =  RolPermission(rol_id=admin_rol.id, permission_id=user_create_permission.id)
-        RolPermission_2 =  RolPermission(rol_id=admin_rol.id, permission_id=user_view_permission.id)
-        RolPermission_3 =  RolPermission(rol_id=admin_rol.id, permission_id=user_edit_permission.id)
-        RolPermission_4 =  RolPermission(rol_id=admin_rol.id, permission_id=user_delete_permission.id)
-        RolPermission_5 =  RolPermission(rol_id=admin_rol.id, permission_id=user_activate_permission.id)
-
-        RolPermission_6 =  RolPermission(rol_id=admin_rol.id, permission_id=rol_create_permission.id)
-        RolPermission_7 =  RolPermission(rol_id=admin_rol.id, permission_id=rol_view_permission.id)
-        RolPermission_8 =  RolPermission(rol_id=admin_rol.id, permission_id=rol_edit_permission.id)
-        RolPermission_9 =  RolPermission(rol_id=admin_rol.id, permission_id=rol_delete_permission.id)
         
-        RolPermission_10 =  RolPermission(rol_id=admin_rol.id, permission_id=client_create_permission.id)
-        RolPermission_11 =  RolPermission(rol_id=admin_rol.id, permission_id=client_view_permission.id)
-        RolPermission_12 =  RolPermission(rol_id=admin_rol.id, permission_id=client_edit_permission.id)
-        RolPermission_13 =  RolPermission(rol_id=admin_rol.id, permission_id=client_delete_permission.id)
+        RolPermission_1 =  RolPermission(rol_id=admin_rol.id, permission_id=client_create_permission.id)
+        RolPermission_2 =  RolPermission(rol_id=admin_rol.id, permission_id=client_view_permission.id)
+        RolPermission_3 =  RolPermission(rol_id=admin_rol.id, permission_id=client_edit_permission.id)
+        RolPermission_4 =  RolPermission(rol_id=admin_rol.id, permission_id=client_delete_permission.id)
 
-        RolPermission_14 =  RolPermission(rol_id=admin_rol.id, permission_id=award_create_permission.id)
-        RolPermission_15 =  RolPermission(rol_id=admin_rol.id, permission_id=award_view_permission.id)
-        RolPermission_16 =  RolPermission(rol_id=admin_rol.id, permission_id=award_edit_permission.id)
-        RolPermission_17 =  RolPermission(rol_id=admin_rol.id, permission_id=award_delete_permission.id)
+        RolPermission_5 =  RolPermission(rol_id=admin_rol.id, permission_id=award_create_permission.id)
+        RolPermission_6 =  RolPermission(rol_id=admin_rol.id, permission_id=award_view_permission.id)
+        RolPermission_7 =  RolPermission(rol_id=admin_rol.id, permission_id=award_edit_permission.id)
+        RolPermission_8 =  RolPermission(rol_id=admin_rol.id, permission_id=award_delete_permission.id)
 
 		# ==================================================================================================================
-        
-        
+
         RolPermission_1.save()
         RolPermission_2.save()
         RolPermission_3.save()
         RolPermission_4.save()
-        RolPermission_5.save()
 
+        RolPermission_5.save()
         RolPermission_6.save()
         RolPermission_7.save()
-        RolPermission_8.save()  
-        RolPermission_9.save()
-
-        RolPermission_10.save()
-        RolPermission_11.save()
-        RolPermission_12.save()
-        RolPermission_13.save()
-
-        RolPermission_14.save()
-        RolPermission_15.save()
-        RolPermission_16.save()
-        RolPermission_17.save()
+        RolPermission_8.save()
 
 		# ==================================================================================================================
     

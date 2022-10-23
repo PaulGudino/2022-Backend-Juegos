@@ -20,7 +20,16 @@ class RolViewSet(CRUDViewSet):
     serializer_class = RolSerializer
     queryset = Rol.objects.all()
 
+    def create(self, request):
+        if (request.data.get('rol_request') != '1'):
+            return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        else:
+            return super().create(request)
+            
     def update(self, request, pk):
+        if (request.data.get('rol_request') != '1'):
+            return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
         if int(pk) == 1:
             return Response({'error': 'No puedes modificar el rol administrador'}, status=status.HTTP_400_BAD_REQUEST)
         else:
@@ -40,6 +49,7 @@ class RolViewSet(CRUDViewSet):
             return super().update(request, pk)
 
     def destroy(self, request, pk):
+
         if int(pk) == 1:
             return Response({'error': 'No puedes eliminar el rol administrador'}, status=status.HTTP_400_BAD_REQUEST)
         user_rol = User.objects.filter(rol=pk)
