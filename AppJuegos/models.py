@@ -1,3 +1,4 @@
+from tracemalloc import start
 from django.db import models
 from .choices import sex, category, juego
 from simple_history.models import HistoricalRecords
@@ -185,6 +186,16 @@ class ImagenesJuegos(models.Model):
         verbose_name = 'ImagenJuego'
         verbose_name_plural = 'ImagenesJuegos'
         ordering = ['imagen']
+
+class GameDate(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
+    start_date = models.DateTimeField(verbose_name='Fecha de inicio')
+    end_date = models.DateTimeField(verbose_name='Fecha de fin')
+    juego = models.CharField(max_length=1, choices=juego, default='T', verbose_name='Juego')
+    is_active = models.BooleanField(default=True)
+
+
+
 
 
 
