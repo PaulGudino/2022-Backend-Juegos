@@ -4,7 +4,8 @@ from rest_framework import status
 from rest_framework.filters import SearchFilter
 from AppJuegos.models import (
     User,
-    Award
+    Award,
+    Client,
 )
 from AppJuegos.api.general_api import CRUDViewSet
 from rest_framework import generics
@@ -15,10 +16,15 @@ from AppJuegos.api.User.UserSerializers import  (
     ChangePasswordSerializer,
 )
 
-
 class UserCreateViewSet(CRUDViewSet):
     serializer_class = UserCreateSerializer
     queryset = User.objects.all()
+
+    def create(self, request):
+        if (request.data.get('rol_request') != '1'):
+            return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        else:
+            return super().create(request)
 
     def list(self, request):
         return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
@@ -40,6 +46,9 @@ class UserViewSet(CRUDViewSet):
         return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
     def update(self, request, pk):
+        if (request.data.get('rol_request') != '1'):
+            return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
         if int(pk) == 1:
             return Response({'error': 'No puedes modificar el rol administrador'}, status=status.HTTP_400_BAD_REQUEST)
         return super().update(request, pk)
@@ -50,7 +59,9 @@ class UserViewSet(CRUDViewSet):
 
         user_award_register = Award.objects.filter(user_register=pk).first()
         user_award_modify = Award.objects.filter(user_modify=pk).first()
-        if user_award_register or user_award_modify:
+        user_client_register = Client.objects.filter(user_client_register=pk).first()
+        user_client_modify = Client.objects.filter(user_client_modify=pk).first()
+        if user_award_register or user_award_modify or user_client_register or user_client_modify:
             user = self.get_object()
             user.is_active = False
             user.save()
