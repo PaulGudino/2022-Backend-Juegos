@@ -191,10 +191,24 @@ class GameDate(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     start_date = models.DateTimeField(verbose_name='Fecha de inicio')
     end_date = models.DateTimeField(verbose_name='Fecha de fin')
+    modification_date = models.DateTimeField(verbose_name='Fecha de modificacion')
     juego = models.CharField(max_length=1, choices=juego, default='T', verbose_name='Juego')
     is_active = models.BooleanField(default=True)
 
+# ================================================================================================================== 
+class Game(GameDate):
+    name = models.TextField('Game Name')
+    description = models.CharField('Game description',max_length=250)
 
+
+
+
+
+class AwardGame(models.Model):
+    id =models.AutoField(primary_key=True, unique=True)
+    premio_id = models.ForeignKey(Award, on_delete=models.CASCADE, verbose_name='Premio', related_name='award_in_game')
+
+    
 
 
 
