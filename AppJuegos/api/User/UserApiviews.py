@@ -3,9 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.filters import SearchFilter
 from AppJuegos.models import (
-    User,
-    Award,
-    Client,
+    User
 )
 from AppJuegos.api.general_api import CRUDViewSet
 from rest_framework import generics
@@ -16,6 +14,10 @@ from AppJuegos.api.User.UserSerializers import  (
     ChangePasswordSerializer,
 )
 
+from AppJuegos.api.ValidateInformation import (
+    ValidateUserRelationships,
+    ValidateUserinClient,
+)
 class UserCreateViewSet(CRUDViewSet):
     serializer_class = UserCreateSerializer
     queryset = User.objects.all()
@@ -23,6 +25,12 @@ class UserCreateViewSet(CRUDViewSet):
     def create(self, request):
         if (request.data.get('rol_request') != '1'):
             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        
+        ValidateUserinClient().cedula(request.data.get('cedula'))
+        ValidateUserinClient().email(request.data.get('email'))
+        error_user_message = ValidateUserinClient().validate()
+        if error_user_message:
+            return Response(error_user_message, status=status.HTTP_400_BAD_REQUEST)
         else:
             return super().create(request)
 
@@ -49,6 +57,12 @@ class UserViewSet(CRUDViewSet):
         if (request.data.get('rol_request') != '1'):
             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
+        ValidateUserinClient().cedula(request.data.get('cedula'))
+        ValidateUserinClient().email(request.data.get('email'))
+        error_user_message = ValidateUserinClient().validate()
+        if error_user_message:
+            return Response(error_user_message , status=status.HTTP_400_BAD_REQUEST)
+
         if int(pk) == 1:
             return Response({'error': 'No puedes modificar el rol administrador'}, status=status.HTTP_400_BAD_REQUEST)
         return super().update(request, pk)
@@ -57,11 +71,7 @@ class UserViewSet(CRUDViewSet):
         if int(pk) == 1:
             return Response({'error': 'No puedes eliminar el rol administrador'}, status=status.HTTP_400_BAD_REQUEST)
 
-        user_award_register = Award.objects.filter(user_register=pk).first()
-        user_award_modify = Award.objects.filter(user_modify=pk).first()
-        user_client_register = Client.objects.filter(user_client_register=pk).first()
-        user_client_modify = Client.objects.filter(user_client_modify=pk).first()
-        if user_award_register or user_award_modify or user_client_register or user_client_modify:
+        if ValidateUserRelationships(pk).validate():
             user = self.get_object()
             user.is_active = False
             user.save()
