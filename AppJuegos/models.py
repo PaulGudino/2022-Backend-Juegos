@@ -193,9 +193,6 @@ class GameDate(models.Model):
     start_date = models.DateTimeField(verbose_name='Fecha de inicio')
     end_date = models.DateTimeField(verbose_name='Fecha de fin')
     modification_date = models.DateTimeField(verbose_name='Fecha de modificacion')
-    # start_date = models.DateTimeField(default=datetime.now, blank=True,verbose_name='Fecha de inicio')
-    # end_date = models.DateTimeField(default=datetime.now, blank=True,verbose_name='Fecha de fin')
-    # modification_date = models.DateTimeField(default=datetime.now, blank=True,verbose_name='Fecha de modificacion')
     juego = models.CharField(max_length=1, choices=juego, default='T', verbose_name='Juego')
     is_active = models.BooleanField(default=True)
 

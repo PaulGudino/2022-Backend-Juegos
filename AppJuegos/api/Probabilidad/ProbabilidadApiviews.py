@@ -1,5 +1,5 @@
 from AppJuegos.models import (
-    Game,
+    Probabilidad,
 )
 from AppJuegos.api.general_api import CRUDViewSet
 from AppJuegos.api.Probabilidad.ProbabilidadSerializers import (
@@ -11,5 +11,5 @@ from rest_framework.response import Response
 
 class ProbabilidadViewSet(CRUDViewSet):
     serializer_class = ProbabilidadSerializers
-    queryset = Game.objects.all()
+    queryset = Probabilidad.objects.all()
 

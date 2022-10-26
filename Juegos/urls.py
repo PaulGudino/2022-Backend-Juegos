@@ -26,4 +26,5 @@ urlpatterns = [
     path('api/', include('AppJuegos.api.GameDate.GameDataUrl')),
     path('api/', include('AppJuegos.api.Game.GameUrl')),
     path('api/', include('AppJuegos.api.Probabilidad.ProbabilidadUrl')),
+    path('api/', include('AppJuegos.api.AwardGame.AwardGameUrl')),
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
