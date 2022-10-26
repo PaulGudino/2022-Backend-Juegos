@@ -3,6 +3,7 @@ from django.db import models
 from .choices import sex, category, juego
 from simple_history.models import HistoricalRecords
 from django.contrib.auth.models import AbstractUser
+from datetime import datetime  
 
 
 class Rol(models.Model):
@@ -86,14 +87,16 @@ class RolPermission(models.Model):
 
 # Example taken from https://docs.djangoproject.com/en/4.0/ref/models/fields/
 
-STATES = [
-    ('Activo', 'Activo'),
-    ('Inactivo', 'Inactivo'),
-]
+NONE = 'Ninguno'
+ACTIVE = 'Activo'
+INACTIVE = 'Inactivo'
+DISABLED = 'Deshabilitado'
 
-SEX = [
-    ('Masculino', 'Masculino'),
-    ('Femenino', 'Femenino'),
+STATES = [
+    (NONE, 'Ninguno'),
+    (ACTIVE, 'Activo'),
+    (INACTIVE, 'Inactivo'),
+    (DISABLED, 'Desabilitado')
 ]
 
 class Client(models.Model):
@@ -103,12 +106,12 @@ class Client(models.Model):
     surnames = models.CharField(max_length=100, verbose_name='Apellidos')
     email = models.EmailField(max_length=100, unique=True, verbose_name='Correo Electronico')
     phone = models.CharField(max_length=10, verbose_name='Telefono')
-    sex = models.CharField(max_length=50, choices=SEX, verbose_name='Sexo')
+    sex = models.CharField(max_length=1, choices=sex , default='N', verbose_name='Sexo')
     address = models.CharField(max_length=500, verbose_name='Direccion')
     created = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creacion')
     modified = models.DateTimeField(auto_now=True, verbose_name='Fecha de modificacion')
     history = HistoricalRecords()
-    state = models.CharField(max_length=50, choices=STATES, default='Activo', verbose_name='Estado')
+    state = models.CharField(max_length=100, choices=STATES, default='Ninguno', verbose_name='Estado')
     user_client_register = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que registra', related_name='user_client_register')
     user_client_modify = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que modifica', related_name='user_client_modify', null=True, blank=True)
 
@@ -189,8 +192,54 @@ class GameDate(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     start_date = models.DateTimeField(verbose_name='Fecha de inicio')
     end_date = models.DateTimeField(verbose_name='Fecha de fin')
+    modification_date = models.DateTimeField(verbose_name='Fecha de modificacion')
     juego = models.CharField(max_length=1, choices=juego, default='T', verbose_name='Juego')
     is_active = models.BooleanField(default=True)
+
+# ================================================================================================================== 
+class Game(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
+    start_date = models.DateTimeField(verbose_name='Fecha inicio juego')
+    end_date = models.DateTimeField(verbose_name='Fecha fin juego')
+    modification_date = models.DateTimeField(verbose_name='Fecha  modificacion juego',null=True)
+    name = models.CharField('Game Name', unique=True,max_length=255)
+    description = models.CharField('Game description',max_length=250)
+    is_active = models.BooleanField(default=True)
+    history = HistoricalRecords()
+
+    def __str__(self):
+        return self.name
+
+
+    class Meta:
+        verbose_name = 'Juego'
+        verbose_name_plural = 'Juegos'
+
+
+class AwardGame(models.Model):
+    id =models.AutoField(primary_key=True, unique=True)
+    premio_id = models.ForeignKey(Award, on_delete=models.CASCADE, verbose_name='Premio', related_name='award_in_game')
+    game_id = models.ForeignKey(Game, on_delete=models.CASCADE,verbose_name = 'Juego' )
+    
+    class Meta:
+        verbose_name = 'Premio Juego'
+        verbose_name_plural = 'Premios Juegos'
+
+
+
+class Probabilidad(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
+    porcent_win = models.PositiveIntegerField('porcent_win',null=False)
+    winners_limit = models.PositiveIntegerField('winners_limit',null=False)
+    created = models.DateTimeField(verbose_name='Fecha de creacion',auto_now_add=True, blank=True)
+    modified = models.DateTimeField(verbose_name='Fecha de modificacion',auto_now_add=True, blank=True)
+    game_id = models.ForeignKey(Game, on_delete=models.CASCADE,verbose_name = 'Juego' )
+    history = HistoricalRecords()
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = 'Probabilidad'
+        verbose_name_plural = 'Probabilidades'
 
 
 
