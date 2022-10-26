@@ -24,6 +24,8 @@ class AwardViewSet(CRUDViewSet):
     def create(self, request):
         serializer = AwardSerializerCreate(data=request.data)
         if serializer.is_valid():
+            current_stock = serializer.validated_data['initial_stock']
+            serializer.save(current_stock=current_stock)
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -34,6 +36,8 @@ class AwardViewSet(CRUDViewSet):
         if new_image:
             serializer = AwardSerializerUpdateImage(premio, data=request.data)
             if serializer.is_valid():
+                current_stock = serializer.validated_data['initial_stock']
+                serializer.save(current_stock=current_stock)
                 old_image = premio.imagen
                 print(old_image.url)
                 os.remove(old_image.path)
@@ -42,6 +46,8 @@ class AwardViewSet(CRUDViewSet):
         else:
             serializer = AwardSerializerUpdateSinImage(premio, data=request.data)
             if serializer.is_valid():
+                current_stock = serializer.validated_data['initial_stock']
+                serializer.save(current_stock=current_stock)
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
