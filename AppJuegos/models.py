@@ -87,16 +87,14 @@ class RolPermission(models.Model):
 
 # Example taken from https://docs.djangoproject.com/en/4.0/ref/models/fields/
 
-NONE = 'Ninguno'
-ACTIVE = 'Activo'
-INACTIVE = 'Inactivo'
-DISABLED = 'Deshabilitado'
-
 STATES = [
-    (NONE, 'Ninguno'),
-    (ACTIVE, 'Activo'),
-    (INACTIVE, 'Inactivo'),
-    (DISABLED, 'Desabilitado')
+    ('Activo', 'Activo'),
+    ('Inactivo', 'Inactivo'),
+]
+
+SEX = [
+    ('Masculino', 'Masculino'),
+    ('Femenino', 'Femenino'),
 ]
 
 class Client(models.Model):
@@ -106,12 +104,12 @@ class Client(models.Model):
     surnames = models.CharField(max_length=100, verbose_name='Apellidos')
     email = models.EmailField(max_length=100, unique=True, verbose_name='Correo Electronico')
     phone = models.CharField(max_length=10, verbose_name='Telefono')
-    sex = models.CharField(max_length=1, choices=sex , default='N', verbose_name='Sexo')
+    sex = models.CharField(max_length=50, choices=SEX , default='Femenino', verbose_name='Sexo')
     address = models.CharField(max_length=500, verbose_name='Direccion')
     created = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creacion')
     modified = models.DateTimeField(auto_now=True, verbose_name='Fecha de modificacion')
     history = HistoricalRecords()
-    state = models.CharField(max_length=100, choices=STATES, default='Ninguno', verbose_name='Estado')
+    state = models.CharField(max_length=50, choices=STATES, default='Activo', verbose_name='Estado')
     user_client_register = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que registra', related_name='user_client_register')
     user_client_modify = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que modifica', related_name='user_client_modify', null=True, blank=True)
 
@@ -218,7 +216,7 @@ class Game(models.Model):
 
 class AwardGame(models.Model):
     id =models.AutoField(primary_key=True, unique=True)
-    premio_id = models.ForeignKey(Award, on_delete=models.CASCADE, verbose_name='Premio', related_name='award_in_game')
+    premio_id = models.ForeignKey(Award, on_delete=models.CASCADE, verbose_name='Premio', related_name='award_in_game',unique=True)
     game_id = models.ForeignKey(Game, on_delete=models.CASCADE,verbose_name = 'Juego' )
     
     class Meta:
@@ -240,6 +238,19 @@ class Probabilidad(models.Model):
     class Meta:
         verbose_name = 'Probabilidad'
         verbose_name_plural = 'Probabilidades'
+
+class Publicity(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
+    image = models.ImageField(upload_to='publicidad/', verbose_name='Imagen publicidad',null=False)
+    titulo = models.CharField(max_length=100,verbose_name='titulo publicidad',null=False)
+    created = models.DateTimeField(verbose_name='Fecha de creacion',auto_now_add=True, blank=True)
+    modified = models.DateTimeField(verbose_name='Fecha de modificacion', blank=True,null=True)
+    history = HistoricalRecords()
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = 'Publicity'
+        verbose_name_plural = 'Publicities'
 
 
 
