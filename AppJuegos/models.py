@@ -218,7 +218,7 @@ class Game(models.Model):
 
 class AwardGame(models.Model):
     id =models.AutoField(primary_key=True, unique=True)
-    premio_id = models.ForeignKey(Award, on_delete=models.CASCADE, verbose_name='Premio', related_name='award_in_game')
+    premio_id = models.ForeignKey(Award, on_delete=models.CASCADE, verbose_name='Premio', related_name='award_in_game',unique=True)
     game_id = models.ForeignKey(Game, on_delete=models.CASCADE,verbose_name = 'Juego' )
     
     class Meta:
@@ -240,6 +240,19 @@ class Probabilidad(models.Model):
     class Meta:
         verbose_name = 'Probabilidad'
         verbose_name_plural = 'Probabilidades'
+
+class Publicity(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
+    image = models.ImageField(upload_to='publicidad/', verbose_name='Imagen publicidad',null=False)
+    titulo = models.CharField(max_length=100,verbose_name='titulo publicidad',null=False)
+    created = models.DateTimeField(verbose_name='Fecha de creacion',auto_now_add=True, blank=True)
+    modified = models.DateTimeField(verbose_name='Fecha de modificacion', blank=True,null=True)
+    history = HistoricalRecords()
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = 'Publicity'
+        verbose_name_plural = 'Publicities'
 
 
 
