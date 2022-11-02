@@ -169,39 +169,13 @@ class ForgotPassword(models.Model):
         verbose_name_plural = 'RecuperarContraseñas'
         ordering = ['email', 'code']
 
-
-class ImagenesJuegos(models.Model):
-    id = models.AutoField(primary_key=True, unique=True)
-    imagen = models.ImageField(upload_to='imagenes_juegos/', verbose_name='Imagen')
-
-    def __str__(self):
-        return self.imagen
-
-    def delete(self, using=None, keep_parents=False):
-        self.imagen.storage.delete(self.imagen.name)
-        super().delete()
-
-    class Meta:
-        verbose_name = 'ImagenJuego'
-        verbose_name_plural = 'ImagenesJuegos'
-        ordering = ['imagen']
-
-class GameDate(models.Model):
-    id = models.AutoField(primary_key=True, unique=True)
-    start_date = models.DateTimeField(verbose_name='Fecha de inicio')
-    end_date = models.DateTimeField(verbose_name='Fecha de fin')
-    modification_date = models.DateTimeField(verbose_name='Fecha de modificacion')
-    juego = models.CharField(max_length=1, choices=juego, default='T', verbose_name='Juego')
-    is_active = models.BooleanField(default=True)
-
 # ================================================================================================================== 
 class Game(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     start_date = models.DateTimeField(verbose_name='Fecha inicio juego')
     end_date = models.DateTimeField(verbose_name='Fecha fin juego')
     modification_date = models.DateTimeField(verbose_name='Fecha  modificacion juego',null=True)
-    name = models.CharField('Game Name', unique=True,max_length=255)
-    description = models.CharField('Game description',max_length=250)
+    game = models.CharField(max_length=1, choices=juego, default='T', verbose_name='Juego')
     is_active = models.BooleanField(default=True)
     history = HistoricalRecords()
 
@@ -212,6 +186,24 @@ class Game(models.Model):
     class Meta:
         verbose_name = 'Juego'
         verbose_name_plural = 'Juegos'
+
+class AwardCondition(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
+    award = models.ForeignKey(Award, on_delete=models.CASCADE, verbose_name='Premio')
+    game = models.ForeignKey(Game, on_delete=models.CASCADE, verbose_name='Juego')
+    amount = models.IntegerField(verbose_name='Cantidad')
+    start_date = models.DateTimeField(verbose_name='Fecha inicio premio')
+    end_date = models.DateTimeField(verbose_name='Fecha fin premio')
+    is_active = models.BooleanField(default=True)
+    history = HistoricalRecords()
+
+    def __str__(self):
+        return self.award.name
+
+    class Meta:
+        verbose_name = 'CondicionPremio'
+        verbose_name_plural = 'CondicionPremios'
+        ordering = ['award', 'game', 'amount']
 
 
 class AwardGame(models.Model):
