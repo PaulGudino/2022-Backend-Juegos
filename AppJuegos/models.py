@@ -121,7 +121,29 @@ class Client(models.Model):
         verbose_name_plural = 'Clientes'
         ordering = ['id', 'cedula', 'names', 'surnames','email', 'phone']
 
-# ================================================================================================================== 
+class Match(models.Model): # Partida
+    id = models.AutoField(primary_key=True, unique=True)
+    ticket = models.ForeignKey(Ticket, unique=True, on_delete=models.CASCADE, default='', related_name='match_ticket')
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+    state = models.CharField(max_length=100, choices=MATCH_STATES)
+    history = HistoricalRecords()
+
+class Ticket(models.Model): # Entradas
+    id = models.AutoField(primary_key=True, unique=True)
+    invoice_number = models.CharField(max_length=255, unique=True)
+    qr_code = models.CharField(max_length=255, unique=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+    state = models.CharField(max_length=100, choices=TICKET_STATES)
+    history = HistoricalRecords()
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, default='', related_name='ticket_client')
+    game = models.ForeignKey(Game, on_delete=models.CASCADE, default='', related_name='ticket_game')
+    user_register = models.ForeignKey(User, on_delete=models.CASCADE, default='', related_name='register_ticket')
+    user_modifier = models.ForeignKey(User, on_delete=models.CASCADE, default='', related_name='edit_ticket', null=True,
+                                      blank=True)
+
+# ==================================================================================================================
 
 class Award(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
