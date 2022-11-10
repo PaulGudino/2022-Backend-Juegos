@@ -78,6 +78,15 @@ class Migration(migrations.Migration):
         )
         admin_user.save()
 
+        # Creating a Game
+
+        game_tragamonedas = Game(
+            start_date =  "2022-11-08T00:00:00",
+            end_date = "2029-12-13T12:12:00",
+        )
+
+        game_tragamonedas.save()
+
         
         RolPermission_1 =  RolPermission(rol_id=admin_rol.id, permission_id=client_create_permission.id)
         RolPermission_2 =  RolPermission(rol_id=admin_rol.id, permission_id=client_view_permission.id)

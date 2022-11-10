@@ -181,12 +181,18 @@ class ForgotPassword(models.Model):
         ordering = ['email', 'code']
 
 # ================================================================================================================== 
+
+GAME_CHOICES = [
+    ('Tragamonedas', 'Tragamonedas'),
+]
+
 class Game(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     start_date = models.DateTimeField(verbose_name='Fecha inicio juego')
     end_date = models.DateTimeField(verbose_name='Fecha fin juego')
     modification_date = models.DateTimeField(verbose_name='Fecha  modificacion juego',null=True)
     game = models.CharField(max_length=1, choices=juego, default='T', verbose_name='Juego')
+    name = models.CharField(max_length=50, choices=GAME_CHOICES, default="Tragamonedas",verbose_name='Nombre')
     is_active = models.BooleanField(default=True)
     history = HistoricalRecords()
 
