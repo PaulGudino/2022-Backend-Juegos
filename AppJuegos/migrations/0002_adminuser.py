@@ -16,6 +16,7 @@ class Migration(migrations.Migration):
         Rol = apps.get_model('AppJuegos', 'Rol')
         User = apps.get_model('AppJuegos', 'User')
         RolPermission = apps.get_model('AppJuegos', 'RolPermission')
+        Game = apps.get_model('AppJuegos', 'Game')
 
 		# ==================================================================================================================
 		# Client permissions
