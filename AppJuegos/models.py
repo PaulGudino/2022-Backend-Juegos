@@ -92,6 +92,17 @@ STATES = [
     ('Inactivo', 'Inactivo'),
 ]
 
+MATCH_STATES = [
+    ('Iniciada', 'Iniciada'),
+    ('Terminada', 'Terminada'),
+    ('Pendiente', 'Pendiente'),
+]
+
+TICKET_STATES = [
+    ('Disponible', 'Disponible'),
+    ('Reclamado', 'Reclamado'),
+]
+
 SEX = [
     ('Masculino', 'Masculino'),
     ('Femenino', 'Femenino'),
@@ -121,7 +132,7 @@ class Client(models.Model):
         verbose_name_plural = 'Clientes'
         ordering = ['id', 'cedula', 'names', 'surnames','email', 'phone']
 
-# ================================================================================================================== 
+# ==================================================================================================================
 
 class Award(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
@@ -170,12 +181,18 @@ class ForgotPassword(models.Model):
         ordering = ['email', 'code']
 
 # ================================================================================================================== 
+
+GAME_CHOICES = [
+    ('Tragamonedas', 'Tragamonedas'),
+]
+
 class Game(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     start_date = models.DateTimeField(verbose_name='Fecha inicio juego',null=True)
     end_date = models.DateTimeField(verbose_name='Fecha fin juego',null=True)
     modification_date = models.DateTimeField(verbose_name='Fecha  modificacion juego',null=True)
     game = models.CharField(max_length=1, choices=juego, default='T', verbose_name='Juego')
+    name = models.CharField(max_length=50, choices=GAME_CHOICES, default="Tragamonedas",verbose_name='Nombre')
     is_active = models.BooleanField(default=True)
     history = HistoricalRecords()
 
@@ -244,8 +261,27 @@ class Publicity(models.Model):
         verbose_name = 'Publicity'
         verbose_name_plural = 'Publicities'
 
+class Ticket(models.Model): # Entradas
+    id = models.AutoField(primary_key=True, unique=True)
+    invoice_number = models.CharField(max_length=255, unique=True)
+    qr_code = models.CharField(max_length=255, unique=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+    state = models.CharField(max_length=100, choices=TICKET_STATES)
+    history = HistoricalRecords()
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, default='', related_name='ticket_client')
+    game = models.ForeignKey(Game, on_delete=models.CASCADE, default='', related_name='ticket_game')
+    user_register = models.ForeignKey(User, on_delete=models.CASCADE, default='', related_name='register_ticket')
+    user_modifier = models.ForeignKey(User, on_delete=models.CASCADE, default='', related_name='edit_ticket', null=True,
+                                      blank=True)
 
-
+class Match(models.Model): # Partida
+    id = models.AutoField(primary_key=True, unique=True)
+    ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, default='', related_name='match_ticket')
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+    state = models.CharField(max_length=100, choices=MATCH_STATES)
+    history = HistoricalRecords()
 
 
 
