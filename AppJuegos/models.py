@@ -172,15 +172,15 @@ class ForgotPassword(models.Model):
 # ================================================================================================================== 
 class Game(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
-    start_date = models.DateTimeField(verbose_name='Fecha inicio juego')
-    end_date = models.DateTimeField(verbose_name='Fecha fin juego')
+    start_date = models.DateTimeField(verbose_name='Fecha inicio juego',null=True)
+    end_date = models.DateTimeField(verbose_name='Fecha fin juego',null=True)
     modification_date = models.DateTimeField(verbose_name='Fecha  modificacion juego',null=True)
     game = models.CharField(max_length=1, choices=juego, default='T', verbose_name='Juego')
     is_active = models.BooleanField(default=True)
     history = HistoricalRecords()
 
     def __str__(self):
-        return self.name
+        return self.game
 
 
     class Meta:
@@ -208,7 +208,7 @@ class AwardCondition(models.Model):
 
 class AwardGame(models.Model):
     id =models.AutoField(primary_key=True, unique=True)
-    premio_id = models.ForeignKey(Award, on_delete=models.CASCADE, verbose_name='Premio', related_name='award_in_game',unique=True)
+    premio_id = models.ForeignKey(Award, on_delete=models.CASCADE, verbose_name='Premio', related_name='award_in_game')
     game_id = models.ForeignKey(Game, on_delete=models.CASCADE,verbose_name = 'Juego' )
     
     class Meta:
