@@ -1,7 +1,7 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.filters import SearchFilter
+from rest_framework.filters import SearchFilter, OrderingFilter
 from AppJuegos.models import (
     User
 )
@@ -18,11 +18,13 @@ from AppJuegos.api.ValidateInformation import (
     ValidateUserRelationships,
     ValidateUserinClient,
 )
-class UserCreateViewSet(CRUDViewSet):
-    serializer_class = UserCreateSerializer
+
+class UserViewSet(CRUDViewSet):
+    serializer_class = UserUpdateSerializer
     queryset = User.objects.all()
 
     def create(self, request):
+        serializer = UserCreateSerializer(data=request.data)
         if (request.data.get('rol_request') != '1'):
             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
         
@@ -31,27 +33,10 @@ class UserCreateViewSet(CRUDViewSet):
         error_user_message = ValidateUserinClient().validate()
         if error_user_message:
             return Response(error_user_message, status=status.HTTP_400_BAD_REQUEST)
-        else:
-            return super().create(request)
-
-    def list(self, request):
-        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
-
-    def update(self, request, pk):
-        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
-
-    def destroy(self, request, pk):
-        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
-
-class UserViewSet(CRUDViewSet):
-    serializer_class = UserUpdateSerializer
-    queryset = User.objects.all()
-
-    def list(self, request):
-        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
-
-    def create(self, request):
-        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, pk):
         if (request.data.get('rol_request') != '1'):
@@ -99,18 +84,13 @@ class UserViewSet(CRUDViewSet):
             return Response({'message': "La contraseña se actualizo correctamente"},status=status.HTTP_200_OK)
         return Response(change_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class UserFilterRol(generics.ListAPIView):
-    serializer_class = UserCreateSerializer
-    queryset = User.objects.all()
-    filter_backends = [SearchFilter, DjangoFilterBackend]
-    search_fields = ['rol__name']
-    filterset_fields = ['rol']
-
-class UserFilterIsEliminated(generics.ListAPIView):
+class UserFilter(generics.ListAPIView):
     serializer_class = UserUpdateSerializer
     queryset = User.objects.all()
-    filter_backends = [ DjangoFilterBackend]
-    filterset_fields = ['is_active']
+    filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
+    search_fields = ['username', 'last_name', 'email', 'cedula']
+    filterset_fields = ['rol', 'is_active']
+    ordering_fields = ['created', 'updated']
 
 
 
