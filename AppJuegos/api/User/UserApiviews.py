@@ -88,7 +88,7 @@ class UserFilter(generics.ListAPIView):
     serializer_class = UserUpdateSerializer
     queryset = User.objects.all()
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['username', 'last_name', 'email', 'cedula']
+    search_fields = ['username', 'surnames', 'email', 'cedula']
     filterset_fields = ['rol', 'is_active']
     ordering_fields = ['created', 'updated']
 
