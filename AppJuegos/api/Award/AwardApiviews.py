@@ -14,6 +14,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework import generics
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter, OrderingFilter
 
 
 
@@ -56,11 +57,13 @@ class AwardListViewSet(OnlyListViewSet):
     serializer_class = AwarderializerList
     queryset = Award.objects.all()
 
-class AwardFilterbyGame(generics.ListAPIView):
+class AwardFilter(generics.ListAPIView):
     serializer_class = AwardSerializer
     queryset = Award.objects.all()
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['juego']
+    filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
+    search_fields = ['name']
+    filterset_fields = ['is_active']
+    ordering_fields = ['created', 'updated']
 
 
 

@@ -39,6 +39,13 @@ class CustomRolPermissionSerializer(serializers.ModelSerializer):
         model = RolPermission
         fields = ('id', 'rol', 'permission')
 
+    def to_representation(self, instance):
+        return {
+            'id': instance.id,
+            'rol': instance.rol.id,
+            'permission': instance.permission.name
+        }
+
 
 
 

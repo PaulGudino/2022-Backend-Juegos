@@ -1,7 +1,7 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.filters import SearchFilter
+from rest_framework.filters import SearchFilter, OrderingFilter
 from AppJuegos.models import (
     Rol,
     User,
@@ -71,16 +71,18 @@ class RolPermissionViewSet(CRUDViewSet):
 class RolPermissionFilter(generics.ListAPIView):
     serializer_class = CustomRolPermissionSerializer
     queryset = RolPermission.objects.all()
-    filter_backends = [SearchFilter, DjangoFilterBackend]
-    search_fields = ['rol']
+    filter_backends = [SearchFilter, OrderingFilter, DjangoFilterBackend]
+    search_fields = ['rol__id', 'permission__name']
+    ordering_fields = ['rol', 'permission']
     filterset_fields = ['rol', 'permission']
 
 class RolFilter(generics.ListAPIView):
     serializer_class = RolSerializer
     queryset = Rol.objects.all()
-    filter_backends = [SearchFilter, DjangoFilterBackend]
+    filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['name']
-    filterset_fields = ['name']
+    filterset_fields = ['is_active']
+    ordering_fields = ['created', 'updated']
 
 
 
