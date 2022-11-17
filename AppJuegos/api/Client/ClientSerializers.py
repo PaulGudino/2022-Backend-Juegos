@@ -28,7 +28,7 @@ class ClientSerializer(serializers.ModelSerializer):
 class ClientSerializerCreate(serializers.ModelSerializer):
     class Meta:
         model = Client
-        fields = ('id', 'cedula', 'names', 'surnames', 'email', 'phone', 'sex', 'address', 'user_client_register', 'state')
+        fields = ('id', 'cedula', 'names', 'surnames', 'email', 'phone', 'sex', 'address', 'user_client_register', 'state', 'user_client_modify')
    
 class ClientSerializerUpdate(serializers.ModelSerializer):
     class Meta:
