@@ -16,7 +16,9 @@ from rest_framework import generics
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 
-
+from AppJuegos.api.ValidateInformation import (
+    ValidateAwardRelationships,
+)
 
 class AwardViewSet(CRUDViewSet):
     serializer_class = AwardSerializer
@@ -52,6 +54,15 @@ class AwardViewSet(CRUDViewSet):
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def destroy(self, request, pk):
+        if ValidateAwardRelationships(pk).validate():
+            award = self.get_object()
+            award.is_active = False
+            award.save()
+            return Response({'error': 'No puedes eliminar este premio porque tiene elementos asociados, el premio se desactivará'}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return super().destroy(request, pk)
 
 class AwardListViewSet(OnlyListViewSet):
     serializer_class = AwarderializerList
