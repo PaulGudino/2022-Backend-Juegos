@@ -186,13 +186,25 @@ GAME_CHOICES = [
     ('Tragamonedas', 'Tragamonedas'),
 ]
 
+GAME_STATES = [
+    ('Activado', 'Activado'),
+    ('Desactivado', 'Desactivado'),
+]
+
 class Game(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     start_date = models.DateTimeField(verbose_name='Fecha inicio juego')
     end_date = models.DateTimeField(verbose_name='Fecha fin juego')
     modification_date = models.DateTimeField(verbose_name='Fecha  modificacion juego',null=True)
     game = models.CharField(max_length=1, choices=juego, default='T', verbose_name='Juego')
+    
+    # Added for game selection screen
     name = models.CharField(max_length=50, choices=GAME_CHOICES, default="Tragamonedas",verbose_name='Nombre')
+    players = models.IntegerField(default=0, verbose_name='Jugadores')
+    description = models.TextField(max_length=100, default='Descripción', verbose_name='Descripción')
+    state = models.CharField(max_length=100, default='Desactivado', choices=GAME_STATES)
+    # above added for game selection screen
+
     is_active = models.BooleanField(default=True)
     history = HistoricalRecords()
 
@@ -205,6 +217,9 @@ class Game(models.Model):
         verbose_name_plural = 'Juegos'
 
 class AwardCondition(models.Model):
+    #WARNINGS:
+    # AppJuegos.AwardGame.premio_id: (fields.W342) Setting unique=True on a ForeignKey has the same effect as using a OneToOneField.
+    #    HINT: ForeignKey(unique=True) is usually better served by a OneToOneField."""
     id = models.AutoField(primary_key=True, unique=True)
     award = models.ForeignKey(Award, on_delete=models.CASCADE, verbose_name='Premio')
     game = models.ForeignKey(Game, on_delete=models.CASCADE, verbose_name='Juego')
@@ -225,7 +240,7 @@ class AwardCondition(models.Model):
 
 class AwardGame(models.Model):
     id =models.AutoField(primary_key=True, unique=True)
-    premio_id = models.ForeignKey(Award, on_delete=models.CASCADE, verbose_name='Premio', related_name='award_in_game',unique=True)
+    premio_id = models.ForeignKey(Award, on_delete=models.CASCADE, verbose_name='Premio', related_name='award_in_game')
     game_id = models.ForeignKey(Game, on_delete=models.CASCADE,verbose_name = 'Juego' )
     
     class Meta:
