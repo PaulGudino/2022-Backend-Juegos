@@ -217,16 +217,12 @@ class Game(models.Model):
         verbose_name_plural = 'Juegos'
 
 class AwardCondition(models.Model):
-    #WARNINGS:
-    # AppJuegos.AwardGame.premio_id: (fields.W342) Setting unique=True on a ForeignKey has the same effect as using a OneToOneField.
-    #    HINT: ForeignKey(unique=True) is usually better served by a OneToOneField."""
     id = models.AutoField(primary_key=True, unique=True)
     award = models.ForeignKey(Award, on_delete=models.CASCADE, verbose_name='Premio')
     game = models.ForeignKey(Game, on_delete=models.CASCADE, verbose_name='Juego')
-    amount = models.IntegerField(verbose_name='Cantidad')
     start_date = models.DateTimeField(verbose_name='Fecha inicio premio')
     end_date = models.DateTimeField(verbose_name='Fecha fin premio')
-    is_active = models.BooleanField(default=True)
+    is_approved = models.BooleanField(default=False)
     history = HistoricalRecords()
 
     def __str__(self):
@@ -235,7 +231,7 @@ class AwardCondition(models.Model):
     class Meta:
         verbose_name = 'CondicionPremio'
         verbose_name_plural = 'CondicionPremios'
-        ordering = ['award', 'game', 'amount']
+        ordering = ['id','award', 'game']
 
 
 class AwardGame(models.Model):

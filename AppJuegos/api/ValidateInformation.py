@@ -1,4 +1,3 @@
-from email import message
 from AppJuegos.models import (
     User,
     Award,
@@ -74,23 +73,37 @@ class ValidateAwardRelationships:
                 return True
             return False
 
-class ReduceAward:
+# Logica Award y AwardCondition
+
+class ReduceAwardCurrentStock:
 
     message_stock_in_award = []
 
-    def current_stock(self, amount, pk):
-        print(amount)
+    def current_stock(self, pk):
         award = Award.objects.filter(pk=pk).first()
-        if award.current_stock < amount:
-            self.message_stock_in_award.append('El stock por reservar en la condición no puede ser menor al stock actual')
+        if award.current_stock < 1:
+            self.message_stock_in_award.append('No hay stock disponible para reservar')
             error_stock_message = self.message_stock_in_award.copy()
             self.message_stock_in_award.clear()
             return error_stock_message
 
-        award.current_stock = award.current_stock - amount
+        award.current_stock = award.current_stock - 1
         award.save()
         return None
         
+class AddAwardCurrentStock:
+
+    def current_stock(self, pk):
+        award = Award.objects.filter(pk=pk).first()
+        award.current_stock = award.current_stock + 1
+        award.save()
+        return None
+
+        
+
+
+        
+
         
         
         
