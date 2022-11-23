@@ -35,8 +35,10 @@ class AwardConditionViewSet(CRUDViewSet):
 
     def update(self, request, pk):
         serializer = AwardConditionUpdateSerializer(self.get_object(), data=request.data)
+        print(serializer.is_valid())
         if serializer.is_valid():
-            return super().update(request, pk)
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def destroy(self, request, pk=None):

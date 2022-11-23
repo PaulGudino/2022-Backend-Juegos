@@ -95,7 +95,7 @@ class AwardFilter(generics.ListAPIView):
     serializer_class = AwarderializerList
     queryset = Award.objects.all()
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['name']
+    search_fields = ['name', 'game']
     filterset_fields = ['is_active']
     ordering_fields = ['created', 'updated']
 
