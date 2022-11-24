@@ -284,4 +284,30 @@ class Match(models.Model): # Partida
     history = HistoricalRecords()
 
 
+# class Match(models.Model): # Partida
+#     id = models.AutoField(primary_key=True, unique=True)
+#     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, default='', related_name='match_ticket')
+#     date_created = models.DateTimeField(auto_now_add=True)
+#     date_modified = models.DateTimeField(auto_now=True)
+#     state = models.CharField(max_length=100, choices=MATCH_STATES)
+#     history = HistoricalRecords()
+
+class Styles(models.Model): # Partida
+    id = models.AutoField(primary_key=True, unique=True)
+    game_id = models.ForeignKey(Game, on_delete=models.CASCADE,verbose_name = 'Juego' )
+    video_screensaver = models.FileField(upload_to='screensaver/',verbose_name = 'video Salvapantallas',null=True)
+    title_button_screensaver= models.CharField(max_length=100,verbose_name = 'titulo boton salvapantallas',null=True)
+    image_background_game = models.ImageField(upload_to='design/',verbose_name = 'imagen fondo juego',null=True)
+    image_logo_game = models.ImageField(upload_to='design/',verbose_name = 'imagen logo juego',null=True)
+    color_background_game = models.ImageField(upload_to='design/',verbose_name = 'color fondo juego',null=True)
+    color_text = models.CharField(max_length=50,verbose_name = 'color texto',null=True)
+    title_winner = models.CharField(max_length=150, verbose_name='titulo del ganador',null=True)
+    description_winner = models.CharField(max_length=200,verbose_name = 'descripcion ganador juego',null=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=True)
+    history = HistoricalRecords()
+
+
+
 

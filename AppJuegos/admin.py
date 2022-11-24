@@ -8,6 +8,7 @@ from AppJuegos.models import (
     Game,
     AwardGame,
     Probabilidad,
+    Styles
 
 )
 
@@ -29,5 +30,6 @@ admin.site.register(Award)
 admin.site.register(Game)
 admin.site.register(AwardGame)
 admin.site.register(Probabilidad)
+admin.site.register(Styles)
 
 
