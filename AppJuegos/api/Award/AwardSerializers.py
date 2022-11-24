@@ -25,7 +25,7 @@ class AwardSerializer(serializers.ModelSerializer):
             'user_register': instance.user_register.names + ' ' + instance.user_register.surnames,
             'user_modify': instance.user_modify.names + ' ' + instance.user_modify.surnames if instance.user_modify else None,
             'category': instance.category, 
-            'juego': instance.juego,  
+            'game': instance.game.id,  
         }
 
 class AwarderializerList(serializers.ModelSerializer):
@@ -34,7 +34,6 @@ class AwarderializerList(serializers.ModelSerializer):
         exclude = ('created','modified',)
 
     def to_representation(self, instance):
-        juego = instance.get_juego_display()
         category = instance.get_category_display()
         return {
             'id': instance.id,
@@ -50,12 +49,12 @@ class AwarderializerList(serializers.ModelSerializer):
             'user_register': instance.user_register.names + ' ' + instance.user_register.surnames,
             'user_modify': instance.user_modify.names + ' ' + instance.user_modify.surnames if instance.user_modify else None,
             'category': category,
-            'juego': juego,
+            'game': instance.game.name,
         }
 class AwardSerializerCreate(serializers.ModelSerializer):
     class Meta:
         model = Award
-        fields = ('id', 'name', 'description', 'imagen', 'initial_stock', 'is_active', 'user_register', 'category', 'juego')
+        fields = ('id', 'name', 'description', 'imagen', 'initial_stock', 'is_active', 'user_register', 'user_modify', 'category', 'game')
 
     def validate_initial_stock(self, value):
         if value <= 0:
@@ -65,7 +64,7 @@ class AwardSerializerCreate(serializers.ModelSerializer):
 class AwardSerializerUpdateImage(serializers.ModelSerializer):
     class Meta:
         model = Award
-        fields = ('id', 'name', 'description', 'imagen', 'initial_stock', 'is_active', 'user_modify', 'category', 'juego')
+        fields = ('id', 'name', 'description', 'imagen', 'initial_stock', 'is_active', 'user_modify', 'category', 'game')
 
     def validate_initial_stock(self, value):
         if value <= 0:
@@ -75,7 +74,7 @@ class AwardSerializerUpdateImage(serializers.ModelSerializer):
 class AwardSerializerUpdateSinImage(serializers.ModelSerializer):
     class Meta:
         model = Award
-        fields = ('id', 'name', 'description', 'initial_stock', 'is_active', 'user_modify', 'category', 'juego')
+        fields = ('id', 'name', 'description', 'initial_stock', 'is_active', 'user_modify', 'category', 'game')
 
     def validate_initial_stock(self, value):
         if value <= 0:

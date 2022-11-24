@@ -133,6 +133,38 @@ class Client(models.Model):
         ordering = ['id', 'cedula', 'names', 'surnames','email', 'phone']
 
 # ==================================================================================================================
+GAME_CHOICES = [
+    ('Tragamonedas', 'Tragamonedas'),
+]
+
+GAME_STATES = [
+    ('Activado', 'Activado'),
+    ('Desactivado', 'Desactivado'),
+]
+class Game(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
+    start_date = models.DateTimeField(verbose_name='Fecha inicio juego')
+    end_date = models.DateTimeField(verbose_name='Fecha fin juego')
+    modification_date = models.DateTimeField(verbose_name='Fecha  modificacion juego',null=True)
+    game = models.CharField(max_length=1, choices=juego, default='T', verbose_name='Juego')
+    
+    # Added for game selection screen
+    name = models.CharField(max_length=50, choices=GAME_CHOICES, default="Tragamonedas",verbose_name='Nombre')
+    players = models.IntegerField(default=0, verbose_name='Jugadores')
+    description = models.TextField(max_length=100, default='Descripción', verbose_name='Descripción')
+    state = models.CharField(max_length=100, default='Desactivado', choices=GAME_STATES)
+    # above added for game selection screen
+
+    is_active = models.BooleanField(default=True)
+    history = HistoricalRecords()
+
+    def __str__(self):
+        return self.name
+
+
+    class Meta:
+        verbose_name = 'Juego'
+        verbose_name_plural = 'Juegos'
 
 class Award(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
@@ -148,7 +180,7 @@ class Award(models.Model):
     user_register = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que registra', related_name='user_register')
     user_modify = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que modifica', related_name='user_modify', null=True, blank=True)
     category = models.CharField(max_length=1, choices=category, default='C', verbose_name='Categoria')
-    juego = models.CharField(max_length=1, choices=juego, default='T', verbose_name='Juego')
+    game = models.ForeignKey(Game, on_delete=models.CASCADE, verbose_name='Juego')
     history = HistoricalRecords()
 
     def __str__(self):
@@ -181,41 +213,6 @@ class ForgotPassword(models.Model):
         ordering = ['email', 'code']
 
 # ================================================================================================================== 
-
-GAME_CHOICES = [
-    ('Tragamonedas', 'Tragamonedas'),
-]
-
-GAME_STATES = [
-    ('Activado', 'Activado'),
-    ('Desactivado', 'Desactivado'),
-]
-
-class Game(models.Model):
-    id = models.AutoField(primary_key=True, unique=True)
-    start_date = models.DateTimeField(verbose_name='Fecha inicio juego')
-    end_date = models.DateTimeField(verbose_name='Fecha fin juego')
-    modification_date = models.DateTimeField(verbose_name='Fecha  modificacion juego',null=True)
-    game = models.CharField(max_length=1, choices=juego, default='T', verbose_name='Juego')
-    
-    # Added for game selection screen
-    name = models.CharField(max_length=50, choices=GAME_CHOICES, default="Tragamonedas",verbose_name='Nombre')
-    players = models.IntegerField(default=0, verbose_name='Jugadores')
-    description = models.TextField(max_length=100, default='Descripción', verbose_name='Descripción')
-    state = models.CharField(max_length=100, default='Desactivado', choices=GAME_STATES)
-    # above added for game selection screen
-
-    is_active = models.BooleanField(default=True)
-    history = HistoricalRecords()
-
-    def __str__(self):
-        return self.name
-
-
-    class Meta:
-        verbose_name = 'Juego'
-        verbose_name_plural = 'Juegos'
-
 class AwardCondition(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     award = models.ForeignKey(Award, on_delete=models.CASCADE, verbose_name='Premio')
@@ -223,6 +220,10 @@ class AwardCondition(models.Model):
     start_date = models.DateTimeField(verbose_name='Fecha inicio premio')
     end_date = models.DateTimeField(verbose_name='Fecha fin premio')
     is_approved = models.BooleanField(default=False)
+    created = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creacion')
+    modified = models.DateTimeField(auto_now=True, verbose_name='Fecha de modificacion')
+    user_register = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que registra', related_name='user_register_award_condition')
+    user_modify = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que modifica', related_name='user_modify_award_condition', null=True, blank=True)
     history = HistoricalRecords()
 
     def __str__(self):

@@ -5,11 +5,12 @@ from AppJuegos.models import (
 )
 from django.utils import timezone
 from datetime import datetime
+import datetime
 
 class AwardConditionSerializer(serializers.ModelSerializer):
     class Meta:
         model = AwardCondition
-        exclude = ('is_approved',)
+        exclude = ('is_approved','created', 'modified', )
 
     def validate_start_date(self, value):
         if value < timezone.now():
@@ -49,7 +50,7 @@ class AwardConditionSerializer(serializers.ModelSerializer):
         return value
 
     def to_representation(self, instance):
-        duration = instance.end_date - instance.start_date
+        duration = instance.end_date - instance.start_date 
         return {
             'id': instance.id,
             'award': instance.award.id,
@@ -60,12 +61,16 @@ class AwardConditionSerializer(serializers.ModelSerializer):
             'duration': duration.days,
             'start_date_nf': instance.start_date,
             'end_date_nf': instance.end_date,
+            'user_register': instance.user_register.names + ' ' + instance.user_register.surnames,
+            'user_modify': instance.user_modify.names + ' ' + instance.user_modify.surnames if instance.user_modify else None,
+            'created': instance.created.strftime('%d/%m/%Y %H:%M:%S'),
+            'modified': instance.modified.strftime('%d/%m/%Y %H:%M:%S'),
         }
 
 class AwardConditionUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = AwardCondition
-        exclude = ('award','is_approved',)
+        exclude = ('is_approved','created', 'modified', 'award', 'user_register', )
         
     def validate_start_date(self, value):
         if value < timezone.now():
