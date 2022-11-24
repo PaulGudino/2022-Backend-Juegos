@@ -107,6 +107,36 @@ SEX = [
     ('Masculino', 'Masculino'),
     ('Femenino', 'Femenino'),
 ]
+GAME_BACKGROUND_COLOR = [
+    ('Black', 'Black'),
+    ('White', 'White'),
+]
+BASIC_COLORS=[
+    ('Black', 'black'),
+    ('White', 'white'),
+    ('Blue','blue'),
+    ('Brown','brown'),
+    ('Grey','grey'),
+    ('Green','green'),
+    ('Purple','purple'),
+    ('Red','red'),
+    ('Yellow','yellow'),
+]
+BASIC_FONTS=[
+    ('Arial', 'Arial'),
+    ('Times New Roman', 'Times New Roman'),
+    ('Helvetica','Helvetica'),
+    ('Cambria','Cambria'),
+    ('Century Gothic','Century Gothic'),
+    ('Didot','Didot'),
+    ('Bodoni','Bodoni'),
+    ('Candara','Candara'),
+    ('Optima','Optima'),
+    ('Quicksand','Quicksand'),
+    ('Courier New','Courier New'),
+    ('Rockwell','Rockwell'),
+    ('Copperplate','Copperplate'),
+]
 
 class Client(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
@@ -307,14 +337,26 @@ class Match(models.Model): # Partida
 class Styles(models.Model): # Partida
     id = models.AutoField(primary_key=True, unique=True)
     game_id = models.ForeignKey(Game, on_delete=models.CASCADE,verbose_name = 'Juego' )
-    video_screensaver = models.FileField(upload_to='screensaver/',verbose_name = 'video Salvapantallas',null=True)
-    title_button_screensaver= models.CharField(max_length=100,verbose_name = 'titulo boton salvapantallas',null=True)
+    color_text = models.CharField(max_length=50,choices=BASIC_COLORS ,verbose_name = 'color texto',null=True)
+    font_letter= models.CharField(max_length=50,choices=BASIC_FONTS ,verbose_name = 'Fuente Letra',null=True)
+
+    image_machine_game = models.ImageField(upload_to='design/',verbose_name = 'imagen maquina tragamonedas',null=True)
     image_background_game = models.ImageField(upload_to='design/',verbose_name = 'imagen fondo juego',null=True)
     image_logo_game = models.ImageField(upload_to='design/',verbose_name = 'imagen logo juego',null=True)
-    color_background_game = models.ImageField(upload_to='design/',verbose_name = 'color fondo juego',null=True)
-    color_text = models.CharField(max_length=50,verbose_name = 'color texto',null=True)
-    title_winner = models.CharField(max_length=150, verbose_name='titulo del ganador',null=True)
+    color_background_game = models.CharField(max_length=50, choices=GAME_BACKGROUND_COLOR , default='Black', verbose_name='color de fondo')
+
+    video_screensaver = models.FileField(upload_to='screensaver/',verbose_name = 'video Salvapantallas',null=True)
+    video_autoplay=models.BooleanField(default=True,verbose_name='video autoplay')
+    video_loop=models.BooleanField(default=True,verbose_name='video loop')
+    title_button_screensaver= models.CharField(max_length=100,verbose_name = 'titulo boton salvapantallas',null=True)
+
+    scan_code_tittle=models.CharField(max_length=200,default='Escanear Codigo')
+    scan_code_description=models.CharField(max_length=200,default='Puedes escanear el codigo QR de tu ticket')
+  
+    title_winner = models.CharField(max_length=150, verbose_name='titulo del ganador',null=True,default='White')
     description_winner = models.CharField(max_length=200,verbose_name = 'descripcion ganador juego',null=True)
+    image_winner = models.FileField(upload_to='design/',verbose_name = 'imagen ganador',null=True)
+    
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)

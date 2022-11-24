@@ -23,8 +23,11 @@ class PublicityViewSet(CRUDViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def update(self, request, pk):
+        print('update publicity beggin')
         publicity = Publicity.objects.get(id=pk)
+        print("request de publicity")
         print(request.data.get('id'))
+        
         #new_start_date = request.data.get('start_date')
 
         serializer = PublicitySerializerUpdate(publicity, data=request.data)
