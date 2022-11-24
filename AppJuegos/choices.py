@@ -12,5 +12,5 @@ category = (
 )
 
 juego = (
-    ('T', 'Traga Monedas'),
+    ('T', 'Tragamonedas'),
 )

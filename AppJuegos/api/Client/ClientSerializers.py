@@ -19,7 +19,7 @@ class ClientSerializer(serializers.ModelSerializer):
             'sex': instance.sex,
             'address': instance.address,
             'created': instance.created.strftime('%d/%m/%Y %H:%M:%S'),
-            'modified': instance.created.strftime('%d/%m/%Y %H:%M:%S'),
+            'modified': instance.modified.strftime('%d/%m/%Y %H:%M:%S'),
             'user_client_register': instance.user_client_register.names + ' ' + instance.user_client_register.surnames,
             'user_client_modify':instance.user_client_modify.names + ' ' + instance.user_client_modify.surnames if instance.user_client_modify else None,
             'state': instance.state,
@@ -28,7 +28,7 @@ class ClientSerializer(serializers.ModelSerializer):
 class ClientSerializerCreate(serializers.ModelSerializer):
     class Meta:
         model = Client
-        fields = ('id', 'cedula', 'names', 'surnames', 'email', 'phone', 'sex', 'address', 'user_client_register', 'state')
+        fields = ('id', 'cedula', 'names', 'surnames', 'email', 'phone', 'sex', 'address', 'user_client_register', 'state', 'user_client_modify')
    
 class ClientSerializerUpdate(serializers.ModelSerializer):
     class Meta:
