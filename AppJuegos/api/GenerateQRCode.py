@@ -22,12 +22,12 @@ def generateCode(client_id, ticket_id, invoice_number):
     joined_path = cwd / "media"
 
     if (Path(joined_path).exists()):
-        joined_path = joined_path / f'{client_id}-{ticket_id}.png'
+        joined_path = cwd / "media" / f'{client_id}-{ticket_id}.png'
         img.save(joined_path)
-        print('Code generated succesfully' + joined_path)
+    
     else:
         Path(joined_path).mkdir(exist_ok=False)
-        joined_path = joined_path / f'{client_id}-{ticket_id}.png'
+        joined_path = cwd / "media" / f'{client_id}-{ticket_id}.png'
         img.save(joined_path)
-        print('Code generated succesfully' + joined_path)
+        
 

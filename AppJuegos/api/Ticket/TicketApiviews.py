@@ -15,7 +15,6 @@ class TicketViewSet(CRUDViewSet):
     queryset = Ticket.objects.all()
 
     def create(self, request):
-
         serializer = TicketSerializerCreate(data=request.data)
         if serializer.is_valid():
             serializer.save()
