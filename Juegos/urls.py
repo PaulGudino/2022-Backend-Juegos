@@ -28,4 +28,5 @@ urlpatterns = [
     path('api/', include('AppJuegos.api.Probabilidad.ProbabilidadUrl')),
     path('api/', include('AppJuegos.api.AwardGame.AwardGameUrl')),
     path('api/', include('AppJuegos.api.Publicity.PublicityUrl')),
+    path('api/', include('AppJuegos.api.Styles.StylesUrl')),
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
