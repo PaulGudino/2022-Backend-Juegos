@@ -4,3 +4,4 @@ media/
 *~
 *.swp
 */__pycache__/*
+*.idea
