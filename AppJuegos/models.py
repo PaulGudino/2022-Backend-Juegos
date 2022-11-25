@@ -350,7 +350,7 @@ class Styles(models.Model): # Partida
     video_loop=models.BooleanField(default=True,verbose_name='video loop')
     title_button_screensaver= models.CharField(max_length=100,verbose_name = 'titulo boton salvapantallas',null=True)
 
-    scan_code_tittle=models.CharField(max_length=200,default='Escanear Codigo')
+    scan_code_title=models.CharField(max_length=200,default='Escanear Codigo')
     scan_code_description=models.CharField(max_length=200,default='Puedes escanear el codigo QR de tu ticket')
   
     title_winner = models.CharField(max_length=150, verbose_name='titulo del ganador',null=True,default='White')
