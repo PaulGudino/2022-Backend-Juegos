@@ -16,6 +16,7 @@ class Migration(migrations.Migration):
         Rol = apps.get_model('AppJuegos', 'Rol')
         User = apps.get_model('AppJuegos', 'User')
         RolPermission = apps.get_model('AppJuegos', 'RolPermission')
+        Game = apps.get_model('AppJuegos', 'Game')
 
 		# ==================================================================================================================
 		# Client permissions
@@ -34,6 +35,21 @@ class Migration(migrations.Migration):
         award_delete_permission = Permission(name='Eliminar Premio')
 
 		# ==================================================================================================================
+        # Ticket permissions
+
+        ticket_create_permission = Permission(name='Crear Ticket')
+        ticket_view_permission = Permission(name='Ver Ticket')
+        ticket_edit_permission = Permission(name='Editar Ticket')
+        ticket_delete_permission = Permission(name='Eliminar Ticket')
+
+        # ==================================================================================================================
+        # AwardCondition permissions
+
+        award_condition_create_permission = Permission(name='Crear Condicion de Premio')
+        award_condition_view_permission = Permission(name='Ver Condicion de Premio')
+        award_condition_edit_permission = Permission(name='Editar Condicion de Premio')
+        award_condition_delete_permission = Permission(name='Eliminar Condicion de Premio')
+
                 
         client_create_permission.save()
         client_view_permission.save()
@@ -44,6 +60,18 @@ class Migration(migrations.Migration):
         award_view_permission.save()
         award_edit_permission.save()
         award_delete_permission.save()
+
+        ticket_create_permission.save()
+        ticket_view_permission.save()
+        ticket_edit_permission.save()
+        ticket_delete_permission.save()
+
+        award_condition_create_permission.save()
+        award_condition_view_permission.save()
+        award_condition_edit_permission.save()
+        award_condition_delete_permission.save()
+        
+
         
 		# ==================================================================================================================
         
@@ -65,6 +93,15 @@ class Migration(migrations.Migration):
         )
         admin_user.save()
 
+        # Creating a Game
+
+        game_tragamonedas = Game(
+            start_date =  "2022-11-08T00:00:00",
+            end_date = "2029-12-13T12:12:00",
+        )
+
+        game_tragamonedas.save()
+
         
         RolPermission_1 =  RolPermission(rol_id=admin_rol.id, permission_id=client_create_permission.id)
         RolPermission_2 =  RolPermission(rol_id=admin_rol.id, permission_id=client_view_permission.id)
@@ -75,6 +112,16 @@ class Migration(migrations.Migration):
         RolPermission_6 =  RolPermission(rol_id=admin_rol.id, permission_id=award_view_permission.id)
         RolPermission_7 =  RolPermission(rol_id=admin_rol.id, permission_id=award_edit_permission.id)
         RolPermission_8 =  RolPermission(rol_id=admin_rol.id, permission_id=award_delete_permission.id)
+
+        RolPermission_9 = RolPermission(rol_id=admin_rol.id, permission_id=ticket_create_permission.id)
+        RolPermission_10 = RolPermission(rol_id=admin_rol.id, permission_id=ticket_view_permission.id)
+        RolPermission_11 = RolPermission(rol_id=admin_rol.id, permission_id=ticket_edit_permission.id)
+        RolPermission_12 = RolPermission(rol_id=admin_rol.id, permission_id=ticket_delete_permission.id)
+
+        RolPermission_13 = RolPermission(rol_id=admin_rol.id, permission_id=award_condition_create_permission.id)
+        RolPermission_14 = RolPermission(rol_id=admin_rol.id, permission_id=award_condition_view_permission.id)
+        RolPermission_15 = RolPermission(rol_id=admin_rol.id, permission_id=award_condition_edit_permission.id)
+        RolPermission_16 = RolPermission(rol_id=admin_rol.id, permission_id=award_condition_delete_permission.id)
 
 		# ==================================================================================================================
 
@@ -87,6 +134,16 @@ class Migration(migrations.Migration):
         RolPermission_6.save()
         RolPermission_7.save()
         RolPermission_8.save()
+
+        RolPermission_9.save()
+        RolPermission_10.save()
+        RolPermission_11.save()
+        RolPermission_12.save()
+
+        RolPermission_13.save()
+        RolPermission_14.save()
+        RolPermission_15.save()
+        RolPermission_16.save()
 
 		# ==================================================================================================================
     

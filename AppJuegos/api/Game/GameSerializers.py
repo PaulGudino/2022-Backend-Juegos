@@ -4,6 +4,20 @@ from AppJuegos.models import (
 )
 
 class GameSerializers(serializers.ModelSerializer):
-      class Meta:
-            model = Game
-            fields= '__all__'
+    class Meta:
+        model = Game
+        fields= '__all__'
+
+
+class GameSerializerCreate(serializers.ModelSerializer):
+    class Meta:
+        model = Game
+        fields = ('id', 'start_date', 'end_date', 'modification_date', 'game', 'is_active')
+        
+
+class GameSerializerUpdate(serializers.ModelSerializer):
+    class Meta:
+        model = Game
+        fields = ('id', 'start_date', 'end_date', 'modification_date', 'game', 'is_active')
+
+   
