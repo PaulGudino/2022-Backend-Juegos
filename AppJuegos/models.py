@@ -81,12 +81,6 @@ class RolPermission(models.Model):
         verbose_name_plural = 'RolPermisos'
         ordering = ['rol', 'permission']
 
-# ==================================================================================================================
-#
-# Client Model
-
-# Example taken from https://docs.djangoproject.com/en/4.0/ref/models/fields/
-
 STATES = [
     ('Activo', 'Activo'),
     ('Inactivo', 'Inactivo'),
@@ -162,7 +156,6 @@ class Client(models.Model):
         verbose_name_plural = 'Clientes'
         ordering = ['id', 'cedula', 'names', 'surnames','email', 'phone']
 
-# ==================================================================================================================
 GAME_CHOICES = [
     ('Tragamonedas', 'Tragamonedas'),
 ]
@@ -306,7 +299,7 @@ class Publicity(models.Model):
 class Ticket(models.Model): # Entradas
     id = models.AutoField(primary_key=True, unique=True)
     invoice_number = models.CharField(max_length=255, unique=True)
-    qr_code = models.ImageField(upload_to='qr_code/', blank=True, null=True)
+    qr_code = models.TextField(max_length=100, default='none')
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
     state = models.CharField(max_length=100, choices=TICKET_STATES)

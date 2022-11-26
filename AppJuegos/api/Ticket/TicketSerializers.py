@@ -14,7 +14,7 @@ class TicketSerializer(serializers.ModelSerializer):
             'invoice_number': instance.invoice_number,
             'date_created': instance.date_created.strftime('%d/%m/%Y %H:%M:%S'),
             'date_modified': instance.date_modified.strftime('%d/%m/%Y %H:%M:%S'),
-            'qr_code': 'http://' + self.context['request'].META['HTTP_HOST'] + instance.qr_code.url,
+            'qr_code': instance.qr_code,
             'state': instance.state,
             'client': instance.client.names + ' ' + instance.client.surnames,
             'game': instance.game.name,
