@@ -78,6 +78,20 @@ class AwardViewSet(CRUDViewSet):
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+    # Filtrar por mas de 2 parametros
+    # def retrieve(self, request, *args, **kwargs):
+    #     params = kwargs
+    #     print(request)
+    #     print(params['pk'])
+    #     params_list = params['pk'].split('-')
+    #     awards = Award.objects.filter(
+    #         description__icontains=params_list[0],
+    #     )
+    #     serializer = AwarderializerList(awards, many=True)
+    #     return Response(serializer.data, status=status.HTTP_200_OK)
+
+
     def destroy(self, request, pk):
         if ValidateAwardRelationships(pk).validate():
             award = self.get_object()
