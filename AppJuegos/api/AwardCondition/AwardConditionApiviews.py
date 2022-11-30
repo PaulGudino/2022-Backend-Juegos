@@ -15,8 +15,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 
 from AppJuegos.api.ValidateInformation import (
-    ReduceAwardCurrentStock,
-    AddAwardCurrentStock,
+    ReduceAwardInitialStock,
+    AddAwardInitialStock,
 )
 
 class AwardConditionViewSet(CRUDViewSet):
@@ -26,7 +26,7 @@ class AwardConditionViewSet(CRUDViewSet):
     def create(self, request):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
-            error_message = ReduceAwardCurrentStock().current_stock(request.data.get('award'))
+            error_message = ReduceAwardInitialStock().initial_stock(request.data.get('award'))
             if error_message:
                 return Response(error_message, status=status.HTTP_400_BAD_REQUEST)
             serializer.save()
@@ -42,7 +42,13 @@ class AwardConditionViewSet(CRUDViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def destroy(self, request, pk=None):
-        AddAwardCurrentStock().current_stock(self.get_object().award.id)
+        
+        is_past = True
+        award_condition = AwardCondition.objects.get(id=pk)
+        if award_condition.is_past == is_past:
+            return Response("No se puede eliminar una condición de premio finalizada", status=status.HTTP_400_BAD_REQUEST)
+
+        AddAwardInitialStock().initial_stock(self.get_object().award.id)
         return super().destroy(request, pk)
 
 
