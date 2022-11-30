@@ -307,7 +307,8 @@ class Publicity(models.Model):
 class Ticket(models.Model): # Entradas
     id = models.AutoField(primary_key=True, unique=True)
     invoice_number = models.CharField(max_length=255, unique=True)
-    qr_code = models.TextField(max_length=100, default='none')
+    qr_code_url = models.TextField(max_length=100, default='none')
+    qr_code_digits = models.PositiveIntegerField(default=0)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
     state = models.CharField(max_length=100, choices=TICKET_STATES)
