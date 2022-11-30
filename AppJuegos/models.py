@@ -165,14 +165,29 @@ GAME_STATES = [
     ('Desactivado', 'Desactivado'),
 ]
 class Game(models.Model):
+    # id = models.AutoField(primary_key=True, unique=True)
+    # start_date = models.DateTimeField(verbose_name='Fecha inicio juego')
+    # end_date = models.DateTimeField(verbose_name='Fecha fin juego')
+    # created = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creacion')
+    # modified = models.DateTimeField(auto_now=True, verbose_name='Fecha de modificacion')
+    # game = models.CharField(max_length=1, choices=juego, default='T', verbose_name='Juego')
+    # user_game_register = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que registra', related_name='user_game_register')
+    # user_game_modify = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que modifica', related_name='user_game_modify', null=True, blank=True)
+    
+    # # Added for game selection screen
+    # name = models.CharField(max_length=50, choices=GAME_CHOICES, default="Tragamonedas",verbose_name='Nombre')
+    # players = models.IntegerField(default=0, verbose_name='Jugadores')
+    # description = models.TextField(max_length=100, default='Descripción', verbose_name='Descripción')
+    # state = models.CharField(max_length=100, default='Desactivado', choices=GAME_STATES)
+    # # above added for game selection screen
+
+    # is_active = models.BooleanField(default=True)
+    # history = HistoricalRecords()
     id = models.AutoField(primary_key=True, unique=True)
     start_date = models.DateTimeField(verbose_name='Fecha inicio juego')
     end_date = models.DateTimeField(verbose_name='Fecha fin juego')
-    created = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creacion')
-    modified = models.DateTimeField(auto_now=True, verbose_name='Fecha de modificacion')
+    modification_date = models.DateTimeField(verbose_name='Fecha  modificacion juego',null=True)
     game = models.CharField(max_length=1, choices=juego, default='T', verbose_name='Juego')
-    user_game_register = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que registra', related_name='user_game_register')
-    user_game_modify = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que modifica', related_name='user_game_modify', null=True, blank=True)
     
     # Added for game selection screen
     name = models.CharField(max_length=50, choices=GAME_CHOICES, default="Tragamonedas",verbose_name='Nombre')
