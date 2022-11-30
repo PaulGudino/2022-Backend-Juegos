@@ -14,7 +14,8 @@ class TicketSerializer(serializers.ModelSerializer):
             'invoice_number': instance.invoice_number,
             'date_created': instance.date_created.strftime('%d/%m/%Y %H:%M:%S'),
             'date_modified': instance.date_modified.strftime('%d/%m/%Y %H:%M:%S'),
-            'qr_code': 'http://' + self.context['request'].META['HTTP_HOST'] + instance.qr_code.url,
+            'qr_code_url': instance.qr_code_url,
+            'qr_code_digits': instance.qr_code_digits,
             'state': instance.state,
             'client': instance.client.names + ' ' + instance.client.surnames,
             'game': instance.game.name,
@@ -25,9 +26,9 @@ class TicketSerializer(serializers.ModelSerializer):
 class TicketSerializerCreate(serializers.ModelSerializer):
     class Meta:
         model = Ticket
-        fields = ('id', 'invoice_number', 'qr_code', 'state', 'date_created', 'client', 'client', 'game', 'user_register')
+        fields = ('id', 'invoice_number', 'qr_code_digits', 'qr_code_url', 'state', 'date_created', 'client', 'client', 'game', 'user_register')
    
 class TicketSerializerUpdate(serializers.ModelSerializer):
     class Meta:
         model = Ticket
-        fields = ('id', 'invoice_number', 'qr_code', 'state', 'date_modified', 'client', 'client', 'game', 'user_modifier')
+        fields = ('id', 'invoice_number', 'qr_code_digits', 'qr_code_url', 'state', 'date_modified', 'client', 'client', 'game', 'user_modifier')

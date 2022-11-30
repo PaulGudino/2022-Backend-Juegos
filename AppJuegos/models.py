@@ -81,12 +81,6 @@ class RolPermission(models.Model):
         verbose_name_plural = 'RolPermisos'
         ordering = ['rol', 'permission']
 
-# ==================================================================================================================
-#
-# Client Model
-
-# Example taken from https://docs.djangoproject.com/en/4.0/ref/models/fields/
-
 STATES = [
     ('Activo', 'Activo'),
     ('Inactivo', 'Inactivo'),
@@ -162,7 +156,6 @@ class Client(models.Model):
         verbose_name_plural = 'Clientes'
         ordering = ['id', 'cedula', 'names', 'surnames','email', 'phone']
 
-# ==================================================================================================================
 GAME_CHOICES = [
     ('Tragamonedas', 'Tragamonedas'),
 ]
@@ -175,8 +168,11 @@ class Game(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     start_date = models.DateTimeField(verbose_name='Fecha inicio juego')
     end_date = models.DateTimeField(verbose_name='Fecha fin juego')
-    modification_date = models.DateTimeField(verbose_name='Fecha  modificacion juego',null=True)
+    created = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creacion')
+    modified = models.DateTimeField(auto_now=True, verbose_name='Fecha de modificacion')
     game = models.CharField(max_length=1, choices=juego, default='T', verbose_name='Juego')
+    user_game_register = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que registra', related_name='user_game_register')
+    user_game_modify = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que modifica', related_name='user_game_modify', null=True, blank=True)
     
     # Added for game selection screen
     name = models.CharField(max_length=50, choices=GAME_CHOICES, default="Tragamonedas",verbose_name='Nombre')
@@ -202,7 +198,7 @@ class Award(models.Model):
     description = models.TextField(max_length=100, verbose_name='Descripcion')
     imagen = models.ImageField(upload_to='premios/', verbose_name='Imagen')
     initial_stock = models.IntegerField(verbose_name='Stock inicial')
-    current_stock = models.IntegerField(verbose_name='Stock actual', default=0)
+    condition_stock = models.IntegerField(verbose_name='Stock Condicionado', default=0)
     prizes_awarded = models.IntegerField(verbose_name='Premios entregados', default=0)
     created = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creacion')
     modified = models.DateTimeField(auto_now=True, verbose_name='Fecha de modificacion')
@@ -211,6 +207,7 @@ class Award(models.Model):
     user_modify = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que modifica', related_name='user_modify', null=True, blank=True)
     category = models.CharField(max_length=1, choices=category, default='C', verbose_name='Categoria')
     game = models.ForeignKey(Game, on_delete=models.CASCADE, verbose_name='Juego')
+    is_past = models.BooleanField(default=False)
     history = HistoricalRecords()
 
     def __str__(self):
@@ -223,7 +220,7 @@ class Award(models.Model):
     class Meta:
         verbose_name = 'Premio'
         verbose_name_plural = 'Premios'
-        ordering = ['id','name','description', 'initial_stock', 'current_stock', 'prizes_awarded']
+        ordering = ['id','name','description', 'initial_stock', 'prizes_awarded']
 
 
 # Modelos de contraseña
@@ -254,6 +251,7 @@ class AwardCondition(models.Model):
     modified = models.DateTimeField(auto_now=True, verbose_name='Fecha de modificacion')
     user_register = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que registra', related_name='user_register_award_condition')
     user_modify = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que modifica', related_name='user_modify_award_condition', null=True, blank=True)
+    is_past = models.BooleanField(default=False)
     history = HistoricalRecords()
 
     def __str__(self):
@@ -278,14 +276,17 @@ class AwardGame(models.Model):
 
 class Probabilidad(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
-    porcent_win = models.PositiveIntegerField('porcent_win',null=False)
-    winners_limit = models.PositiveIntegerField('winners_limit',null=False)
+    porcent_win = models.PositiveIntegerField('porcent_win',null=False,default=20)
+    winners_limit = models.PositiveIntegerField('winners_limit',null=False,default=1)
+    attempts_limit = models.PositiveIntegerField('numero de intentos',null=False,default=1)
     created = models.DateTimeField(verbose_name='Fecha de creacion',auto_now_add=True, blank=True)
     modified = models.DateTimeField(verbose_name='Fecha de modificacion',auto_now_add=True, blank=True)
     game_id = models.ForeignKey(Game, on_delete=models.CASCADE,verbose_name = 'Juego' )
     history = HistoricalRecords()
     is_active = models.BooleanField(default=True)
-
+    # user_register = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que registra', related_name='user_register_probabilidad')
+   
+    
     class Meta:
         verbose_name = 'Probabilidad'
         verbose_name_plural = 'Probabilidades'
@@ -306,7 +307,8 @@ class Publicity(models.Model):
 class Ticket(models.Model): # Entradas
     id = models.AutoField(primary_key=True, unique=True)
     invoice_number = models.CharField(max_length=255, unique=True)
-    qr_code = models.ImageField(upload_to='qr_code/', blank=True, null=True)
+    qr_code_url = models.TextField(max_length=100, default='none')
+    qr_code_digits = models.PositiveIntegerField(default=0)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
     state = models.CharField(max_length=100, choices=TICKET_STATES)
