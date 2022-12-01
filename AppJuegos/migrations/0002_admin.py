@@ -2,6 +2,8 @@
 
 from django.db import migrations
 from django.contrib.auth.hashers import make_password
+from datetime import date
+
 
 
 
@@ -17,6 +19,8 @@ class Migration(migrations.Migration):
         User = apps.get_model('AppJuegos', 'User')
         RolPermission = apps.get_model('AppJuegos', 'RolPermission')
         Game = apps.get_model('AppJuegos', 'Game')
+        Styles = apps.get_model('AppJuegos', 'Styles')
+        Publicity = apps.get_model('AppJuegos', 'Publicity')
 
 		# ==================================================================================================================
 		# Client permissions
@@ -101,6 +105,29 @@ class Migration(migrations.Migration):
         )
 
         game_tragamonedas.save()
+
+        #Create default Styles
+        
+        default_styles = Styles(
+            game_id = Game.objects.all().first(),
+            image_logo_game = '../media/design/logoejemplo.png',
+            color_text = 'white',
+            font_letter ='Arial',
+            title_button_screensaver='Click para Jugar'
+            
+        )
+        default_styles.save()
+
+        #Create defaul publicity
+        default_publicity_top = Publicity(
+            created = date.today()
+        )
+        default_publicity_bottom = Publicity(
+            created = date.today()
+        )
+        default_publicity_top.save()
+        default_publicity_bottom.save()
+
 
         
         RolPermission_1 =  RolPermission(rol_id=admin_rol.id, permission_id=client_create_permission.id)

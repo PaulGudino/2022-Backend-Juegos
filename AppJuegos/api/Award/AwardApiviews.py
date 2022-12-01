@@ -19,7 +19,6 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from AppJuegos.api.ValidateInformation import (
     ValidateAwardRelationships,
 )
-from rest_framework.viewsets import ModelViewSet
 
 class AwardViewSet(CRUDViewSet):
     serializer_class = AwardSerializer
@@ -76,11 +75,6 @@ class AwardFilter(generics.ListAPIView):
     filterset_fields = ['is_active']
     ordering_fields = ['created', 'updated']
 
-class AwardFilterMultiple(ModelViewSet):
-    queryset = Award.objects.all()
-    serializer_class = AwarderializerList
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['name', 'game__name', 'is_active']
 
 
 
