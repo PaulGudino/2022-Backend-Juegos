@@ -110,8 +110,7 @@ class Migration(migrations.Migration):
         
         default_styles = Styles(
             game_id = Game.objects.all().first(),
-            image_logo_game = '../media/design/logoejemplo.png',
-            color_text = 'white',
+            color_text = 'White',
             font_letter ='Arial',
             title_button_screensaver='Click para Jugar'
             
