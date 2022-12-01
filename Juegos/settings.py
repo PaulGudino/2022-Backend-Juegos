@@ -186,10 +186,10 @@ EMAIL_USE_TLS = True
 
 # For deploy environment
 
-MEDIA_ROOT = '/home/juegos/2022-Backend-Juegos/media'
+# MEDIA_ROOT = '/home/juegos/2022-Backend-Juegos/media'
 
 # For local environment
 
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MEDIA_URL = '/media/'
