@@ -4,9 +4,10 @@ from AppJuegos.models import (
 )
 
 class PublicitySerializers(serializers.ModelSerializer):
-      class Meta:
-            model = Publicity
-            fields= '__all__'
+    class Meta:
+        model = Publicity
+        fields= '__all__'
+
 
 class PublicitySerializerCreate(serializers.ModelSerializer):
     class Meta:

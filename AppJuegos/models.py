@@ -308,7 +308,7 @@ class Probabilidad(models.Model):
 
 class Publicity(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
-    image = models.ImageField(upload_to='publicidad/', verbose_name='Imagen publicidad',null=False)
+    image = models.ImageField(upload_to='publicidad/', verbose_name='Imagen_publicidad',null=False)
     titulo = models.CharField(max_length=100,verbose_name='titulo publicidad',null=False)
     created = models.DateTimeField(verbose_name='Fecha de creacion',auto_now_add=True, blank=True)
     modified = models.DateTimeField(verbose_name='Fecha de modificacion', blank=True,null=True)
