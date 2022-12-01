@@ -3,7 +3,9 @@ from AppJuegos.models import (
     Award,
     Client,
     AwardCondition,
+    Game,
 )
+from datetime import datetime
 
 class ValidateUserRelationships:
     def __init__(self, pk):
@@ -75,30 +77,70 @@ class ValidateAwardRelationships:
 
 # Logica Award y AwardCondition
 
-class ReduceAwardCurrentStock:
+class ReduceAwardInitialStock:
 
     message_stock_in_award = []
 
-    def current_stock(self, pk):
+    def initial_stock(self, pk):
         award = Award.objects.filter(pk=pk).first()
-        if award.current_stock < 1:
+        if award.initial_stock < 1:
             self.message_stock_in_award.append('No hay stock disponible para reservar')
             error_stock_message = self.message_stock_in_award.copy()
             self.message_stock_in_award.clear()
             return error_stock_message
 
-        award.current_stock = award.current_stock - 1
+        award.initial_stock = award.initial_stock - 1
+        award.condition_stock = award.condition_stock + 1
         award.save()
         return None
         
-class AddAwardCurrentStock:
+class AddAwardInitialStock:
 
-    def current_stock(self, pk):
+    def initial_stock(self, pk):
         award = Award.objects.filter(pk=pk).first()
-        award.current_stock = award.current_stock + 1
+        award.initial_stock = award.initial_stock + 1
+        award.condition_stock = award.condition_stock - 1
         award.save()
         return None
 
+class ValidateGameRelationships:
+        def __init__(self, pk):
+            self.pk = pk
+
+        def validate(self):
+            award = Award.objects.filter(game=self.pk).first()
+            award_condition = AwardCondition.objects.filter(award=self.pk).first()
+            if award_condition or award:
+                return True
+            return False    
+
+
+class ValidateAwardConditionDateinGame:
+
+    message_award_condition_date = []
+
+    def validate(self, id_game,start_date, end_date):
+        awards_conditions = AwardCondition.objects.filter(game_id=id_game)
+        if len(start_date) == 19:
+            start_date = datetime.strptime(start_date.replace('T', ' '), '%Y-%m-%d %H:%M:%S')
+            end_date = datetime.strptime(end_date.replace('T', ' '), '%Y-%m-%d %H:%M:%S')
+        else:
+            start_date = datetime.strptime(start_date.replace('T', ' '), '%Y-%m-%d %H:%M')
+            end_date = datetime.strptime(end_date.replace('T', ' '), '%Y-%m-%d %H:%M')
+
+        for award_condition in awards_conditions:
+
+            if start_date >= award_condition.start_date:
+                self.message_award_condition_date.append('Hay una condición de premio que tiene una fecha de inicio menor a la fecha de inicio actual del juego')
+                error_message = self.message_award_condition_date.copy()
+                self.message_award_condition_date.clear()
+                return error_message
+            if end_date <= award_condition.end_date:
+                self.message_award_condition_date.append('Hay una condición de premio que tiene una fecha de fin mayor a la fecha de fin actual del juego')
+                error_message = self.message_award_condition_date.copy()
+                self.message_award_condition_date.clear()
+                return error_message
+        return None
         
 
 

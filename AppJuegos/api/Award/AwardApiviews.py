@@ -19,7 +19,6 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from AppJuegos.api.ValidateInformation import (
     ValidateAwardRelationships,
 )
-from rest_framework.viewsets import ModelViewSet
 
 class AwardViewSet(CRUDViewSet):
     serializer_class = AwardSerializer
@@ -28,8 +27,6 @@ class AwardViewSet(CRUDViewSet):
     def create(self, request):
         serializer = AwardSerializerCreate(data=request.data)
         if serializer.is_valid():
-            current_stock = serializer.validated_data['initial_stock']
-            serializer.save(current_stock=current_stock)
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -40,20 +37,6 @@ class AwardViewSet(CRUDViewSet):
         if new_image:
             serializer = AwardSerializerUpdateImage(premio, data=request.data)
             if serializer.is_valid():
-                amount = serializer.validated_data['initial_stock']
-                diference_stock = abs(premio.initial_stock - amount)
-                actual_stock = premio.initial_stock
-                if amount < actual_stock:
-                    premio.initial_stock = premio.initial_stock - diference_stock
-                    premio.current_stock = premio.current_stock - diference_stock
-                    if premio.current_stock < 0:
-                        error_message = {'error': 'Tienes premios reservados, el stock inicial no puede ser menor al stock reservado'}
-                        return Response(error_message, status=status.HTTP_400_BAD_REQUEST)
-                    premio.save()
-                elif amount > actual_stock:
-                    premio.initial_stock = premio.initial_stock + diference_stock
-                    premio.current_stock = premio.current_stock + diference_stock
-                    premio.save()  
                 old_image = premio.imagen
                 os.remove(old_image.path)
                 serializer.save()
@@ -61,39 +44,17 @@ class AwardViewSet(CRUDViewSet):
         else:
             serializer = AwardSerializerUpdateSinImage(premio, data=request.data)
             if serializer.is_valid():
-                amount = serializer.validated_data['initial_stock']
-                diference_stock = abs(premio.initial_stock - amount)
-                actual_stock = premio.initial_stock
-                if amount < actual_stock:
-                    premio.initial_stock = premio.initial_stock - diference_stock
-                    premio.current_stock = premio.current_stock - diference_stock
-                    if premio.current_stock < 0:
-                        error_message = {'error': 'Tienes premios reservados, el stock inicial no puede ser menor al stock reservado'}
-                        return Response(error_message, status=status.HTTP_400_BAD_REQUEST)
-                    premio.save()
-                elif amount > actual_stock:
-                    premio.initial_stock = premio.initial_stock + diference_stock
-                    premio.current_stock = premio.current_stock + diference_stock
-                    premio.save()  
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-    # Filtrar por mas de 2 parametros
-    # def retrieve(self, request, *args, **kwargs):
-    #     params = kwargs
-    #     print(request)
-    #     print(params['pk'])
-    #     params_list = params['pk'].split('-')
-    #     awards = Award.objects.filter(
-    #         description__icontains=params_list[0],
-    #     )
-    #     serializer = AwarderializerList(awards, many=True)
-    #     return Response(serializer.data, status=status.HTTP_200_OK)
-
-
     def destroy(self, request, pk):
+
+        is_past = True
+        award = Award.objects.get(id=pk)
+        if award.is_past == is_past:
+            return Response({'error': 'No se puede eliminar un premio pasado'}, status=status.HTTP_400_BAD_REQUEST)
+
         if ValidateAwardRelationships(pk).validate():
             award = self.get_object()
             award.is_active = False
@@ -114,11 +75,6 @@ class AwardFilter(generics.ListAPIView):
     filterset_fields = ['is_active']
     ordering_fields = ['created', 'updated']
 
-class AwardFilterMultiple(ModelViewSet):
-    queryset = Award.objects.all()
-    serializer_class = AwarderializerList
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['name', 'game__name', 'is_active']
 
 
 
