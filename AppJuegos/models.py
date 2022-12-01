@@ -271,7 +271,7 @@ class AwardGame(models.Model):
 
 class Probabilidad(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
-    porcent_win = models.PositiveIntegerField('porcent_win',null=False,default=20)
+    percent_win = models.PositiveIntegerField('porcent_win',null=False,default=20)
     winners_limit = models.PositiveIntegerField('winners_limit',null=False,default=1)
     attempts_limit = models.PositiveIntegerField('numero de intentos',null=False,default=1)
     created = models.DateTimeField(verbose_name='Fecha de creacion',auto_now_add=True, blank=True)
@@ -317,8 +317,10 @@ class Ticket(models.Model): # Entradas
 class Match(models.Model): # Partida
     id = models.AutoField(primary_key=True, unique=True)
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, default='', related_name='match_ticket')
+    award = models.ForeignKey(Award, on_delete=models.CASCADE, default='', related_name='award')
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
+    win_match = models.BooleanField(default=False,null=False,verbose_name="gano la partida?")
     state = models.CharField(max_length=100, choices=MATCH_STATES)
     history = HistoricalRecords()
 
@@ -350,8 +352,8 @@ class Styles(models.Model): # Partida
     scan_code_title=models.CharField(max_length=200,default='Escanear Codigo')
     scan_code_description=models.CharField(max_length=200,default='Puedes escanear el codigo QR de tu ticket')
   
-    title_winner = models.CharField(max_length=150, verbose_name='titulo del ganador',null=True,default='White')
-    description_winner = models.CharField(max_length=200,verbose_name = 'descripcion ganador juego',null=True)
+    title_winner = models.CharField(max_length=150, verbose_name='titulo del ganador',null=True,default='JUEGA OTRA VEZ!')
+    description_winner = models.CharField(max_length=200,verbose_name = 'descripcion ganador juego',null=True,default='HAS GANADO!')
     image_winner = models.FileField(upload_to='design/',verbose_name = 'imagen ganador',null=True)
     
     date_created = models.DateTimeField(auto_now_add=True)
