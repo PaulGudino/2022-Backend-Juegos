@@ -21,6 +21,7 @@ class Migration(migrations.Migration):
         Game = apps.get_model('AppJuegos', 'Game')
         Styles = apps.get_model('AppJuegos', 'Styles')
         Publicity = apps.get_model('AppJuegos', 'Publicity')
+        PG = apps.get_model('AppJuegos', 'Publicity_game')
 
 		# ==================================================================================================================
 		# Client permissions
@@ -173,7 +174,28 @@ class Migration(migrations.Migration):
 
 		# ==================================================================================================================
     
-    
+        PG_1 = PG(None)
+        PG_2 = PG(None)
+        PG_3 = PG(None)
+        PG_4 = PG(None)
+        PG_5 = PG(None)
+        PG_6 = PG(None)
+        PG_7 = PG(None)
+        PG_8 = PG(None)
+        PG_9 = PG(None)
+        PG_10 = PG(None)
+        
+        PG_1.save()
+        PG_2.save()
+        PG_3.save()
+        PG_4.save()
+        PG_5.save()
+        PG_6.save()
+        PG_7.save()
+        PG_8.save()
+        PG_9.save()
+        PG_10.save()
+
     operations = [
         migrations.RunPython(insert_data),
     ]

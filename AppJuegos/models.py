@@ -288,7 +288,18 @@ class AwardGame(models.Model):
         verbose_name_plural = 'Premios Juegos'
 
 
+class Publicity_top(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
+    image = models.ImageField(upload_to='publicity_top/', null=False)
 
+class Publicity_bottom(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
+    image = models.ImageField(upload_to='publicity_top/', null=False)
+
+class Publicity_game(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
+    image = models.ImageField(upload_to='publicity_game', null=True)
+    
 class Probabilidad(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     percent_win = models.PositiveIntegerField('porcent_win',null=False,default=20)
