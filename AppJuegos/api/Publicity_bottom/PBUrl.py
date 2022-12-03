@@ -1,12 +1,10 @@
 from rest_framework.routers import DefaultRouter
 from django.urls import path
-from AppJuegos.api.Publicity_game.PGApiviews import (
-    PGViewSet,
-    PGListViewSet,
+from AppJuegos.api.Publicity_bottom.PBApiviews import (
+    PBViewSet,
 )
 
 router = DefaultRouter()
-router.register(r'Publicity_game', PGViewSet, basename='Publicity_game')
-router.register(r'PGlist', PGListViewSet, basename='PGlist')
+router.register(r'Publicity_bottom', PBViewSet, basename='Publicity_bottom')
 
 urlpatterns = router.urls
