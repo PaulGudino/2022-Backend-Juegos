@@ -13,6 +13,9 @@ class PTViewSet(CRUDViewSet):
     serializer_class = PTSerializer
     queryset = Publicity_top.objects.all()
 
+    def destroy(self, request, pk):
+        return super().destroy(request, pk)
+
 
 
 

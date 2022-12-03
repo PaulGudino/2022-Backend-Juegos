@@ -291,10 +291,15 @@ class AwardGame(models.Model):
 class Publicity_top(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     image = models.ImageField(upload_to='publicity_top/', null=False)
+    time_display = models.IntegerField(default=3, null=True)
+    history = HistoricalRecords()
+
 
 class Publicity_bottom(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     image = models.ImageField(upload_to='publicity_top/', null=False)
+    time_display = models.IntegerField(default=3, null=True)
+    history = HistoricalRecords()
 
 class Publicity_game(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
