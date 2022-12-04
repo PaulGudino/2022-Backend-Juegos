@@ -294,10 +294,9 @@ class Publicity_top(models.Model):
     time_display = models.IntegerField(default=3, null=True)
     history = HistoricalRecords()
 
-
 class Publicity_bottom(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
-    image = models.ImageField(upload_to='publicity_top/', null=False)
+    image = models.ImageField(upload_to='publicity_bottom/', null=False)
     time_display = models.IntegerField(default=3, null=True)
     history = HistoricalRecords()
 
@@ -324,10 +323,7 @@ class Probabilidad(models.Model):
 
 class Publicity(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
-    image = models.ImageField(upload_to='publicidad/', verbose_name='Imagen_publicidad',null=False)
-    titulo = models.CharField(max_length=100,verbose_name='titulo publicidad',null=False)
-    created = models.DateTimeField(verbose_name='Fecha de creacion',auto_now_add=True, blank=True)
-    modified = models.DateTimeField(verbose_name='Fecha de modificacion', blank=True,null=True)
+    time_display = models.IntegerField(verbose_name='Tiempo de vista ',null=False,default=4)
     history = HistoricalRecords()
     is_active = models.BooleanField(default=True)
 

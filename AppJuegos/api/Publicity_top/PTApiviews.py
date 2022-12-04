@@ -14,6 +14,8 @@ class PTViewSet(CRUDViewSet):
     queryset = Publicity_top.objects.all()
 
     def destroy(self, request, pk):
+        publicity = Publicity_top.objects.get(id=pk)
+        os.remove(publicity.image.path)
         return super().destroy(request, pk)
 
 
