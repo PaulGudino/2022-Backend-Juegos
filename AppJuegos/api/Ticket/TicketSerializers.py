@@ -17,8 +17,8 @@ class TicketSerializer(serializers.ModelSerializer):
             'qr_code_url': instance.qr_code_url,
             'qr_code_digits': instance.qr_code_digits,
             'state': instance.state,
-            'client': instance.client.names + ' ' + instance.client.surnames,
-            'game': instance.game.name,
+            'client': instance.client,
+            'game': instance.game,
             'user_register': instance.user_register.names + ' ' + instance.user_register.surnames,
             'user_modifier': instance.user_modifier.names + ' ' + instance.user_modifier.surnames if instance.user_modifier else None,
         }
