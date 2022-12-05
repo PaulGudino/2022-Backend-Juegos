@@ -325,6 +325,7 @@ class Publicity(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     time_display = models.IntegerField(verbose_name='Tiempo de vista ',null=False,default=4)
     history = HistoricalRecords()
+    created = models.DateTimeField(verbose_name='Fecha de creacion',auto_now_add=True, blank=True)
     is_active = models.BooleanField(default=True)
 
     class Meta:
