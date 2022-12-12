@@ -22,6 +22,7 @@ class Migration(migrations.Migration):
         Styles = apps.get_model('AppJuegos', 'Styles')
         Publicity = apps.get_model('AppJuegos', 'Publicity')
         PG = apps.get_model('AppJuegos', 'Publicity_game')
+        TicketConfig = apps.get_model('AppJuegos', 'TicketConfiguration')
 
 		# ==================================================================================================================
 		# Client permissions
@@ -127,6 +128,10 @@ class Migration(migrations.Migration):
         )
         default_publicity_top.save()
         default_publicity_bottom.save()
+
+        #Ticket configuration
+        default_ticket_config = TicketConfig()
+        default_ticket_config.save()
 
 
         
