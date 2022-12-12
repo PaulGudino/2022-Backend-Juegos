@@ -81,8 +81,6 @@ class RolFilter(generics.ListAPIView):
     queryset = Rol.objects.all()
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['name']
-    filterset_fields = ['is_active']
+    filterset_fields = ['is_active', 'name']
     ordering_fields = ['created', 'updated']
-
-
 

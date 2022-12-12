@@ -29,6 +29,12 @@ class UserCreateSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("La contraseña debe tener al menos 8 caracteres")
         return value
 
+    def validate_sex(self, value):
+        if value in ['M', 'F']:
+            return value
+        else:
+            raise serializers.ValidationError("El sexo debe ser M o F")
+
     def create(self, validated_data):
         user = User(**validated_data)
         user.set_password(validated_data['password'])
