@@ -23,6 +23,7 @@ class ClientSerializer(serializers.ModelSerializer):
             'user_client_register': instance.user_client_register.names + ' ' + instance.user_client_register.surnames,
             'user_client_modify':instance.user_client_modify.names + ' ' + instance.user_client_modify.surnames if instance.user_client_modify else None,
             'state': instance.state,
+            'client': instance.cedula + ' ' + instance.names + ' ' +instance.surnames
         }
 
 class ClientSerializerCreate(serializers.ModelSerializer):

@@ -4,6 +4,7 @@ from AppJuegos.models import (
     Client,
     AwardCondition,
     Game,
+    Ticket
 )
 from datetime import datetime
 
@@ -140,6 +141,28 @@ class ValidateAwardConditionDateinGame:
                 error_message = self.message_award_condition_date.copy()
                 self.message_award_condition_date.clear()
                 return error_message
+        return None
+
+class ValidateTicketInvoice:
+
+    message_ticket_invoice = []
+
+
+    def validate(self, invoice, id_client):
+        ticket = Ticket.objects.filter(
+            invoice_number=invoice,
+            state= "Disponible",
+            client = id_client
+            )
+        print(ticket)
+        print(self.message_ticket_invoice)
+        if ticket:
+            self.message_ticket_invoice.append('El número de factura ya esta en uso')
+            error_message = self.message_ticket_invoice.copy()
+            print('Dentro del if')
+            print(self.message_ticket_invoice)
+            self.message_ticket_invoice.clear()
+            return error_message
         return None
         
 

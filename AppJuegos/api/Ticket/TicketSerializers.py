@@ -16,8 +16,8 @@ class TicketSerializer(serializers.ModelSerializer):
             'date_ticket_played': instance.date_ticket_played.strftime('%d/%m/%Y %H:%M:%S'),
             'qr_code_digits': instance.qr_code_digits,
             'state': instance.state,
-            'client': instance.client,
-            'game': instance.game,
+            'client': instance.client.names,
+            'game': instance.game.name,
             'user_register': instance.user_register.names + ' ' + instance.user_register.surnames,
         }
 
