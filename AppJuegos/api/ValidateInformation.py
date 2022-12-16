@@ -157,7 +157,7 @@ class ValidateTicketInvoice:
         print(ticket)
         print(self.message_ticket_invoice)
         if ticket:
-            self.message_ticket_invoice.append('El número de factura ya esta en uso')
+            self.message_ticket_invoice.append('El cliente ya tiene resgistro ese número de factura')
             error_message = self.message_ticket_invoice.copy()
             print('Dentro del if')
             print(self.message_ticket_invoice)

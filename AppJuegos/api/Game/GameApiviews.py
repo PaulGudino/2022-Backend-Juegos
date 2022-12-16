@@ -89,6 +89,10 @@ from AppJuegos.api.Game.GameSerializers import (
 from rest_framework import status
 from rest_framework.response import Response
 
+from AppJuegos.api.ValidateInformation import (
+    ValidateAwardConditionDateinGame
+)
+
 class GameViewSet(CRUDViewSet):
     serializer_class = GameSerializers
     queryset = Game.objects.all()
@@ -102,12 +106,11 @@ class GameViewSet(CRUDViewSet):
     
     def update(self, request, pk):
         game = Game.objects.get(id=pk)
-        print(request.data.get('id'))
-        print(game)
-        #new_start_date = request.data.get('start_date')
-
         serializer = GameSerializerUpdate(game, data=request.data)
         if serializer.is_valid():
+            error_message = ValidateAwardConditionDateinGame().validate(pk, request.data.get('start_date'), request.data.get('end_date'))
+            if error_message:
+                return Response(error_message, status=status.HTTP_400_BAD_REQUEST)
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 

@@ -82,6 +82,8 @@ from rest_framework import serializers
 from AppJuegos.models import (
     Game,
 )
+from django.utils import timezone
+from datetime import datetime
 
 class GameSerializers(serializers.ModelSerializer):
     class Meta:
@@ -92,10 +94,35 @@ class GameSerializers(serializers.ModelSerializer):
 class GameSerializerCreate(serializers.ModelSerializer):
     class Meta:
         model = Game
-        fields = ('id', 'start_date', 'end_date', 'game', 'user_game_register', 'user_game_modify',)
+        fields = ('id', 'start_date', 'end_date', 'game',)
+
+    def validate_end_date(self, value):
+        if value <= timezone.now():
+            raise serializers.ValidationError("La fecha de fin debe ser mayor a la fecha actual")
+                
+        if len(self.initial_data['start_date']) == 19:
+            start_date = datetime.strptime(self.initial_data['start_date'].replace('T', ' '), '%Y-%m-%d %H:%M:%S')
+        else:
+            start_date = datetime.strptime(self.initial_data['start_date'].replace('T', ' '), '%Y-%m-%d %H:%M')
         
+        if value < start_date:
+            raise serializers.ValidationError("La fecha de fin debe ser mayor a la fecha de inicio")
+        return value    
 
 class GameSerializerUpdate(serializers.ModelSerializer):
     class Meta:
         model = Game
-        fields = ('id', 'start_date', 'end_date', 'game', 'is_active', 'user_game_modify',)
+        fields = ('id', 'start_date', 'end_date', 'game', 'is_active',)
+
+    def validate_end_date(self, value):
+        if value <= timezone.now():
+            raise serializers.ValidationError("La fecha de fin debe ser mayor a la fecha actual")
+
+        if len(self.initial_data['start_date']) == 19:
+            start_date = datetime.strptime(self.initial_data['start_date'].replace('T', ' '), '%Y-%m-%d %H:%M:%S')
+        else:
+            start_date = datetime.strptime(self.initial_data['start_date'].replace('T', ' '), '%Y-%m-%d %H:%M')
+        
+        if value <= start_date:
+            raise serializers.ValidationError("La fecha de fin debe ser mayor a la fecha de inicio")
+        return value
