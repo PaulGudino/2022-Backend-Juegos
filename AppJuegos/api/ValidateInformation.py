@@ -121,7 +121,10 @@ class ValidateAwardConditionDateinGame:
     message_award_condition_date = []
 
     def validate(self, id_game,start_date, end_date):
-        awards_conditions = AwardCondition.objects.filter(game_id=id_game)
+        awards_conditions = AwardCondition.objects.filter(
+            game_id=id_game,
+            is_approved = True,
+            )
         if len(start_date) == 19:
             start_date = datetime.strptime(start_date.replace('T', ' '), '%Y-%m-%d %H:%M:%S')
             end_date = datetime.strptime(end_date.replace('T', ' '), '%Y-%m-%d %H:%M:%S')

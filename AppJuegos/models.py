@@ -266,7 +266,6 @@ class AwardCondition(models.Model):
     modified = models.DateTimeField(auto_now=True, verbose_name='Fecha de modificacion')
     user_register = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que registra', related_name='user_register_award_condition')
     user_modify = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que modifica', related_name='user_modify_award_condition', null=True, blank=True)
-    is_past = models.BooleanField(default=False)
     history = HistoricalRecords()
 
     def __str__(self):
