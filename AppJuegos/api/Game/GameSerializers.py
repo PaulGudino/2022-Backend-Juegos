@@ -97,8 +97,6 @@ class GameSerializerCreate(serializers.ModelSerializer):
         fields = ('id', 'start_date', 'end_date', 'game',)
 
     def validate_end_date(self, value):
-        if value <= timezone.now():
-            raise serializers.ValidationError("La fecha de fin debe ser mayor a la fecha actual")
                 
         if len(self.initial_data['start_date']) == 19:
             start_date = datetime.strptime(self.initial_data['start_date'].replace('T', ' '), '%Y-%m-%d %H:%M:%S')
@@ -115,8 +113,6 @@ class GameSerializerUpdate(serializers.ModelSerializer):
         fields = ('id', 'start_date', 'end_date', 'game', 'is_active',)
 
     def validate_end_date(self, value):
-        if value <= timezone.now():
-            raise serializers.ValidationError("La fecha de fin debe ser mayor a la fecha actual")
 
         if len(self.initial_data['start_date']) == 19:
             start_date = datetime.strptime(self.initial_data['start_date'].replace('T', ' '), '%Y-%m-%d %H:%M:%S')
