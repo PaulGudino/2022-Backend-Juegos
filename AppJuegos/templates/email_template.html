@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,15 +6,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.lineicons.com/3.0/lineicons.css" rel="stylesheet">
 </head>
 
 
 <body style="background-color: #33224E; color: white;
 align-items: center; justify-content: center; display: flex; flex-direction: column;
-align-content: center; min-width: 500px; max-height: 900px;">
+align-content: center; width: 900px; height: 900px;">
     <p style="color: white;">juegos.pythonanywhere.com</p>
-    <i style="font-size: xxx-large;" class="lni lni-lock-alt"></i>
+    <img src="{% static 'img/lock.svg' %}" alt="lock image">
     <h1 style="text-transform: uppercase; font-size: x-large; font-weight: bold;">Código de inicio de sesión</h1>
 
     <div
@@ -23,13 +23,13 @@ align-content: center; min-width: 500px; max-height: 900px;">
     </div>
     <footer style="padding-top: 2rem; display: flex; flex-direction: row; gap: 1rem;">
         <a style="color: white; font-size: x-large;" href="#">
-            <i class="lni lni-facebook-filled"></i>
+            <img src="{% static 'img/facebook.svg' %}" alt="facebook logo">
         </a>
         <a style="color: white; font-size: x-large;" href="#">
-            <i class="lni lni-instagram-filled"></i>
+            <img src="{% static 'img/instagram.svg' %}" alt="instagram logo">
         </a>
         <a style="color: white; font-size: x-large;" href="#">
-            <i class="lni lni-twitter-original"></i>
+            <img src="{% static 'img/twitter.svg' %}" alt="twitter logo">
         </a>
     </footer>
 </body>
