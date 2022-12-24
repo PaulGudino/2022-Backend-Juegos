@@ -9,10 +9,17 @@
 </head>
 
 
-<body style="background-color: #33224E; color: white;
-align-items: center; justify-content: center; display: flex; flex-direction: column;
-align-content: center; width: 900px; height: 900px;">
-    <p style="color: white;">juegos.pythonanywhere.com</p>
+<body style="
+background: linear-gradient(10deg, #353847 0%, #353847 15%, #33224E 15%, #33224E 85%, #353847 85%, #353847 100%);
+color: white;
+align-items: center;
+justify-content: center;
+display: flex;
+flex-direction: column;
+align-content: center;
+width: 900px;
+height: 900px;">
+    <p style="padding-bottom: 10rem; color: white;">juegos.pythonanywhere.com</p>
     <img src="{% static 'img/lock.svg' %}" alt="lock image">
     <h1 style="text-transform: uppercase; font-size: x-large; font-weight: bold;">Código de inicio de sesión</h1>
 
@@ -21,7 +28,7 @@ align-content: center; width: 900px; height: 900px;">
         Este es tu código de aprobación de inicio de sesión.
         <span style="padding-top: 2rem; font-size: xxx-large;">{{code}}</span>
     </div>
-    <footer style="padding-top: 2rem; display: flex; flex-direction: row; gap: 1rem;">
+    <footer style="padding-top: 10rem; display: flex; flex-direction: row; gap: 1rem;">
         <a style="color: white; font-size: x-large;" href="#">
             <img src="{% static 'img/facebook.svg' %}" alt="facebook logo">
         </a>
