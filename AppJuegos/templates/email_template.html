@@ -6,37 +6,81 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="{% static 'css/styles.css' %}"> -->
 </head>
 
+<style>
+    body {
+        /* background: linear-gradient(10deg, #353847 0%, #353847 15%, #33224E 15%, #33224E 85%, #353847 85%, #353847 100%); */
+        background: #33224E;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+        align-items: center;
+        justify-content: center;
+        width: 900px;
+        height: 900px;
+    }
 
-<body style="
-background: linear-gradient(10deg, #353847 0%, #353847 15%, #33224E 15%, #33224E 85%, #353847 85%, #353847 100%);
-color: white;
-align-items: center;
-justify-content: center;
-display: flex;
-flex-direction: column;
-align-content: center;
-width: 900px;
-height: 900px;">
-    <p style="padding-bottom: 10rem; color: white;">juegos.pythonanywhere.com</p>
-    <img src="{% static 'img/lock.svg' %}" alt="lock image">
-    <h1 style="text-transform: uppercase; font-size: x-large; font-weight: bold;">Código de inicio de sesión</h1>
+    p {
+        padding-bottom: 5rem;
+        color: white;
+    }
 
-    <div
-        style="justify-content: center; align-items: center; align-content: center; display: block; display: flex; flex-direction: column; background-color: #342A4C; padding: 2rem;">
+    h1 {
+        text-transform: uppercase;
+        font-size: x-large;
+        font-weight: bold;
+    }
+
+    .code-div {
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        display: block;
+        display: flex;
+        flex-direction: column;
+        background-color: #342A4C;
+        padding: 2rem;
+    }
+
+    a {
+        color: white;
+        font-size: x-large;
+    }
+
+    .code-num {
+        padding-top: 2rem;
+        font-size: xxx-large;
+    }
+
+    footer {
+        padding-top: 5rem;
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+    }
+</style>
+
+<body>
+    <p>juegos.pythonanywhere.com</p>
+    <img src="https://juegos.pythonanywhere.com/media/lock.svg" alt="lock image">
+    <h1>Código de inicio de sesión</h1>
+
+    <div class="code-div">
         Este es tu código de aprobación de inicio de sesión.
-        <span style="padding-top: 2rem; font-size: xxx-large;">{{code}}</span>
+        <span class="code-num">{{code}}</span>
     </div>
-    <footer style="padding-top: 10rem; display: flex; flex-direction: row; gap: 1rem;">
-        <a style="color: white; font-size: x-large;" href="#">
-            <img src="{% static 'img/facebook.svg' %}" alt="facebook logo">
+    <footer>
+        <a href="#">
+            <img src="https://juegos.pythonanywhere.com/media/facebook.svg" alt="facebook logo">
         </a>
-        <a style="color: white; font-size: x-large;" href="#">
-            <img src="{% static 'img/instagram.svg' %}" alt="instagram logo">
+        <a href="#">
+            <img src="lhttps://juegos.pythonanywhere.com/media/instagram.svg" alt="instagram logo">
         </a>
-        <a style="color: white; font-size: x-large;" href="#">
-            <img src="{% static 'img/twitter.svg' %}" alt="twitter logo">
+        <a href="#">
+            <img src="https://juegos.pythonanywhere.com/media/twitter.svg" alt="twitter logo">
         </a>
     </footer>
 </body>
