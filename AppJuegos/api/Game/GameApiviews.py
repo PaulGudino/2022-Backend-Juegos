@@ -108,10 +108,10 @@ class GameViewSet(CRUDViewSet):
         game = Game.objects.get(id=pk)
         serializer = GameSerializerUpdate(game, data=request.data)
         if serializer.is_valid():
-            error_message = ValidateAwardConditionDateinGame().validate(pk, request.data.get('start_date'), request.data.get('end_date'))
-            print(error_message)
-            if error_message:
-                return Response(error_message, status=status.HTTP_400_BAD_REQUEST)
+            #error_message = ValidateAwardConditionDateinGame().validate(pk, request.data.get('start_date'), request.data.get('end_date'))
+            #print(error_message)
+            # if error_message:
+                # return Response(error_message, status=status.HTTP_400_BAD_REQUEST)
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
