@@ -34,13 +34,14 @@ class AwardConditionViewSet(CRUDViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, pk):
+        print('desde la api')
+        print(request.data.get('start_date'))
 
         award_condition = AwardCondition.objects.get(id=pk)
         if award_condition.is_approved == True:
             return Response({'Esta condición de premio ya fue aprobadan, no se puede editar'}, status=status.HTTP_400_BAD_REQUEST)
 
         serializer = AwardConditionUpdateSerializer(self.get_object(), data=request.data)
-        print(serializer.is_valid())
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
