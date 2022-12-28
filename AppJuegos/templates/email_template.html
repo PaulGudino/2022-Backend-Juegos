@@ -33,7 +33,7 @@
         font-weight: bold;
     }
 
-    .code_div {
+    .code-div {
         justify-content: center;
         align-items: center;
         align-content: center;
@@ -47,33 +47,46 @@
     a {
         color: white;
         font-size: x-large;
+        margin: 0 25px;
     }
 
-    .code_num {
+    .code-num {
         padding-top: 2rem;
         font-size: xxx-large;
     }
 
-    .social_networks {
+    .social_networks{
         padding-top: 5rem;
         display: flex;
         flex-direction: row;
         gap: 1rem;
     }
+    .top_design{
+        width: 100%;
+        height: 200px;
+        background: rgb(51,34,78);
+        background: -moz-linear-gradient(9deg, rgba(51,34,78,1) 48%, rgba(53,56,71,1) 48%);
+        background: -webkit-linear-gradient(9deg, rgba(51,34,78,1) 48%, rgba(53,56,71,1) 48%);
+        background: linear-gradient(9deg, rgba(51,34,78,1) 48%, rgba(53,56,71,1) 48%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#33224e",endColorstr="#353847",GradientType=1);
+    }
 </style>
 
 <body>
+    <div class="top_design">
+
+    </div>
     <p>juegos.pythonanywhere.com</p>
     <img class="ejemplo" src="
     data:image/png;base64,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
     ">
     <h1>Código para resetear la contraseña</h1>
 
-    <div class="code_div">
+    <div class="code-div">
         Este es tu código para resetear la contraseña.
-        <span class="code_num">{{code}}</span>
+        <span class="code-num">{{code}}</span>
     </div>
-    <footer class="social_networks">
+    <div class="social_networks">
         <a href="https://www.facebook.com"  target="_blank">
             <img src="
             data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYEAQAAAAa7ikwAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAACYktHRAAAqo0jMgAAAAlwSFlzAAAAYAAAAGAA8GtCzwAAAAd0SU1FB+YMHAIWCMIxvpIAAAEWSURBVEjH7ZMxisJAFIbfBMHOnMHSTskVcghLT+ENBA8geAA7wUIsLDyDoIJlai0sVJAkEObbIrBL2Mk6M+tu5V9lJu9/38s/GZEaoeMYvVjA6QRFwafyHAYD8RUoBZMJP0nP578ADIc8ky8AHYZwu70SEFRWKo5FWq2nLlUUtoBG9RM6HVGmsiwTOR7L5zQVplM/gIShuWy5VKrft21aH1Gt0tSneZkK4zE6SdBJAter+VTv96+a/R56PQeAxV/zTaORQ0SBZUwVm7XHo7njKP8AOBzcbQ4edLMJ3S5EEcxm5kNdrcr3UQTttssoDRXkuchuV8LOZ/NNvlyU2m49I/pbvQFvwMsBm43weFT3skxkvfYFfADCcUh+nXXMIAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMi0xMi0yOFQwMjoyMjowOCswMDowMJsaD50AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjItMTItMjhUMDI6MjI6MDgrMDA6MDDqR7chAAAAKHRFWHRkYXRlOnRpbWVzdGFtcAAyMDIyLTEyLTI4VDAyOjIyOjA4KzAwOjAwvVKW/gAAAABJRU5ErkJggg==
@@ -89,7 +102,7 @@
             data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYEAQAAAAa7ikwAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAACYktHRAAAqo0jMgAAAAlwSFlzAAAAYAAAAGAA8GtCzwAAAAd0SU1FB+YMHAIWNO1ewhUAAAGtSURBVEjHrZXB0oFQFMcvM2olox09Di9gGh6i4inkzYiZlAXGWOoNqvX5f4tTLl/Cxdld3f6/0+mnK0RRIF0HplPQeg3Kc6gW5TkoCECeB9I0cVuAZQG7nXJoLSyKgH7/pvMy/HIBbBvUbgvFArXbwGgEnE6ctd2CNE2AZjMZbpqqwRUQTBNIEs50XQFsNryw7Y9DabHg9+b7vB6PeVRBIIAs44X6WGTXRQbSlAGGcV2X76W+O10HzWZXuyjPQes1G6frDPB9hsznElrkPgO8tIviGLCsx/e+ANTZVbGF4rh8EkXAc7vubCHPUwe8YdedLeqA13bd2VIDaIqvqtF4teMJ4HjkjMGgPn845HYPh9o99SOaTvnK6QR0u9Xrpgmcz5+/ZNJ19rwwicZjkGHw3CcTaVAcVz7P7wB4k2VJyI//aPJJNI0PkSBgs7IMWK0eHiyPAWn67ceu2lSnU+rbFChtKYz4RV2z9nsB8jxpy68OnMIuOE4x4yjiH5KktEV9LIYB2LYMD0NQq1VQ+30J+UWFIdDr/etA0wDXBVYreUKpVJYByyXgONfOhRB/7DHUf2GtmqIAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjItMTItMjhUMDI6MjI6NTIrMDA6MDB3il63AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIyLTEyLTI4VDAyOjIyOjUyKzAwOjAwBtfmCwAAACh0RVh0ZGF0ZTp0aW1lc3RhbXAAMjAyMi0xMi0yOFQwMjoyMjo1MiswMDowMFHCx9QAAAAASUVORK5CYII=
             " alt="twitter logo">
         </a>
-    </footer>
+    </div>
 </body>
 
 </html>
