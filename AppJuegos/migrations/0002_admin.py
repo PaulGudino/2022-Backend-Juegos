@@ -45,16 +45,26 @@ class Migration(migrations.Migration):
 
         ticket_create_permission = Permission(name='Crear Ticket')
         ticket_view_permission = Permission(name='Ver Ticket')
-        ticket_edit_permission = Permission(name='Editar Ticket')
+        ticket_edit_permission = Permission(name='Editar Diseño del Ticket')
         ticket_delete_permission = Permission(name='Eliminar Ticket')
+        ticket_print_permission = Permission(name='Imprimir Ticket')
 
         # ==================================================================================================================
         # AwardCondition permissions
 
-        award_condition_create_permission = Permission(name='Crear Condicion de Premio')
-        award_condition_view_permission = Permission(name='Ver Condicion de Premio')
-        award_condition_edit_permission = Permission(name='Editar Condicion de Premio')
-        award_condition_delete_permission = Permission(name='Eliminar Condicion de Premio')
+        award_condition_create_permission = Permission(name='Crear Condición de Premio')
+        award_condition_view_permission = Permission(name='Ver Condición de Premio')
+        award_condition_edit_permission = Permission(name='Editar Condición de Premio')
+        award_condition_delete_permission = Permission(name='Eliminar Condición de Premio')
+
+        game_date_permission = Permission(name='Modificar Fecha del Juego')
+        game_publicity_permission = Permission(name='Modificar Publicidad del Juego')
+        game_savescreen_permission = Permission(name='Modificar Salvapantallas del Juego')
+        game_scanner_permission = Permission(name='Modificar Presentación de Escaneo del Juego')
+        game_design_permission = Permission(name='Modificar Diseño del Juego')
+        game_winners_permission = Permission(name='Modificar Presentación de Ganadores del Juego')
+        game_probability_permission = Permission(name='Modificar Probabilidades del juego')
+        
 
                 
         client_create_permission.save()
@@ -71,13 +81,20 @@ class Migration(migrations.Migration):
         ticket_view_permission.save()
         ticket_edit_permission.save()
         ticket_delete_permission.save()
+        ticket_print_permission.save()
 
         award_condition_create_permission.save()
         award_condition_view_permission.save()
         award_condition_edit_permission.save()
         award_condition_delete_permission.save()
-        
 
+        game_date_permission.save()
+        game_publicity_permission.save()
+        game_savescreen_permission.save()
+        game_scanner_permission.save()
+        game_design_permission.save()
+        game_winners_permission.save()
+        game_probability_permission.save()
         
 		# ==================================================================================================================
         
@@ -149,11 +166,20 @@ class Migration(migrations.Migration):
         RolPermission_10 = RolPermission(rol_id=admin_rol.id, permission_id=ticket_view_permission.id)
         RolPermission_11 = RolPermission(rol_id=admin_rol.id, permission_id=ticket_edit_permission.id)
         RolPermission_12 = RolPermission(rol_id=admin_rol.id, permission_id=ticket_delete_permission.id)
+        RolPermission_13 = RolPermission(rol_id=admin_rol.id, permission_id=ticket_print_permission.id)
 
-        RolPermission_13 = RolPermission(rol_id=admin_rol.id, permission_id=award_condition_create_permission.id)
-        RolPermission_14 = RolPermission(rol_id=admin_rol.id, permission_id=award_condition_view_permission.id)
-        RolPermission_15 = RolPermission(rol_id=admin_rol.id, permission_id=award_condition_edit_permission.id)
-        RolPermission_16 = RolPermission(rol_id=admin_rol.id, permission_id=award_condition_delete_permission.id)
+        RolPermission_14 = RolPermission(rol_id=admin_rol.id, permission_id=award_condition_create_permission.id)
+        RolPermission_15 = RolPermission(rol_id=admin_rol.id, permission_id=award_condition_view_permission.id)
+        RolPermission_16 = RolPermission(rol_id=admin_rol.id, permission_id=award_condition_edit_permission.id)
+        RolPermission_17 = RolPermission(rol_id=admin_rol.id, permission_id=award_condition_delete_permission.id)
+
+        RolPermission_18 = RolPermission(rol_id=admin_rol.id, permission_id=game_date_permission.id)
+        RolPermission_19 = RolPermission(rol_id=admin_rol.id, permission_id=game_publicity_permission.id)
+        RolPermission_20 = RolPermission(rol_id=admin_rol.id, permission_id=game_savescreen_permission.id)
+        RolPermission_21 = RolPermission(rol_id=admin_rol.id, permission_id=game_scanner_permission.id)
+        RolPermission_22 = RolPermission(rol_id=admin_rol.id, permission_id=game_design_permission.id)
+        RolPermission_23 = RolPermission(rol_id=admin_rol.id, permission_id=game_winners_permission.id)
+        RolPermission_24 = RolPermission(rol_id=admin_rol.id, permission_id=game_probability_permission.id)
 
 		# ==================================================================================================================
 
@@ -171,11 +197,20 @@ class Migration(migrations.Migration):
         RolPermission_10.save()
         RolPermission_11.save()
         RolPermission_12.save()
-
         RolPermission_13.save()
+
         RolPermission_14.save()
         RolPermission_15.save()
         RolPermission_16.save()
+        RolPermission_17.save()
+
+        RolPermission_18.save()
+        RolPermission_19.save()
+        RolPermission_20.save()
+        RolPermission_21.save()
+        RolPermission_22.save()
+        RolPermission_23.save()
+        RolPermission_24.save()
 
 		# ==================================================================================================================
     
