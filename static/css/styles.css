@@ -37,6 +37,11 @@ a {
     font-size: x-large;
 }
 
+a img {
+  width: 40px;  
+  height: 40px;
+}
+
 .code-num {
     padding-top: 2rem;
     font-size: xxx-large;
