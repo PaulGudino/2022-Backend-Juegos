@@ -9,14 +9,15 @@ from datetime import datetime
 class AwardConditionSerializer(serializers.ModelSerializer):
     class Meta:
         model = AwardCondition
-        exclude = ('is_approved','created', 'modified','is_past',)
+        exclude = ('created', 'modified',)
 
     def validate_start_date(self, value):
-        if value < timezone.now():
-            raise serializers.ValidationError("La fecha de inicio debe ser mayor a la fecha actual")
 
         inicio_juego = Game.objects.get(id=self.initial_data['game']).start_date
         fin_juego = Game.objects.get(id=self.initial_data['game']).end_date
+
+        if fin_juego < timezone.now():
+            raise serializers.ValidationError("La fecha de disponibilidad del juego ya venció, actulize la fecha de disponibilidad")
 
         if value <= inicio_juego:
             raise serializers.ValidationError("La fecha de inicio debe ser mayor a la fecha de inicio del juego")
@@ -27,11 +28,12 @@ class AwardConditionSerializer(serializers.ModelSerializer):
         return value
 
     def validate_end_date(self, value):
-        if value < timezone.now():
-            raise serializers.ValidationError("La fecha de fin debe ser mayor a la fecha actual")
 
         inicio_juego = Game.objects.get(id=self.initial_data['game']).start_date
         fin_juego = Game.objects.get(id=self.initial_data['game']).end_date
+
+        if fin_juego < timezone.now():
+            raise serializers.ValidationError("La fecha de disponibilidad del juego ya venció, actulize la fecha de disponibilidad")
 
         if value <= inicio_juego:
             raise serializers.ValidationError("La fecha de fin debe ser mayor a la fecha de inicio del juego")
@@ -64,20 +66,20 @@ class AwardConditionSerializer(serializers.ModelSerializer):
             'user_modify': instance.user_modify.names + ' ' + instance.user_modify.surnames if instance.user_modify else None,
             'created': instance.created.strftime('%d/%m/%Y %H:%M:%S'),
             'modified': instance.modified.strftime('%d/%m/%Y %H:%M:%S'),
-            'is_past': instance.is_past,
         }
 
 class AwardConditionUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = AwardCondition
-        exclude = ('is_approved','created', 'modified', 'award', 'user_register','is_past',)
+        exclude = ('created', 'modified', 'award', 'user_register',)
         
     def validate_start_date(self, value):
-        if value < timezone.now():
-            raise serializers.ValidationError("La fecha de inicio debe ser mayor a la fecha actual")
 
         inicio_juego = Game.objects.get(id=self.initial_data['game']).start_date
         fin_juego = Game.objects.get(id=self.initial_data['game']).end_date
+
+        if fin_juego < timezone.now():
+            raise serializers.ValidationError("La fecha de disponibilidad del juego ya venció, actulize la fecha de disponibilidad")
 
         if value <= inicio_juego:
             raise serializers.ValidationError("La fecha de inicio debe ser mayor a la fecha de inicio del juego")
@@ -88,11 +90,12 @@ class AwardConditionUpdateSerializer(serializers.ModelSerializer):
         return value
 
     def validate_end_date(self, value):
-        if value < timezone.now():
-            raise serializers.ValidationError("La fecha de fin debe ser mayor a la fecha actual")
 
         inicio_juego = Game.objects.get(id=self.initial_data['game']).start_date
         fin_juego = Game.objects.get(id=self.initial_data['game']).end_date
+
+        if fin_juego < timezone.now():
+            raise serializers.ValidationError("La fecha de disponibilidad del juego ya venció, actulize la fecha de disponibilidad")
 
         if value <= inicio_juego:
             raise serializers.ValidationError("La fecha de fin debe ser mayor a la fecha de inicio del juego")
@@ -122,5 +125,4 @@ class AwardConditionFilterSerializer(serializers.ModelSerializer):
             'start_date': instance.start_date.strftime('%d/%m/%Y %H:%M:%S'),
             'end_date': instance.end_date.strftime('%d/%m/%Y %H:%M:%S'),
             'is_approved': instance.is_approved,
-            'is_past': instance.is_past,
         }

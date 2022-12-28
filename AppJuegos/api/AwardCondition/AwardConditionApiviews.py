@@ -34,8 +34,14 @@ class AwardConditionViewSet(CRUDViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, pk):
+        print('desde la api')
+        print(request.data.get('start_date'))
+
+        award_condition = AwardCondition.objects.get(id=pk)
+        if award_condition.is_approved == True:
+            return Response({'Esta condición de premio ya fue aprobadan, no se puede editar'}, status=status.HTTP_400_BAD_REQUEST)
+
         serializer = AwardConditionUpdateSerializer(self.get_object(), data=request.data)
-        print(serializer.is_valid())
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -43,10 +49,9 @@ class AwardConditionViewSet(CRUDViewSet):
 
     def destroy(self, request, pk=None):
         
-        is_past = True
         award_condition = AwardCondition.objects.get(id=pk)
-        if award_condition.is_past == is_past:
-            return Response("No se puede eliminar una condición de premio finalizada", status=status.HTTP_400_BAD_REQUEST)
+        if award_condition.is_approved == True:
+            return Response({'No se puede eliminar una condición de premio ya aprobada'}, status=status.HTTP_400_BAD_REQUEST)
 
         AddAwardInitialStock().initial_stock(self.get_object().award.id)
         return super().destroy(request, pk)

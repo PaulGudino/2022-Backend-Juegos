@@ -40,6 +40,14 @@ INSTALLED_APPS = [
     'AppJuegos',
 ]
 
+# TEMPLATES = [
+#     {
+#         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+#         'DIRS': [os.path.join(BASE_DIR, "templates")],
+#         'APP_DIRS': True,
+#     },
+# ]
+
 REST_FRAMEWORK = {
 
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -68,7 +76,7 @@ ROOT_URLCONF = 'Juegos.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, "templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -150,7 +158,9 @@ USE_TZ = False
 
 STATIC_URL = 'static/'
 
-STATIC_ROOT = '/home/juegos/2022-Backend-Juegos/static'
+STATICFILES_DIRS = [
+    BASE_DIR / 'static'
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

@@ -266,7 +266,6 @@ class AwardCondition(models.Model):
     modified = models.DateTimeField(auto_now=True, verbose_name='Fecha de modificacion')
     user_register = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que registra', related_name='user_register_award_condition')
     user_modify = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que modifica', related_name='user_modify_award_condition', null=True, blank=True)
-    is_past = models.BooleanField(default=False)
     history = HistoricalRecords()
 
     def __str__(self):
@@ -334,18 +333,21 @@ class Publicity(models.Model):
 
 class Ticket(models.Model): # Entradas
     id = models.AutoField(primary_key=True, unique=True)
-    invoice_number = models.CharField(max_length=255, unique=True)
-    qr_code_url = models.TextField(max_length=100, default='none')
+    invoice_number = models.CharField(max_length=255)
     qr_code_digits = models.PositiveIntegerField(default=0)
     date_created = models.DateTimeField(auto_now_add=True)
-    date_modified = models.DateTimeField(auto_now=True)
-    state = models.CharField(max_length=100, choices=TICKET_STATES)
+    date_ticket_played = models.DateTimeField(auto_now=True)
+    state = models.CharField(max_length=100, choices=TICKET_STATES, default='Disponible')
     history = HistoricalRecords()
     client = models.ForeignKey(Client, on_delete=models.CASCADE, default='', related_name='ticket_client')
     game = models.ForeignKey(Game, on_delete=models.CASCADE, default='', related_name='ticket_game')
     user_register = models.ForeignKey(User, on_delete=models.CASCADE, default='', related_name='register_ticket')
-    user_modifier = models.ForeignKey(User, on_delete=models.CASCADE, default='', related_name='edit_ticket', null=True,
-                                      blank=True)
+
+class TicketConfiguration(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
+    logo = models.ImageField(upload_to='logo_ticket/', null=True)
+    title = models.CharField(max_length=255, null=True, default='Gana premios jugando')
+    description = models.CharField(max_length=255, null=True, default='Gana premios jugando')
 
 class Match(models.Model): # Partida
     id = models.AutoField(primary_key=True, unique=True)

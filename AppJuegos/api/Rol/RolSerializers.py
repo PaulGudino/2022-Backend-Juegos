@@ -31,6 +31,7 @@ class RolPermissionSerializer(serializers.ModelSerializer):
         return {
             'id': instance.id,
             'rol': instance.rol.name,
+            'id_permission': instance.permission.id,
             'permission': instance.permission.name
         }
 
@@ -43,6 +44,7 @@ class CustomRolPermissionSerializer(serializers.ModelSerializer):
         return {
             'id': instance.id,
             'rol': instance.rol.id,
+            'id_permission': instance.permission.id,
             'permission': instance.permission.name
         }
 

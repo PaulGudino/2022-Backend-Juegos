@@ -33,4 +33,5 @@ urlpatterns = [
     path('api/', include('AppJuegos.api.Publicity_game.PGUrl')),
     path('api/', include('AppJuegos.api.Publicity_top.PTUrl')),
     path('api/', include('AppJuegos.api.Publicity_bottom.PBUrl')),
+    path('api/', include('AppJuegos.api.TicketConfiguration.TicketConfigurationUrl')),
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

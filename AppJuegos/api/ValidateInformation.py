@@ -4,6 +4,7 @@ from AppJuegos.models import (
     Client,
     AwardCondition,
     Game,
+    Ticket
 )
 from datetime import datetime
 
@@ -120,7 +121,10 @@ class ValidateAwardConditionDateinGame:
     message_award_condition_date = []
 
     def validate(self, id_game,start_date, end_date):
-        awards_conditions = AwardCondition.objects.filter(game_id=id_game)
+        awards_conditions = AwardCondition.objects.filter(
+            game_id=id_game,
+            is_approved = False,
+            )
         if len(start_date) == 19:
             start_date = datetime.strptime(start_date.replace('T', ' '), '%Y-%m-%d %H:%M:%S')
             end_date = datetime.strptime(end_date.replace('T', ' '), '%Y-%m-%d %H:%M:%S')
@@ -140,6 +144,28 @@ class ValidateAwardConditionDateinGame:
                 error_message = self.message_award_condition_date.copy()
                 self.message_award_condition_date.clear()
                 return error_message
+        return None
+
+class ValidateTicketInvoice:
+
+    message_ticket_invoice = []
+
+
+    def validate(self, invoice, id_client):
+        ticket = Ticket.objects.filter(
+            invoice_number=invoice,
+            state= "Disponible",
+            client = id_client
+            )
+        print(ticket)
+        print(self.message_ticket_invoice)
+        if ticket:
+            self.message_ticket_invoice.append('El cliente ya tiene resgistro ese número de factura')
+            error_message = self.message_ticket_invoice.copy()
+            print('Dentro del if')
+            print(self.message_ticket_invoice)
+            self.message_ticket_invoice.clear()
+            return error_message
         return None
         
 
