@@ -144,7 +144,7 @@ class Client(models.Model):
     created = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creacion')
     modified = models.DateTimeField(auto_now=True, verbose_name='Fecha de modificacion')
     history = HistoricalRecords()
-    state = models.CharField(max_length=50, choices=STATES, default='Activo', verbose_name='Estado')
+    # state = models.CharField(max_length=50, choices=STATES, default='Activo', verbose_name='Estado')
     user_client_register = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que registra', related_name='user_client_register')
     user_client_modify = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que modifica', related_name='user_client_modify', null=True, blank=True)
 
@@ -351,13 +351,13 @@ class TicketConfiguration(models.Model):
 
 class Match(models.Model): # Partida
     id = models.AutoField(primary_key=True, unique=True)
-    ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, default='', related_name='match_ticket')
-    award = models.ForeignKey(Award, on_delete=models.CASCADE, default='', related_name='award')
+    ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, null=False, related_name='match_ticket')
+    award = models.ForeignKey(Award, on_delete=models.CASCADE, null=True, related_name='award')
     date_created = models.DateTimeField(auto_now_add=True)
-    date_modified = models.DateTimeField(auto_now=True)
     win_match = models.BooleanField(default=False,null=False,verbose_name="gano la partida?")
-    state = models.CharField(max_length=100, choices=MATCH_STATES)
-    history = HistoricalRecords()
+    # date_modified = models.DateTimeField(auto_now=True)
+    # state = models.CharField(max_length=100, choices=MATCH_STATES)
+    # history = HistoricalRecords()
 
 
 # class Match(models.Model): # Partida

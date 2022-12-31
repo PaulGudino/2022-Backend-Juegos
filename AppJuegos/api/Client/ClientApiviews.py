@@ -55,7 +55,7 @@ class ClientFilter(generics.ListAPIView):
     serializer_class = ClientSerializer
     queryset = Client.objects.all()
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    filterset_fields = ['state']
+    filterset_fields = ['id']
     ordering_fields = ['created', 'modified']
 
 
