@@ -305,14 +305,14 @@ class Publicity_game(models.Model):
     
 class Probabilidad(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
-    percent_win = models.PositiveIntegerField('porcent_win',null=False,default=20)
-    winners_limit = models.PositiveIntegerField('winners_limit',null=False,default=1)
+    percent_win = models.PositiveIntegerField('porcent_win',null=False,default=0)
+    winners_limit = models.PositiveIntegerField('winners_limit',null=False,default=0)
     attempts_limit = models.PositiveIntegerField('numero de intentos',null=False,default=1)
-    created = models.DateTimeField(verbose_name='Fecha de creacion',auto_now_add=True, blank=True)
-    modified = models.DateTimeField(verbose_name='Fecha de modificacion',auto_now_add=True, blank=True)
+    # created = models.DateTimeField(verbose_name='Fecha de creacion',auto_now_add=True, blank=True)
+    # modified = models.DateTimeField(verbose_name='Fecha de modificacion',auto_now_add=True, blank=True)
     game_id = models.ForeignKey(Game, on_delete=models.CASCADE,verbose_name = 'Juego' )
     history = HistoricalRecords()
-    is_active = models.BooleanField(default=True)
+    # is_active = models.BooleanField(default=True)
     # user_register = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que registra', related_name='user_register_probabilidad')
    
     
