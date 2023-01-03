@@ -61,6 +61,9 @@ class AwardConditionFilter(generics.ListAPIView):
     serializer_class = AwardConditionFilterSerializer
     queryset = AwardCondition.objects.all()
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['id', 'start_date', 'end_date']
-    filterset_fields = ['is_approved']
-    ordering_fields = ['start_date', 'end_date']
+    search_fields = ['id', 'start_date']
+    filterset_fields = {
+        'is_approved':['exact'],
+        'start_date':['date__range'],
+    }
+    ordering_fields = ['start_date']
