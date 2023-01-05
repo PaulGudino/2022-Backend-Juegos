@@ -168,7 +168,15 @@ class ValidateTicketInvoice:
             return error_message
         return None
         
+class ValidateClientRelationships:
+    def __init__(self, pk):
+            self.pk = pk 
 
+    def validate(self):
+        ticket = Ticket.objects.filter(client_id=self.pk).first()
+        if ticket:
+            return True
+        return False
 
         
 

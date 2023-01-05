@@ -5,9 +5,10 @@ from AppJuegos.api.general_api import CRUDViewSet, OnlyListViewSet
 from AppJuegos.api.AwardCondition.AwardConditionSerializers import (
     AwardConditionSerializer,
     AwardConditionFilterSerializer,
-    AwardConditionUpdateSerializer
-
+    AwardConditionUpdateSerializer,
+    Isapproved
 )
+from rest_framework.decorators import action 
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework import generics
@@ -55,6 +56,16 @@ class AwardConditionViewSet(CRUDViewSet):
 
         AddAwardInitialStock().initial_stock(self.get_object().award.id)
         return super().destroy(request, pk)
+
+    @action(detail=True, methods=['post'])
+    def change_state(self, request ,pk):
+        award = self.get_object()
+        state_serializer = Isapproved(data=request.data)
+        if state_serializer.is_valid():
+            award.is_approved = True
+            award.save()
+            return Response({'message':"Se cambio a reclamado el premio condicionado"},status=status.HTTP_200_OK)
+        return Response(state_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class AwardConditionFilter(generics.ListAPIView):

@@ -25,11 +25,6 @@ class TicketViewSet(CRUDViewSet):
         serializer = TicketSerializerCreate(data=request.data)
 
         error_ticket_message = ValidateTicketInvoice().validate(request.data.get('invoice_number'),request.data.get('client'))
-        print('code',request.data.get('invoice_number'))
-        print(type(request.data.get('invoice_number')))
-        print('client',request.data.get('client'))
-        print(type(request.data.get('client')))
-        print(error_ticket_message)
 
         if error_ticket_message:
             return Response(error_ticket_message, status=status.HTTP_400_BAD_REQUEST)
@@ -38,6 +33,12 @@ class TicketViewSet(CRUDViewSet):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def destroy(self, request, pk=None):
+        ticket = Ticket.objects.get(id=pk)
+        if ticket.state =='Reclamado':
+            return Response({'No se puede eliminar un ticket ya reclamado'}, status=status.HTTP_400_BAD_REQUEST)
+        return super().destroy(request, pk)
 
 class TicketFilter(generics.ListAPIView):
     serializer_class = TicketSerializer
