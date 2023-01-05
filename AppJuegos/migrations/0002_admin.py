@@ -23,6 +23,7 @@ class Migration(migrations.Migration):
         Publicity = apps.get_model('AppJuegos', 'Publicity')
         PG = apps.get_model('AppJuegos', 'Publicity_game')
         TicketConfig = apps.get_model('AppJuegos', 'TicketConfiguration')
+        Probability = apps.get_model('AppJuegos', 'Probabilidad')
 
 		# ==================================================================================================================
 		# Client permissions
@@ -125,6 +126,7 @@ class Migration(migrations.Migration):
 
         game_tragamonedas.save()
 
+
         #Create default Styles
         
         default_styles = Styles(
@@ -149,6 +151,13 @@ class Migration(migrations.Migration):
         #Ticket configuration
         default_ticket_config = TicketConfig()
         default_ticket_config.save()
+
+        # Tragamonedas probability
+        probability_tragamonedas = Probability(
+            game_id = game_tragamonedas
+        )
+
+        probability_tragamonedas.save()
 
 
         

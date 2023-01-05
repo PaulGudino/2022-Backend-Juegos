@@ -9,12 +9,14 @@ from AppJuegos.api.Award.AwardSerializers import (
     AwardSerializerUpdateImage,
     AwardSerializerUpdateSinImage,
     AwarderializerList,
+    WonAward
 )
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework import generics
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework.decorators import action 
 
 from AppJuegos.api.ValidateInformation import (
     ValidateAwardRelationships,
@@ -63,6 +65,30 @@ class AwardViewSet(CRUDViewSet):
         else:
             return super().destroy(request, pk)
 
+    @action(detail=True, methods=['post'])
+    def won_award(self, request ,pk):
+        prize = self.get_object()
+        won_serializer = WonAward(data=request.data)
+        if won_serializer.is_valid():
+            prize.prizes_awarded += 1
+            prize.initial_stock -=1
+            if(prize.initial_stock == 0):
+                prize.is_active =False
+            prize.save()
+            return Response({'message':"Se aumentó el número de premios ganados"},status=status.HTTP_200_OK)
+        return Response(won_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=True, methods=['post'])
+    def won_award_condition(self, request ,pk):
+        prize = self.get_object()
+        won_serializer = WonAward(data=request.data)
+        if won_serializer.is_valid():
+            prize.prizes_awarded += 1
+            prize.save()
+            return Response({'message':"Se aumentó el número de premios ganados"},status=status.HTTP_200_OK)
+        return Response(won_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 class AwardListViewSet(OnlyListViewSet):
     serializer_class = AwarderializerList
     queryset = Award.objects.all()
@@ -72,7 +98,10 @@ class AwardFilter(generics.ListAPIView):
     queryset = Award.objects.all()
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['name', 'game__name']
-    filterset_fields = ['is_active']
+    filterset_fields = {
+        'is_active':['exact'],
+        'initial_stock':['gt'],
+    }
     ordering_fields = ['created', 'updated']
 
 

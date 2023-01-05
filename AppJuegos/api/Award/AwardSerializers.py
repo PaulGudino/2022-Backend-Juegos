@@ -86,3 +86,11 @@ class AwardSerializerUpdateSinImage(serializers.ModelSerializer):
         if value <= 0:
             raise serializers.ValidationError('El stock inicial no puede ser negativo o cero')
         return value
+
+class WonAward(serializers.Serializer):
+    won_award = serializers.BooleanField(default=False)
+
+    def validate_won_award(self, value):
+        if value is False:
+            raise serializers.ValidationError("No se aumentó el número de premios ganados")
+        return value

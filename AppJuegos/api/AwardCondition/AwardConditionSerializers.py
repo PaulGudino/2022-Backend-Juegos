@@ -51,7 +51,7 @@ class AwardConditionSerializer(serializers.ModelSerializer):
         return value
 
     def to_representation(self, instance):
-        duration = instance.end_date - instance.start_date 
+        duration = str(instance.end_date - instance.start_date)
         return {
             'id': instance.id,
             'award': instance.award.id,
@@ -59,7 +59,7 @@ class AwardConditionSerializer(serializers.ModelSerializer):
             'start_date': instance.start_date.strftime('%d/%m/%Y %H:%M:%S'),
             'end_date': instance.end_date.strftime('%d/%m/%Y %H:%M:%S'),
             'is_approved': instance.is_approved,
-            'duration': duration.days,
+            'duration': duration,
             'start_date_nf': instance.start_date,
             'end_date_nf': instance.end_date,
             'user_register': instance.user_register.names + ' ' + instance.user_register.surnames,
@@ -126,3 +126,11 @@ class AwardConditionFilterSerializer(serializers.ModelSerializer):
             'end_date': instance.end_date.strftime('%d/%m/%Y %H:%M:%S'),
             'is_approved': instance.is_approved,
         }
+
+class Isapproved(serializers.Serializer):
+    state = serializers.BooleanField(default=False)
+
+    def validate_won_award(self, value):
+        if value is False:
+            raise serializers.ValidationError("No se aumentó el número de premios ganados")
+        return value

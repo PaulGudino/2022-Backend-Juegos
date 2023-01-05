@@ -64,12 +64,12 @@ class UserViewSet(CRUDViewSet):
         else:
             return super().destroy(request, pk)
 
-    @action(detail=True, methods=['post'])
-    def activate_user(self, request, pk):
-        user = self.get_object()
-        user.is_active = True
-        user.save()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    # @action(detail=True, methods=['post'])
+    # def activate_user(self, request, pk):
+    #     user = self.get_object()
+    #     user.is_active = True
+    #     user.save()
+    #     return Response(status=status.HTTP_204_NO_CONTENT)
 
 
     @action(detail=True, methods=['post'])
