@@ -65,13 +65,25 @@ class AwardViewSet(CRUDViewSet):
         else:
             return super().destroy(request, pk)
 
-    @action(detail=True, methods=['put'])
+    @action(detail=True, methods=['post'])
     def won_prizes(self, request ,pk):
         prize = self.get_object()
         won_serializer = WonAward(data=request.data)
         if won_serializer.is_valid():
             prize.prizes_awarded += 1
             prize.initial_stock -=1
+            if(prize.initial_stock == 0):
+                prize.is_active =False
+            prize.save()
+            return Response({'message':"Se aumentó el número de premios ganados"},status=status.HTTP_200_OK)
+        return Response(won_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=True, methods=['post'])
+    def won_award_prizes(self, request ,pk):
+        prize = self.get_object()
+        won_serializer = WonAward(data=request.data)
+        if won_serializer.is_valid():
+            prize.prizes_awarded += 1
             prize.save()
             return Response({'message':"Se aumentó el número de premios ganados"},status=status.HTTP_200_OK)
         return Response(won_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
