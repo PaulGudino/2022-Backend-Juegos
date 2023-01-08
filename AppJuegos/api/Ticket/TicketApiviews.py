@@ -6,6 +6,7 @@ from AppJuegos.api.Ticket.TicketSerializers import (
     TicketSerializer,
     TicketSerializerCreate,
     TicketSerializerUpdate,
+    StateTicket
 )
 from rest_framework import status
 from rest_framework.response import Response
@@ -16,6 +17,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from AppJuegos.api.ValidateInformation import (
     ValidateTicketInvoice
 )
+from rest_framework.decorators import action 
 
 class TicketViewSet(CRUDViewSet):
     serializer_class = TicketSerializer
@@ -39,6 +41,16 @@ class TicketViewSet(CRUDViewSet):
         if ticket.state =='Reclamado':
             return Response({'No se puede eliminar un ticket ya reclamado'}, status=status.HTTP_400_BAD_REQUEST)
         return super().destroy(request, pk)
+
+    @action(detail=True, methods=['post'])
+    def change_state(self, request ,pk):
+        ticket = self.get_object()
+        state_serializer = StateTicket(data=request.data)
+        if state_serializer.is_valid():
+            ticket.state ='Reclamado'
+            ticket.save()
+            return Response({'message':"Se cambio el estado del ticket"},status=status.HTTP_200_OK)
+        return Response(state_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class TicketFilter(generics.ListAPIView):
     serializer_class = TicketSerializer

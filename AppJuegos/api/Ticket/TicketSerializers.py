@@ -35,3 +35,11 @@ class TicketSerializerUpdate(serializers.ModelSerializer):
     class Meta:
         model = Ticket
         fields = ('id', 'invoice_number', 'qr_code_digits', 'state', 'date_ticket_played', 'client', 'game')
+
+class StateTicket(serializers.Serializer):
+    state = serializers.BooleanField(default=False)
+
+    def validate_state(self, value):
+        if value is False:
+            raise serializers.ValidationError("No se cambió el estado del ticket")
+        return value
