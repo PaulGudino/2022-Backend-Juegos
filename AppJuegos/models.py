@@ -342,6 +342,8 @@ class Ticket(models.Model): # Entradas
     client = models.ForeignKey(Client, on_delete=models.CASCADE, default='', related_name='ticket_client')
     game = models.ForeignKey(Game, on_delete=models.CASCADE, default='', related_name='ticket_game')
     user_register = models.ForeignKey(User, on_delete=models.CASCADE, default='', related_name='register_ticket')
+    game_start = models.DateTimeField()
+    game_end = models.DateTimeField()
 
 class TicketConfiguration(models.Model):
     id = models.AutoField(primary_key=True, unique=True)

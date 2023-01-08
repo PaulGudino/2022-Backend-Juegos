@@ -22,12 +22,14 @@ class TicketSerializer(serializers.ModelSerializer):
             'user_register': instance.user_register.names + ' ' + instance.user_register.surnames,
             'client_cedula': instance.client.cedula,
             'client_id': instance.client.id,
+            'game_start' : instance.game_start.strftime('%d/%m/%Y %H:%M:%S'),
+            'game_end' : instance.game_end.strftime('%d/%m/%Y %H:%M:%S'),
         }
 
 class TicketSerializerCreate(serializers.ModelSerializer):
     class Meta:
         model = Ticket
-        fields = ('id', 'invoice_number', 'qr_code_digits', 'state', 'client', 'game', 'user_register')
+        fields = ('id', 'invoice_number', 'qr_code_digits', 'state', 'client', 'game', 'user_register','game_start','game_end')
    
 class TicketSerializerUpdate(serializers.ModelSerializer):
     class Meta:
