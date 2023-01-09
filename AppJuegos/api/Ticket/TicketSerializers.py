@@ -24,6 +24,7 @@ class TicketSerializer(serializers.ModelSerializer):
             'client_id': instance.client.id,
             'game_start' : instance.game_start.strftime('%d/%m/%Y %H:%M:%S'),
             'game_end' : instance.game_end.strftime('%d/%m/%Y %H:%M:%S'),
+            'date_created_nf': instance.date_created,
         }
 
 class TicketSerializerCreate(serializers.ModelSerializer):

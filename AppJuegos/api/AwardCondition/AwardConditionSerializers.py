@@ -124,6 +124,8 @@ class AwardConditionFilterSerializer(serializers.ModelSerializer):
             'game': instance.game.name,
             'start_date': instance.start_date.strftime('%d/%m/%Y %H:%M:%S'),
             'end_date': instance.end_date.strftime('%d/%m/%Y %H:%M:%S'),
+            'start_date_nf': instance.start_date,
+            'end_date_nf': instance.end_date,
             'is_approved': instance.is_approved,
         }
 
