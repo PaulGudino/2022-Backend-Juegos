@@ -78,4 +78,4 @@ class AwardConditionFilter(generics.ListAPIView):
         'start_date':['date__range', 'lte'],
         'end_date':['date__range', 'gte'],
     }
-    ordering_fields = ['start_date']
+    ordering_fields = ['start_date', 'end_date', 'created']
