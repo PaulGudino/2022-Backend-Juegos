@@ -63,5 +63,5 @@ class MatchFilterHistory(generics.ListAPIView):
     queryset = Match.objects.all()
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     filterset_fields = {
-        'ticket':['exact'],
+        'ticket__client__id':['exact'],
     }
