@@ -18,6 +18,7 @@ from AppJuegos.api.ValidateInformation import (
     ValidateTicketInvoice
 )
 from rest_framework.decorators import action 
+from datetime import datetime
 
 class TicketViewSet(CRUDViewSet):
     serializer_class = TicketSerializer
@@ -48,6 +49,7 @@ class TicketViewSet(CRUDViewSet):
         state_serializer = StateTicket(data=request.data)
         if state_serializer.is_valid():
             ticket.state ='Reclamado'
+            ticket.date_ticket_played = datetime.now()
             ticket.save()
             return Response({'message':"Se cambio el estado del ticket"},status=status.HTTP_200_OK)
         return Response(state_serializer.errors, status=status.HTTP_400_BAD_REQUEST)

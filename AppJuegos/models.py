@@ -276,7 +276,7 @@ class AwardCondition(models.Model):
         verbose_name_plural = 'CondicionPremios'
         ordering = ['id','award', 'game']
 
-
+# Borrar
 class AwardGame(models.Model):
     id =models.AutoField(primary_key=True, unique=True)
     premio_id = models.ForeignKey(Award, on_delete=models.CASCADE, verbose_name='Premio', related_name='award_in_game')
@@ -357,6 +357,7 @@ class Match(models.Model): # Partida
     award = models.ForeignKey(Award, on_delete=models.CASCADE, null=True, related_name='award')
     date_created = models.DateTimeField(auto_now_add=True)
     win_match = models.BooleanField(default=False,null=False,verbose_name="gano la partida?")
+    delivered = models.BooleanField(default=False,null=False,verbose_name="entrego el premio?")
     # date_modified = models.DateTimeField(auto_now=True)
     # state = models.CharField(max_length=100, choices=MATCH_STATES)
     # history = HistoricalRecords()
