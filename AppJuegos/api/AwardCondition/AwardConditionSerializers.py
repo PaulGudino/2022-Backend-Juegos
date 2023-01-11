@@ -121,6 +121,7 @@ class AwardConditionFilterSerializer(serializers.ModelSerializer):
         return {
             'id': instance.id,
             'award': instance.award.name,
+            'award_id': instance.award.id,
             'game': instance.game.name,
             'start_date': instance.start_date.strftime('%d/%m/%Y %H:%M:%S'),
             'end_date': instance.end_date.strftime('%d/%m/%Y %H:%M:%S'),
