@@ -101,6 +101,7 @@ class AwardFilter(generics.ListAPIView):
     filterset_fields = {
         'is_active':['exact'],
         'initial_stock':['gt'],
+        'category':['exact'],
     }
     ordering_fields = ['created', 'updated']
 
