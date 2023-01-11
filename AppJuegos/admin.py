@@ -6,7 +6,6 @@ from AppJuegos.models import (
     User,
     Award,
     Game,
-    AwardGame,
     Probabilidad,
     Styles
 
@@ -28,7 +27,6 @@ admin.site.register(Permission, PemissionAdmin)
 admin.site.register(RolPermission)
 admin.site.register(Award)
 admin.site.register(Game)
-admin.site.register(AwardGame)
 admin.site.register(Probabilidad)
 admin.site.register(Styles)
 

@@ -26,7 +26,6 @@ urlpatterns = [
     path('api/', include('AppJuegos.api.Game.GameUrl')),
     path('api/', include('AppJuegos.api.Ticket.TicketUrl')),
     path('api/', include('AppJuegos.api.Probabilidad.ProbabilidadUrl')),
-    path('api/', include('AppJuegos.api.AwardGame.AwardGameUrl')),
     path('api/', include('AppJuegos.api.Publicity.PublicityUrl')),
     path('api/', include('AppJuegos.api.Styles.StylesUrl')),
     path('api/', include('AppJuegos.api.Match.MatchUrl')),
