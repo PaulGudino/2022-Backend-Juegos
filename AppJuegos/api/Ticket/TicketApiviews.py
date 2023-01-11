@@ -59,5 +59,5 @@ class TicketFilter(generics.ListAPIView):
     queryset = Ticket.objects.all()
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['id', 'date_created', 'state',]
-    filterset_fields = ['id','state','qr_code_digits']
+    filterset_fields = ['id','state','qr_code_digits', 'client__id']
     ordering_fields = [ 'date_created', ]
