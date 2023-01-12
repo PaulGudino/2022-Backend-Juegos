@@ -71,6 +71,7 @@ class UserUpdateSerializer(serializers.ModelSerializer):
             'sex': instance.sex,
             'address' : instance.address,
             'rol' : instance.rol.name,
+            'rol_id' : instance.rol.id,
             'is_active': instance.is_active, 
             'created': instance.created.strftime('%d/%m/%Y %H:%M:%S'),
             'modified': instance.modified.strftime('%d/%m/%Y %H:%M:%S'),
