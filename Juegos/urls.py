@@ -28,6 +28,7 @@ urlpatterns = [
     path('api/', include('AppJuegos.api.Probabilidad.ProbabilidadUrl')),
     path('api/', include('AppJuegos.api.Publicity.PublicityUrl')),
     path('api/', include('AppJuegos.api.Styles.StylesUrl')),
+    path('api/', include('AppJuegos.api.Audio.AudioUrl') ),
     path('api/', include('AppJuegos.api.Match.MatchUrl')),
     path('api/', include('AppJuegos.api.Publicity_game.PGUrl')),
     path('api/', include('AppJuegos.api.Publicity_top.PTUrl')),

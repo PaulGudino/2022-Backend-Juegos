@@ -313,6 +313,10 @@ class Match(models.Model): # Partida
 #     state = models.CharField(max_length=100, choices=MATCH_STATES)
 #     history = HistoricalRecords()
 
+class Audio(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
+    audio = models.FileField(upload_to='audio/', verbose_name='audio',  null=False)
+
 class Styles(models.Model): # Partida
     id = models.AutoField(primary_key=True, unique=True)
     game_id = models.ForeignKey(Game, on_delete=models.CASCADE,verbose_name = 'Juego' )

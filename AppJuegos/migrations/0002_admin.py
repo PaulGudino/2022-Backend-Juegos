@@ -158,8 +158,6 @@ class Migration(migrations.Migration):
         )
 
         probability_tragamonedas.save()
-
-
         
         RolPermission_1 =  RolPermission(rol_id=admin_rol.id, permission_id=client_create_permission.id)
         RolPermission_2 =  RolPermission(rol_id=admin_rol.id, permission_id=client_view_permission.id)
