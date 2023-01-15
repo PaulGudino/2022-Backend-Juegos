@@ -9,8 +9,6 @@ class AwardSerializer(serializers.ModelSerializer):
         exclude = ('created','modified',)
 
     def to_representation(self, instance):
-        # juego = instance.get_juego_display()
-        # category = instance.get_category_display()
         total_awards = instance.initial_stock + instance.condition_stock
         return {
             'id': instance.id,

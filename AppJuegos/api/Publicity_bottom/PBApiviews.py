@@ -6,8 +6,6 @@ from AppJuegos.api.general_api import CRUDViewSet, OnlyListViewSet
 from AppJuegos.api.Publicity_bottom.PBSerializers import (
     PBSerializer,
 )
-from rest_framework import status
-from rest_framework.response import Response
 
 class PBViewSet(CRUDViewSet):
     serializer_class = PBSerializer

@@ -27,7 +27,6 @@ class ClientViewSet(CRUDViewSet):
         ValidateClientinUser().cedula(request.data.get('cedula'))
         ValidateClientinUser().email(request.data.get('email'))
         error_client_message = ValidateClientinUser().validate()
-        print(error_client_message)
         if error_client_message:
             return Response(error_client_message, status=status.HTTP_400_BAD_REQUEST)
 

@@ -31,11 +31,6 @@ class TicketSerializerCreate(serializers.ModelSerializer):
     class Meta:
         model = Ticket
         fields = ('id', 'invoice_number', 'qr_code_digits', 'state', 'client', 'game', 'user_register','game_start','game_end')
-   
-class TicketSerializerUpdate(serializers.ModelSerializer):
-    class Meta:
-        model = Ticket
-        fields = ('id', 'invoice_number', 'qr_code_digits', 'state', 'date_ticket_played', 'client', 'game')
 
 class StateTicket(serializers.Serializer):
     state = serializers.BooleanField(default=False)

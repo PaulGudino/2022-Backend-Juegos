@@ -31,12 +31,6 @@ class StylesViewSet(CRUDViewSet):
         new_video_screensaver = request.data.get('video_screensaver')
         new_image_winner = request.data.get('image_winner')
 
-        
-                    
-        print(request.data.get('id'))
-        print(style)
-        #new_start_date = request.data.get('start_date')
-
         serializer = StylesSerializers(style, data=request.data)
         if serializer.is_valid():
             if new_image_machine_game:

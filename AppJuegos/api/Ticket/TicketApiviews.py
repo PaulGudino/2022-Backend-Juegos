@@ -5,7 +5,6 @@ from AppJuegos.api.general_api import CRUDViewSet
 from AppJuegos.api.Ticket.TicketSerializers import (
     TicketSerializer,
     TicketSerializerCreate,
-    TicketSerializerUpdate,
     StateTicket
 )
 from rest_framework import status
