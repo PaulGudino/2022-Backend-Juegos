@@ -27,6 +27,7 @@ class MatchHistory(serializers.ModelSerializer):
             'ticket': instance.ticket.id,
             'win_match': instance.win_match,
             'win_award': instance.award.name if instance.award else None,
+            'win_award_category': instance.award.category if instance.award else None,
             'delivered_award': instance.delivered,
             'game_selected': instance.ticket.game.name,
             'emision_date_ticket': instance.ticket.date_created.strftime('%d/%m/%Y %H:%M:%S'),
