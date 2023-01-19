@@ -51,11 +51,7 @@ class AwardViewSet(CRUDViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def destroy(self, request, pk):
-
-        is_past = True
         award = Award.objects.get(id=pk)
-        if award.is_past == is_past:
-            return Response({'error': 'No se puede eliminar un premio pasado'}, status=status.HTTP_400_BAD_REQUEST)
 
         if ValidateAwardRelationships(pk).validate():
             award = self.get_object()
