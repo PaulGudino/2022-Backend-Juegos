@@ -4,7 +4,8 @@ from AppJuegos.models import (
     Client,
     AwardCondition,
     Game,
-    Ticket
+    Ticket,
+    Match
 )
 from datetime import datetime
 
@@ -70,7 +71,8 @@ class ValidateAwardRelationships:
 
         def validate(self):
             award_condition = AwardCondition.objects.filter(award=self.pk).first()
-            if award_condition:
+            match_award = Match.objects.filter(award=self.pk).first() 
+            if award_condition or match_award:
                 return True
             return False
 
