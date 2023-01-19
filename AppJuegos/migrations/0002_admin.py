@@ -111,7 +111,7 @@ class Migration(migrations.Migration):
             email = 'admin@admin.com',
             password=make_password('admin'),
             phone='0000000000',
-            sex='M',
+            sex='Masculino',
             address='Administrador',
             rol= admin_rol
         )
@@ -140,10 +140,10 @@ class Migration(migrations.Migration):
 
         #Create defaul publicity
         default_publicity_top = Publicity(
-            created = date.today()
+            # created = date.today()
         )
         default_publicity_bottom = Publicity(
-            created = date.today()
+            # created = date.today()
         )
         default_publicity_top.save()
         default_publicity_bottom.save()
@@ -158,8 +158,6 @@ class Migration(migrations.Migration):
         )
 
         probability_tragamonedas.save()
-
-
         
         RolPermission_1 =  RolPermission(rol_id=admin_rol.id, permission_id=client_create_permission.id)
         RolPermission_2 =  RolPermission(rol_id=admin_rol.id, permission_id=client_view_permission.id)

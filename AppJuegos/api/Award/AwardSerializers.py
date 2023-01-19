@@ -6,11 +6,9 @@ from AppJuegos.models import (
 class AwardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Award
-        exclude = ('created','modified','is_past',)
+        exclude = ('created','modified',)
 
     def to_representation(self, instance):
-        # juego = instance.get_juego_display()
-        # category = instance.get_category_display()
         total_awards = instance.initial_stock + instance.condition_stock
         return {
             'id': instance.id,
@@ -27,14 +25,13 @@ class AwardSerializer(serializers.ModelSerializer):
             'user_modify': instance.user_modify.names + ' ' + instance.user_modify.surnames if instance.user_modify else None,
             'category': instance.category, 
             'game': instance.game.id,  
-            'is_past': instance.is_past,
             'total_awards': total_awards,
         }
 
 class AwarderializerList(serializers.ModelSerializer):
     class Meta:
         model = Award
-        exclude = ('created','modified','is_past',)
+        exclude = ('created','modified',)
 
     def to_representation(self, instance):
         category = instance.get_category_display()
@@ -54,7 +51,6 @@ class AwarderializerList(serializers.ModelSerializer):
             'user_modify': instance.user_modify.names + ' ' + instance.user_modify.surnames if instance.user_modify else None,
             'category': category,
             'game': instance.game.name,
-            'is_past': instance.is_past,
             'total_awards': total_awards,
         }
 class AwardSerializerCreate(serializers.ModelSerializer):

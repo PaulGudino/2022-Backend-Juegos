@@ -29,13 +29,11 @@ class ValidateUserinClient:
         cedula_client = Client.objects.filter(cedula=cedula).first()
         if cedula_client:
             self.message_user_in_client.append('La cedula ya existe en la sección de clientes')
-        print(self.message_user_in_client)
 
     def email(self, email):
         email_client = Client.objects.filter(email=email).first()
         if email_client:
             self.message_user_in_client.append('El email ya existe en la sección de clientes')
-        print(self.message_user_in_client)
 
     def validate(self):
         if self.message_user_in_client:
@@ -157,13 +155,9 @@ class ValidateTicketInvoice:
             state= "Disponible",
             client = id_client
             )
-        print(ticket)
-        print(self.message_ticket_invoice)
         if ticket:
             self.message_ticket_invoice.append('El cliente ya tiene resgistro ese número de factura')
             error_message = self.message_ticket_invoice.copy()
-            print('Dentro del if')
-            print(self.message_ticket_invoice)
             self.message_ticket_invoice.clear()
             return error_message
         return None

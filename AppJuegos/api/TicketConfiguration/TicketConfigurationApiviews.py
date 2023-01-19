@@ -22,7 +22,6 @@ class TicketConfigurationViewSet(CRUDViewSet):
         ticket_configuration = TicketConfiguration.objects.get(id=pk)
 
         new_image = request.data.get('logo')
-        print(new_image)
         if new_image:
             serializer = TicketConfigurationSerializer(ticket_configuration, data=request.data)
             if serializer.is_valid():

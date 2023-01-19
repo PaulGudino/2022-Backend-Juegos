@@ -9,7 +9,6 @@ from AppJuegos.models import (
 )
 from AppJuegos.api.general_api import CRUDViewSet
 from rest_framework import generics
-from rest_framework.decorators import action 
 from AppJuegos.api.Rol.RolSerializers import  (
     RolSerializer,
     RolPermissionSerializer,

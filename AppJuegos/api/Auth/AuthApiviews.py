@@ -2,7 +2,6 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template, render_to_string
 from django.utils.html import strip_tags
 from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework_simplejwt.tokens import RefreshToken
 from AppJuegos.api.Auth.AuthSerializers import ( 
     CustomTokenObtainPairSerializer, 
     CustomUserSerializer, 
@@ -18,7 +17,6 @@ from AppJuegos.models import (
     User,
     ForgotPassword
 )
-from django.core.mail import send_mail
 from django.conf import settings
 import random
 from django.contrib.auth.hashers import make_password
@@ -107,13 +105,6 @@ class ForgotPasswordView(GenericAPIView):
             msg.attach_alternative(html_content, "text/html")
             msg.send()
 
-            # send_mail(
-            #     'Recuperar contraseña',
-            #     f'<p>The code is this {code}</p>',
-            #     settings.EMAIL_HOST_USER,
-            #     [email],
-            #     fail_silently=False,
-            # )
             return Response({'message':'Revise su email'}, status=status.HTTP_200_OK)
         return Response({'error':'El email proporcionado no existe en el sistema'}, status=status.HTTP_400_BAD_REQUEST)
 

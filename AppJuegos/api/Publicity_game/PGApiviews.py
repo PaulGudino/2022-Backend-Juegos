@@ -4,10 +4,7 @@ from AppJuegos.models import (
 )
 from AppJuegos.api.general_api import CRUDViewSet, OnlyListViewSet
 from AppJuegos.api.Publicity_game.PGSerializers import (
-    PGSerializer,
-    PGSerializerUpdateImage,
-    PGSerializerUpdateNoImage,
-    PGSerializerList,
+    PGSerializer
 )
 from rest_framework import status
 from rest_framework.response import Response
@@ -20,7 +17,7 @@ class PGViewSet(CRUDViewSet):
         publicity = Publicity_game.objects.get(id=pk)
         new_image = request.data.get('image')
         if new_image:
-            serializer = PGSerializerUpdateImage(publicity, data=request.data)
+            serializer = PGSerializer(publicity, data=request.data)
             if serializer.is_valid():
                 old_image = publicity.image
                 if old_image:
@@ -28,7 +25,7 @@ class PGViewSet(CRUDViewSet):
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
-            serializer = PGSerializerUpdateNoImage(publicity, data=request.data)
+            serializer = PGSerializer(publicity, data=request.data)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -36,7 +33,7 @@ class PGViewSet(CRUDViewSet):
 
 
 class PGListViewSet(OnlyListViewSet):
-    serializer_class = PGSerializerList
+    serializer_class = PGSerializer
     queryset = Publicity_game.objects.all()
 
 

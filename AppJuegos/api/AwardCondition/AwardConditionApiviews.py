@@ -1,7 +1,7 @@
 from AppJuegos.models import (
     AwardCondition,
 )
-from AppJuegos.api.general_api import CRUDViewSet, OnlyListViewSet
+from AppJuegos.api.general_api import CRUDViewSet
 from AppJuegos.api.AwardCondition.AwardConditionSerializers import (
     AwardConditionSerializer,
     AwardConditionFilterSerializer,
@@ -35,9 +35,6 @@ class AwardConditionViewSet(CRUDViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, pk):
-        print('desde la api')
-        print(request.data.get('start_date'))
-
         award_condition = AwardCondition.objects.get(id=pk)
         if award_condition.is_approved == True:
             return Response({'Esta condición de premio ya fue aprobadan, no se puede editar'}, status=status.HTTP_400_BAD_REQUEST)
@@ -75,6 +72,7 @@ class AwardConditionFilter(generics.ListAPIView):
     search_fields = ['id', 'start_date']
     filterset_fields = {
         'is_approved':['exact'],
-        'start_date':['date__range'],
+        'start_date':['date__range', 'lte'],
+        'end_date':['date__range', 'gte'],
     }
-    ordering_fields = ['start_date']
+    ordering_fields = ['start_date', 'end_date', 'created']
