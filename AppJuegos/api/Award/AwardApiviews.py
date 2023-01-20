@@ -80,6 +80,7 @@ class AwardViewSet(CRUDViewSet):
         won_serializer = WonAward(data=request.data)
         if won_serializer.is_valid():
             prize.prizes_awarded += 1
+            prize.condition_stock -=1
             prize.save()
             return Response({'message':"Se aumentó el número de premios ganados"},status=status.HTTP_200_OK)
         return Response(won_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -98,6 +99,7 @@ class AwardFilter(generics.ListAPIView):
         'is_active':['exact'],
         'initial_stock':['gt'],
         'category':['exact'],
+        'created':['date__range'],
     }
     ordering_fields = ['created', 'updated']
 

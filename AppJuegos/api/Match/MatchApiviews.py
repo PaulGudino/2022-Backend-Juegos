@@ -66,5 +66,6 @@ class MatchFilterHistory(generics.ListAPIView):
         'ticket__client__id':['exact'],
         'win_match':['exact'],
         'delivered':['exact'],
+        'date_created':['date__range'],
     }
     ordering_fields = ['date_created']
