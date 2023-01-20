@@ -26,6 +26,7 @@ class MatchHistory(serializers.ModelSerializer):
             'id':instance.id,
             'ticket': instance.ticket.id,
             'win_match': instance.win_match,
+            'win_award_id': instance.award.id if instance.award else None,
             'win_award': instance.award.name if instance.award else None,
             'win_award_category': instance.award.category if instance.award else None,
             'delivered_award': instance.delivered,
