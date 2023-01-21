@@ -11,9 +11,6 @@ from AppJuegos.api.Game.GameSerializers import (
 from rest_framework import status
 from rest_framework.response import Response
 
-from AppJuegos.api.ValidateInformation import (
-    ValidateAwardConditionDateinGame
-)
 
 class GameViewSet(CRUDViewSet):
     serializer_class = GameSerializers

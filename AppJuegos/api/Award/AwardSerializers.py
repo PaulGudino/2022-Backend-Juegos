@@ -9,7 +9,7 @@ class AwardSerializer(serializers.ModelSerializer):
         exclude = ('created','modified',)
 
     def to_representation(self, instance):
-        total_awards = instance.initial_stock + instance.condition_stock
+        total_awards = instance.initial_stock + instance.condition_stock + instance.prizes_awarded
         return {
             'id': instance.id,
             'name': instance.name,
@@ -35,7 +35,7 @@ class AwarderializerList(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         category = instance.get_category_display()
-        total_awards = instance.initial_stock + instance.condition_stock
+        total_awards = instance.initial_stock + instance.condition_stock + instance.prizes_awarded
         return {
             'id': instance.id,
             'name': instance.name,

@@ -93,7 +93,6 @@ class Client(models.Model):
     created = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creacion')
     modified = models.DateTimeField(auto_now=True, verbose_name='Fecha de modificacion')
     history = HistoricalRecords()
-    # state = models.CharField(max_length=50, choices=STATES, default='Activo', verbose_name='Estado')
     user_client_register = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que registra', related_name='user_client_register')
     user_client_modify = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que modifica', related_name='user_client_modify', null=True, blank=True)
 
@@ -107,37 +106,13 @@ class Client(models.Model):
 
 
 class Game(models.Model):
-    # id = models.AutoField(primary_key=True, unique=True)
-    # start_date = models.DateTimeField(verbose_name='Fecha inicio juego')
-    # end_date = models.DateTimeField(verbose_name='Fecha fin juego')
-    # created = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creacion')
-    # modified = models.DateTimeField(auto_now=True, verbose_name='Fecha de modificacion')
-    # game = models.CharField(max_length=1, choices=juego, default='T', verbose_name='Juego')
-    # user_game_register = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que registra', related_name='user_game_register')
-    # user_game_modify = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que modifica', related_name='user_game_modify', null=True, blank=True)
-    
-    # # Added for game selection screen
-    # name = models.CharField(max_length=50, choices=GAME_CHOICES, default="Tragamonedas",verbose_name='Nombre')
-    # players = models.IntegerField(default=0, verbose_name='Jugadores')
-    # description = models.TextField(max_length=100, default='Descripción', verbose_name='Descripción')
-    # state = models.CharField(max_length=100, default='Desactivado', choices=GAME_STATES)
-    # # above added for game selection screen
-
-    # is_active = models.BooleanField(default=True)
-    # history = HistoricalRecords()
     id = models.AutoField(primary_key=True, unique=True)
     start_date = models.DateTimeField(verbose_name='Fecha inicio juego')
     end_date = models.DateTimeField(verbose_name='Fecha fin juego')
     modification_date = models.DateTimeField(verbose_name='Fecha  modificacion juego',null=True)
-    # game = models.CharField(max_length=1, choices=juego, default='T', verbose_name='Juego')
-    
-    # Added for game selection screen
     name = models.CharField(max_length=50, choices=GAME_CHOICES, default="Tragamonedas",verbose_name='Nombre')
     players = models.IntegerField(default=0, verbose_name='Jugadores')
-    # description = models.TextField(max_length=100, default='Descripción', verbose_name='Descripción')
     state = models.CharField(max_length=100, default='Activado', choices=GAME_STATES)
-    # above added for game selection screen
-
     is_active = models.BooleanField(default=True)
     history = HistoricalRecords()
 
@@ -164,7 +139,6 @@ class Award(models.Model):
     user_modify = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que modifica', related_name='user_modify', null=True, blank=True)
     category = models.CharField(max_length=50, choices=CATEGORY, default='Comun', verbose_name='Categoria')
     game = models.ForeignKey(Game, on_delete=models.CASCADE, verbose_name='Juego')
-    # is_past = models.BooleanField(default=False)
     history = HistoricalRecords()
 
     def __str__(self):
@@ -218,28 +192,15 @@ class AwardCondition(models.Model):
         verbose_name_plural = 'CondicionPremios'
         ordering = ['id','award', 'game']
 
-# Borrar
-# class AwardGame(models.Model):
-#     id =models.AutoField(primary_key=True, unique=True)
-#     premio_id = models.ForeignKey(Award, on_delete=models.CASCADE, verbose_name='Premio', related_name='award_in_game')
-#     game_id = models.ForeignKey(Game, on_delete=models.CASCADE,verbose_name = 'Juego' )
-    
-#     class Meta:
-#         verbose_name = 'Premio Juego'
-#         verbose_name_plural = 'Premios Juegos'
-
-
 class Publicity_top(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     image = models.ImageField(upload_to='publicity_top/', null=False)
-    # time_display = models.IntegerField(default=3, null=True)
-    # history = HistoricalRecords()
+
 
 class Publicity_bottom(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     image = models.ImageField(upload_to='publicity_bottom/', null=False)
-    # time_display = models.IntegerField(default=3, null=True)
-    # history = HistoricalRecords()
+
 
 class Publicity_game(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
@@ -250,12 +211,7 @@ class Probabilidad(models.Model):
     percent_win = models.PositiveIntegerField('porcent_win',null=False,default=0)
     winners_limit = models.PositiveIntegerField('winners_limit',null=False,default=0)
     attempts_limit = models.PositiveIntegerField('numero de intentos',null=False,default=1)
-    # created = models.DateTimeField(verbose_name='Fecha de creacion',auto_now_add=True, blank=True)
-    # modified = models.DateTimeField(verbose_name='Fecha de modificacion',auto_now_add=True, blank=True)
     game_id = models.ForeignKey(Game, on_delete=models.CASCADE,verbose_name = 'Juego' )
-    # history = HistoricalRecords()
-    # is_active = models.BooleanField(default=True)
-    # user_register = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que registra', related_name='user_register_probabilidad')
    
     
     class Meta:
@@ -265,9 +221,6 @@ class Probabilidad(models.Model):
 class Publicity(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     time_display = models.IntegerField(verbose_name='Tiempo de vista ',null=False,default=4)
-    # history = HistoricalRecords()
-    # created = models.DateTimeField(verbose_name='Fecha de creacion',auto_now_add=True, blank=True)
-    # is_active = models.BooleanField(default=True)
 
     class Meta:
         verbose_name = 'Publicity'
@@ -300,18 +253,6 @@ class Match(models.Model): # Partida
     date_created = models.DateTimeField(auto_now_add=True)
     win_match = models.BooleanField(default=False,null=False,verbose_name="gano la partida?")
     delivered = models.BooleanField(default=False,null=False,verbose_name="entrego el premio?")
-    # date_modified = models.DateTimeField(auto_now=True)
-    # state = models.CharField(max_length=100, choices=MATCH_STATES)
-    # history = HistoricalRecords()
-
-
-# class Match(models.Model): # Partida
-#     id = models.AutoField(primary_key=True, unique=True)
-#     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, default='', related_name='match_ticket')
-#     date_created = models.DateTimeField(auto_now_add=True)
-#     date_modified = models.DateTimeField(auto_now=True)
-#     state = models.CharField(max_length=100, choices=MATCH_STATES)
-#     history = HistoricalRecords()
 
 class Audio(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
@@ -343,7 +284,6 @@ class Styles(models.Model): # Partida
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
-    # history = HistoricalRecords()
 
 
 

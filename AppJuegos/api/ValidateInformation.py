@@ -116,36 +116,6 @@ class ValidateGameRelationships:
             return False    
 
 
-class ValidateAwardConditionDateinGame:
-
-    message_award_condition_date = []
-
-    def validate(self, id_game,start_date, end_date):
-        awards_conditions = AwardCondition.objects.filter(
-            game_id=id_game,
-            is_approved = False,
-            )
-        if len(start_date) == 19:
-            start_date = datetime.strptime(start_date.replace('T', ' '), '%Y-%m-%d %H:%M:%S')
-            end_date = datetime.strptime(end_date.replace('T', ' '), '%Y-%m-%d %H:%M:%S')
-        else:
-            start_date = datetime.strptime(start_date.replace('T', ' '), '%Y-%m-%d %H:%M')
-            end_date = datetime.strptime(end_date.replace('T', ' '), '%Y-%m-%d %H:%M')
-
-        for award_condition in awards_conditions:
-
-            if start_date >= award_condition.start_date:
-                self.message_award_condition_date.append('Hay una condición de premio que tiene una fecha de inicio menor a la fecha de inicio actual del juego')
-                error_message = self.message_award_condition_date.copy()
-                self.message_award_condition_date.clear()
-                return error_message
-            if end_date <= award_condition.end_date:
-                self.message_award_condition_date.append('Hay una condición de premio que tiene una fecha de fin mayor a la fecha de fin actual del juego')
-                error_message = self.message_award_condition_date.copy()
-                self.message_award_condition_date.clear()
-                return error_message
-        return None
-
 class ValidateTicketInvoice:
 
     message_ticket_invoice = []
