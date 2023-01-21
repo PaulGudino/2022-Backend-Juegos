@@ -37,7 +37,7 @@ class AwardConditionViewSet(CRUDViewSet):
     def update(self, request, pk):
         award_condition = AwardCondition.objects.get(id=pk)
         if award_condition.is_approved == True:
-            return Response({'Esta condición de premio ya fue aprobadan, no se puede editar'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'Esta condición de premio ya fue aprobada, no se puede editar'}, status=status.HTTP_400_BAD_REQUEST)
 
         serializer = AwardConditionUpdateSerializer(self.get_object(), data=request.data)
         if serializer.is_valid():
