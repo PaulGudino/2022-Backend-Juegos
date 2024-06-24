@@ -57,6 +57,9 @@ CATEGORY = (
 )
 GAME_CHOICES = [
     ('Tragamonedas', 'Tragamonedas'),
+    ('Precision', 'Precision'),
+    ('Dados', 'Dados'),
+    ('Puertas', 'Puertas')
 ]
 
 GAME_STATES = [
