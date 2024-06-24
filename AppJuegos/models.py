@@ -2,8 +2,32 @@ from tracemalloc import start
 from django.db import models
 from .choices import *
 from simple_history.models import HistoricalRecords
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser,BaseUserManager
 from datetime import datetime 
+
+
+class CustomUserManager(BaseUserManager):
+    def create_user(self, username, email, password=None, rol=None, **extra_fields):
+        if not email:
+            raise ValueError('El correo electrónico debe ser proporcionado')
+        email = self.normalize_email(email)
+        if rol is None:
+            rol = Rol.objects.get_or_create(name='default_rol')[0]  # Obtener o crear un rol por defecto
+        user = self.model(username=username, email=email, rol=rol, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, username, email, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('El superusuario debe tener is_staff=True.')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('El superusuario debe tener is_superuser=True.')
+
+        return self.create_user(username, email, password, **extra_fields)
 
 
 class Rol(models.Model):
@@ -14,7 +38,7 @@ class Rol(models.Model):
     modified = models.DateTimeField(auto_now=True, verbose_name='Fecha de modificacion')
     is_active = models.BooleanField(default=True)
 
-    def __str__(self):
+    def _str_(self):
         return self.name
 
     class Meta:
@@ -39,16 +63,23 @@ class User(AbstractUser):
     history = HistoricalRecords()
     is_active = models.BooleanField(default=True)
 
+     # Estos campos son necesarios para manejar los permisos en Django
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
+    date_joined = models.DateTimeField(default=datetime.now)
+
     first_name = None
     last_name = None
     groups = None
     user_permissions = None
-    is_staff = None
-    is_superuser = None
+    #is_staff = None
+    #is_superuser = None
     last_login = None
-    date_joined = None
+    #date_joined = None
 
-    def __str__(self):
+    objects = CustomUserManager()  # Asignar el CustomUserManager
+
+    def _str_(self):
         return self.names + ' ' + self.surnames + ' - ' + self.email
 
     class Meta:
@@ -60,7 +91,7 @@ class Permission(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     name = models.CharField(max_length=50, verbose_name='Nombre')
 
-    def __str__(self):
+    def _str_(self):
         return self.name
     
     class Meta:
@@ -73,7 +104,7 @@ class RolPermission(models.Model):
     rol = models.ForeignKey(Rol, on_delete=models.CASCADE, verbose_name='Rol')
     permission = models.ForeignKey(Permission, on_delete=models.CASCADE, verbose_name='Permiso')
 
-    def __str__(self):
+    def _str_(self):
         return self.rol.name + ' ' + self.permission.name
 
     class Meta:
@@ -96,7 +127,7 @@ class Client(models.Model):
     user_client_register = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que registra', related_name='user_client_register')
     user_client_modify = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que modifica', related_name='user_client_modify', null=True, blank=True)
 
-    def __str__(self):
+    def _str_(self):
         return self.names + ' ' + self.surnames + ' - ' + self.email
 
     class Meta:
@@ -116,7 +147,7 @@ class Game(models.Model):
     is_active = models.BooleanField(default=True)
     history = HistoricalRecords()
 
-    def __str__(self):
+    def _str_(self):
         return self.name
 
 
@@ -141,7 +172,7 @@ class Award(models.Model):
     game = models.ForeignKey(Game, on_delete=models.CASCADE, verbose_name='Juego')
     history = HistoricalRecords()
 
-    def __str__(self):
+    def _str_(self):
         return self.name
 
     def delete(self, using=None, keep_parents=False):
@@ -153,7 +184,6 @@ class Award(models.Model):
         verbose_name_plural = 'Premios'
         ordering = ['id','name','description', 'initial_stock', 'prizes_awarded']
 
-
 # Modelos de contraseña
 
 class ForgotPassword(models.Model):
@@ -162,7 +192,7 @@ class ForgotPassword(models.Model):
     code = models.CharField(max_length=6, verbose_name='Codigo')
     created = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creacion')
 
-    def __str__(self):
+    def _str_(self):
         return self.email
 
     class Meta:
@@ -184,7 +214,7 @@ class AwardCondition(models.Model):
     user_modify = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que modifica', related_name='user_modify_award_condition', null=True, blank=True)
     history = HistoricalRecords()
 
-    def __str__(self):
+    def _str_(self):
         return self.award.name
 
     class Meta:
@@ -206,6 +236,7 @@ class Publicity_game(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     image = models.ImageField(upload_to='publicity_game', null=True)
     
+
 class Probabilidad(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     percent_win = models.PositiveIntegerField('porcent_win',null=False,default=0)
@@ -218,6 +249,7 @@ class Probabilidad(models.Model):
         verbose_name = 'Probabilidad'
         verbose_name_plural = 'Probabilidades'
 
+
 class Publicity(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     time_display = models.IntegerField(verbose_name='Tiempo de vista ',null=False,default=4)
@@ -225,6 +257,7 @@ class Publicity(models.Model):
     class Meta:
         verbose_name = 'Publicity'
         verbose_name_plural = 'Publicities'
+
 
 class Ticket(models.Model): # Entradas
     id = models.AutoField(primary_key=True, unique=True)
@@ -240,11 +273,13 @@ class Ticket(models.Model): # Entradas
     game_start = models.DateTimeField()
     game_end = models.DateTimeField()
 
+
 class TicketConfiguration(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     logo = models.ImageField(upload_to='logo_ticket/', null=True)
     title = models.CharField(max_length=255, null=True, default='Gana premios jugando')
     description = models.CharField(max_length=255, null=True, default='Gana premios jugando')
+
 
 class Match(models.Model): # Partida
     id = models.AutoField(primary_key=True, unique=True)
@@ -254,9 +289,11 @@ class Match(models.Model): # Partida
     win_match = models.BooleanField(default=False,null=False,verbose_name="gano la partida?")
     delivered = models.BooleanField(default=False,null=False,verbose_name="entrego el premio?")
 
+
 class Audio(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     audio = models.FileField(upload_to='audio/', verbose_name='audio',  null=False)
+
 
 class Styles(models.Model): # Partida
     id = models.AutoField(primary_key=True, unique=True)
@@ -284,7 +321,3 @@ class Styles(models.Model): # Partida
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
-
-
-
-
