@@ -19,7 +19,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['sistemaskioskotouch.pythonanywhere.com']
 
 # For local environment
-#ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -53,9 +53,9 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
-#    'DEFAULT_PERMISSION_CLASSES': (
-#       'rest_framework.permissions.IsAuthenticated',
-#    )
+   'DEFAULT_PERMISSION_CLASSES': (
+      'rest_framework.permissions.IsAuthenticated',
+   )
 
 }
 
@@ -98,28 +98,28 @@ WSGI_APPLICATION = 'Juegos.wsgi.application'
 # For deployment environment
 
 DATABASES = {
-  'default': {
-      'ENGINE': 'django.db.backends.mysql',
-      'NAME': 'sistemaskioskoto$juegos',
-      'USER': 'sistemaskioskoto',
-      'PASSWORD': 'Root@123',
-      'HOST': 'sistemaskioskotouch.mysql.pythonanywhere-services.com',
-      'PORT': '3306'
-  }
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'sistemaskioskoto$juegos',
+        'USER': 'sistemaskioskoto',
+        'PASSWORD': 'Root@123',
+        'HOST': 'sistemaskioskotouch.mysql.pythonanywhere-services.com',
+        'PORT': '3306'
+    }
 }
 
 # For local environment
 
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.mysql',
-#        'NAME': 'juegos',
-#        'USER': 'admin',
-#        'PASSWORD': 'Root@123',
-#        'HOST': 'localhost',
-#        'PORT': '3306'
-#    }
-#}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'juegos',
+#         'USER': 'admin',
+#         'PASSWORD': 'Root@123',
+#         'HOST': 'localhost',
+#         'PORT': '3306'
+#     }
+# }
 
 
 # Password validation
