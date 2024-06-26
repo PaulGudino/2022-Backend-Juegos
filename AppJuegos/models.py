@@ -321,3 +321,27 @@ class Styles(models.Model): # Partida
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
+
+
+# ================================================================================================================== 
+# Log del juego enc curso, cliente que juega, en que maquina juega
+# ================================================================================================================== 
+
+class GameCurrentSession(models.Model):
+    # Lista de campos, asegúrate de que `client_id` no esté aquí.
+    kiosko_numero = models.CharField(max_length=100)
+    ticket_id = models.ForeignKey(Ticket, on_delete=models.CASCADE)
+    game_id = models.CharField(max_length=100)  # Cambiado a CharField para almacenar un ID de juego como string
+    gano = models.BooleanField(null=True, blank=True)
+    award_id = models.ForeignKey(Award, null=True, blank=True, on_delete=models.SET_NULL)
+    fecha_hora_startgame = models.DateTimeField()
+    fecha_hora_finalgame = models.DateTimeField(null=True, blank=True)
+
+
+    def __str__(self):
+        return f'Partida {self.id} - Cliente {self.client} - Juego {self.game}'
+
+    class Meta:
+        verbose_name = 'Partida en Curso'
+        verbose_name_plural = 'Partidas en Curso'
+        ordering = ['id']

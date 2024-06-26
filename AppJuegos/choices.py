@@ -66,3 +66,14 @@ GAME_STATES = [
     ('Activado', 'Activado'),
     ('Desactivado', 'Desactivado'),
 ]
+<<<<<<< HEAD
+=======
+
+
+KIOSKO_MACHINE = [
+    ('1', 'Kiosko 1'),
+    ('2', 'Kiosko 2'),
+    ('3', 'Kiosko 3'),
+]
+
+>>>>>>> c0b3bc5 (se anadio nuevo modelo currentgame)

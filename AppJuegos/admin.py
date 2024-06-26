@@ -8,7 +8,6 @@ from AppJuegos.models import (
     Game,
     Probabilidad,
     Styles
-
 )
 
 # Register your models here.
