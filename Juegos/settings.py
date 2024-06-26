@@ -95,7 +95,7 @@ WSGI_APPLICATION = 'Juegos.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# For deployment environment
+# For deployment environment je
 
 # DATABASES = {
 #   'default': {
