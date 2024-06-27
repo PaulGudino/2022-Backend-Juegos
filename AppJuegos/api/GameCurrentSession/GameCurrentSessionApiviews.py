@@ -1,18 +1,24 @@
-from AppJuegos.models import GameCurrentSession
+from AppJuegos.models import (
+    GameCurrentSession,
+)
 from AppJuegos.api.general_api import CRUDViewSet
 from AppJuegos.api.GameCurrentSession.GameCurrentSessionSerializers import (
     GameCurrentSessionSerializer,
+    GameCurrentSessionSerializerCreate,
     GameCurrentSessionFilterSerializer,
     GameCurrentSessionUpdateSerializer
 )
-from rest_framework.decorators import action, api_view
+
 from rest_framework import status, generics
 from rest_framework.response import Response
-from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.decorators import action, api_view
 from rest_framework.viewsets import ModelViewSet
+from datetime import datetime
 
-class GameCurrentSessionViewSet(CRUDViewSet):  # Asegúrate de usar CRUDViewSet aquí
+
+class GameCurrentSessionViewSet(CRUDViewSet):
     serializer_class = GameCurrentSessionSerializer
     queryset = GameCurrentSession.objects.all()
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
@@ -85,8 +91,7 @@ class GameCurrentSessionViewSet(CRUDViewSet):  # Asegúrate de usar CRUDViewSet 
             return Response({'error': 'Game session not found'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response(str(e), status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
+        
 @api_view(['GET'])
 def get_last_session(request):
     kiosko_numero = request.query_params.get('kiosko_numero')
@@ -103,26 +108,27 @@ def get_last_session(request):
         return Response(serializer.data, status=status.HTTP_200_OK)
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
+    
 
 class GameCurrentSessionFilter(generics.ListAPIView):
-    serializer_class = GameCurrentSessionFilterSerializer
+    serializer_class = GameCurrentSessionSerializer
     queryset = GameCurrentSession.objects.all()
-    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
+    search_fields = ['id', 'date_created', 'state',]
     filterset_fields = {
-        'gano': ['exact'],
-        'fecha_hora_startgame': ['date__range', 'gte', 'lte'],
-        'fecha_hora_finalgame': ['date__range', 'gte', 'lte'],
+        'id': ['exact'],
+        'game_id': ['exact'],
+        'kiosko_numero': ['exact'],
+        'fecha_hora_startgame': ['date__range'],
     }
-    search_fields = ['id', 'fecha_hora_startgame']
-    ordering_fields = ['fecha_hora_startgame', 'fecha_hora_finalgame', 'id']
+    ordering_fields = ['fecha_hora_startgame']
 
 
 class GameCurrentFilter(generics.ListAPIView):
     serializer_class = GameCurrentSessionSerializer
     queryset = GameCurrentSession.objects.all()
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['id', 'date_created', 'game_id', 'kiosko_numero']
+    search_fields = ['id', 'game_id', 'kiosko_numero']
     filterset_fields = {
         'id': ['exact'],
         'game_id': ['exact'],

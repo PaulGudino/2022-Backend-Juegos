@@ -1,11 +1,13 @@
 from rest_framework import serializers
-from AppJuegos.models import GameCurrentSession
+from AppJuegos.models import (
+    GameCurrentSession,
+)
 
 class GameCurrentSessionSerializer(serializers.ModelSerializer):
     class Meta:
         model = GameCurrentSession
         fields = ('id', 'kiosko_numero', 'ticket_id', 'game_id', 'gano', 'award_id', 'fecha_hora_startgame', 'fecha_hora_finalgame')
-    
+
     def to_representation(self, instance):
         return {
             'id': instance.id,
@@ -17,6 +19,13 @@ class GameCurrentSessionSerializer(serializers.ModelSerializer):
             'fecha_hora_startgame': instance.fecha_hora_startgame.strftime('%Y-%m-%dT%H:%M:%S.%fZ'),
             'fecha_hora_finalgame': instance.fecha_hora_finalgame.strftime('%Y-%m-%dT%H:%M:%S.%fZ') if instance.fecha_hora_finalgame else None,
         }
+    
+
+class GameCurrentSessionSerializerCreate(serializers.ModelSerializer):
+    class Meta:
+        model = GameCurrentSession
+        fields = ('id', 'invoice_number', 'qr_code_digits', 'state', 'client', 'game', 'user_register','game_start','game_end')
+
 
 class GameCurrentSessionUpdateSerializer(serializers.ModelSerializer):
     class Meta:

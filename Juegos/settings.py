@@ -16,7 +16,7 @@ SECRET_KEY = 'django-insecure-47=alantoxcgi6$@4&xv-mj&ifbcni=+(3dw9wl+^@i*gj4p&$
 DEBUG = True
 
 # For deployment environment
-# ALLOWED_HOSTS = ['juegos.pythonanywhere.com']
+# ALLOWED_HOSTS = ['sistemaskioskotouch.pythonanywhere.com']
 
 # For local environment
 ALLOWED_HOSTS = []
@@ -95,7 +95,7 @@ WSGI_APPLICATION = 'Juegos.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# For deployment environment je
+# For deployment environment
 
 # DATABASES = {
 #   'default': {
@@ -167,15 +167,20 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:4200',
+]
+
 CORS_ALLOW_CREDENTIALS = True
 
 
 CORS_ALLOW_METHODS = [
-    'DELETE',
     'GET',
     'POST',
     'PUT',
+    'PATCH',  
+    'DELETE',
+    'OPTIONS',
 ]
 
 AUTH_USER_MODEL = 'AppJuegos.User'
