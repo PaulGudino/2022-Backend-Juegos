@@ -4,6 +4,7 @@ from .choices import *
 from simple_history.models import HistoricalRecords
 from django.contrib.auth.models import AbstractUser,BaseUserManager
 from datetime import datetime
+from django.db import models
 
 
 class CustomUserManager(BaseUserManager):
@@ -322,6 +323,13 @@ class Styles(models.Model): # Partida
     date_modified = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
 
+class GameImageUpload(models.Model):
+    game_name = models.CharField(max_length=100)
+    image_type = models.CharField(max_length=100)
+    image = models.ImageField(upload_to=f'img/{game_name}/')
+
+    def __str__(self):
+        return f'{self.game_name} - {self.image_type}'
 
 # ================================================================================================================== 
 # Log del juego enc curso, cliente que juega, en que maquina juega
