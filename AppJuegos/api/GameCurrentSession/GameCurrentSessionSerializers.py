@@ -13,7 +13,7 @@ class GameCurrentSessionSerializer(serializers.ModelSerializer):
             'id': instance.id,
             'kiosko_numero': instance.kiosko_numero,
             'ticket_id': instance.ticket_id.id,  # Asegúrate de ajustar esto según sea necesario
-            'game_id': str(instance.game_id),      # Asegúrate de ajustar esto según sea necesario
+            'game_id': instance.game_id,      # Asegúrate de ajustar esto según sea necesario
             'gano': instance.gano,
             'award_id': instance.award_id.id if instance.award_id else None,  # Ajustar según sea necesario
             'fecha_hora_startgame': instance.fecha_hora_startgame.strftime('%Y-%m-%dT%H:%M:%S.%fZ'),

@@ -5,7 +5,7 @@ import django.contrib.auth.models
 from django.db import migrations, models
 import django.db.models.deletion
 import simple_history.models
-
+import AppJuegos.choices as ch
 
 class Migration(migrations.Migration):
 
@@ -84,9 +84,9 @@ class Migration(migrations.Migration):
                 ('start_date', models.DateTimeField(verbose_name='Fecha inicio juego')),
                 ('end_date', models.DateTimeField(verbose_name='Fecha fin juego')),
                 ('modification_date', models.DateTimeField(null=True, verbose_name='Fecha  modificacion juego')),
-                ('name', models.CharField(choices=[('Tragamonedas', 'Tragamonedas')], default='Tragamonedas', max_length=50, verbose_name='Nombre')),
+                ('name', models.CharField(choices= ch.GAME_CHOICES, default='Tragamonedas', max_length=50, verbose_name='Nombre')),
                 ('players', models.IntegerField(default=0, verbose_name='Jugadores')),
-                ('state', models.CharField(choices=[('Activado', 'Activado'), ('Desactivado', 'Desactivado')], default='Activado', max_length=100)),
+                ('state', models.CharField(choices= ch.GAME_STATES, default='Activado', max_length=100)),
                 ('is_active', models.BooleanField(default=True)),
             ],
             options={
@@ -333,9 +333,9 @@ class Migration(migrations.Migration):
                 ('start_date', models.DateTimeField(verbose_name='Fecha inicio juego')),
                 ('end_date', models.DateTimeField(verbose_name='Fecha fin juego')),
                 ('modification_date', models.DateTimeField(null=True, verbose_name='Fecha  modificacion juego')),
-                ('name', models.CharField(choices=[('Tragamonedas', 'Tragamonedas')], default='Tragamonedas', max_length=50, verbose_name='Nombre')),
+                ('name', models.CharField(choices=ch.GAME_CHOICES, default='Tragamonedas', max_length=50, verbose_name='Nombre')),
                 ('players', models.IntegerField(default=0, verbose_name='Jugadores')),
-                ('state', models.CharField(choices=[('Activado', 'Activado'), ('Desactivado', 'Desactivado')], default='Activado', max_length=100)),
+                ('state', models.CharField(choices=ch.GAME_STATES, default='Activado', max_length=100)),
                 ('is_active', models.BooleanField(default=True)),
                 ('history_id', models.AutoField(primary_key=True, serialize=False)),
                 ('history_date', models.DateTimeField()),
