@@ -301,11 +301,34 @@ class Styles(models.Model): # Partida
     game_id = models.ForeignKey(Game, on_delete=models.CASCADE,verbose_name = 'Juego' )
     color_text = models.CharField(max_length=50,choices=BASIC_COLORS ,verbose_name = 'color texto',null=True)
     font_letter= models.CharField(max_length=50,choices=BASIC_FONTS ,verbose_name = 'Fuente Letra',null=True)
+    color_background_game = models.CharField(max_length=50, choices=GAME_BACKGROUND_COLOR , default='Black', verbose_name='color de fondo')
+
 
     image_machine_game = models.ImageField(upload_to='design/',verbose_name = 'imagen maquina tragamonedas',null=True)
-    image_background_game = models.ImageField(upload_to='design/',verbose_name = 'imagen fondo juego',null=True)
-    image_logo_game = models.ImageField(upload_to='design/',verbose_name = 'imagen logo juego',null=True)
-    color_background_game = models.CharField(max_length=50, choices=GAME_BACKGROUND_COLOR , default='Black', verbose_name='color de fondo')
+    image_box_watch = models.ImageField(upload_to='design/',verbose_name = 'imagen caja reloj',null=True)
+
+    image_dice_face_one = models.ImageField(upload_to='design/',verbose_name = 'imagen dado cara uno',null=True)
+    image_dice_face_two = models.ImageField(upload_to='design/',verbose_name = 'imagen dado cara dos',null=True)
+    image_dice_face_three = models.ImageField(upload_to='design/',verbose_name = 'imagen dado cara tres',null=True)
+    image_dice_face_four = models.ImageField(upload_to='design/',verbose_name = 'imagen dado cara cuatro',null=True)
+    image_dice_face_five = models.ImageField(upload_to='design/',verbose_name = 'imagen dado cara cinco',null=True)
+    image_dice_face_six = models.ImageField(upload_to='design/',verbose_name = 'imagen dado cara seis',null=True)
+
+    image_door_left = models.ImageField(upload_to='design/',verbose_name = 'imagen puerta izquierda',null=True)
+    image_door_center = models.ImageField(upload_to='design/',verbose_name = 'imagen puerta central',null=True)
+    image_door_right = models.ImageField(upload_to='design/',verbose_name = 'imagen puerta derecha',null=True)
+
+    image_logo_tragamonedas = models.ImageField(upload_to='design/',verbose_name = 'imagen logo juego Tragamonedas',null=True)
+    image_logo_precision = models.ImageField(upload_to='design/',verbose_name = 'imagen logo juego Precisión',null=True)
+    image_logo_dados = models.ImageField(upload_to='design/',verbose_name = 'imagen logo juego Dados',null=True)
+    image_logo_puertas = models.ImageField(upload_to='design/',verbose_name = 'imagen logo juego Puertas',null=True)
+
+    image_background_tragamonedas = models.ImageField(upload_to='design/',verbose_name = 'imagen fondo Tragamonedas',null=True)
+    image_background_precision = models.ImageField(upload_to='design/',verbose_name = 'imagen fondo Precisión',null=True)
+    image_background_dados = models.ImageField(upload_to='design/',verbose_name = 'imagen fondo Dados',null=True)
+    image_background_puertas = models.ImageField(upload_to='design/',verbose_name = 'imagen fondo Puertas',null=True)
+
+    image_logo = models.ImageField(upload_to='design/',verbose_name = 'imagen logo',null=True)
 
     video_screensaver = models.FileField(upload_to='screensaver/',verbose_name = 'video Salvapantallas',null=True)
     video_autoplay=models.BooleanField(default=True,verbose_name='video autoplay')
@@ -326,7 +349,7 @@ class Styles(models.Model): # Partida
 class GameImageUpload(models.Model):
     game_name = models.CharField(max_length=100)
     image_type = models.CharField(max_length=100)
-    image = models.ImageField(upload_to=f'img/{game_name}/')
+    image = models.ImageField(upload_to=f'media/{game_name}/')
 
     def __str__(self):
         return f'{self.game_name} - {self.image_type}'
