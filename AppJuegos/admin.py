@@ -7,8 +7,8 @@ from AppJuegos.models import (
     Award,
     Game,
     Probabilidad,
-    Styles
-
+    Styles,
+    GameImageUpload
 )
 
 # Register your models here.
@@ -19,6 +19,11 @@ class PemissionAdmin(admin.ModelAdmin):
     
     def has_delete_permission(self, request, obj=None):
         return False
+    
+class GameImageUploadAdmin(admin.ModelAdmin):
+    list_display = ('game_name', 'image_type', 'image')
+    search_fields = ('game_name', 'image_type')
+    list_filter = ('game_name', 'image_type')
 
 
 admin.site.register(User)
@@ -29,5 +34,6 @@ admin.site.register(Award)
 admin.site.register(Game)
 admin.site.register(Probabilidad)
 admin.site.register(Styles)
+admin.site.register(GameImageUpload, GameImageUploadAdmin)
 
 
