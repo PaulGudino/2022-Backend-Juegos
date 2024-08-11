@@ -16,6 +16,7 @@ SECRET_KEY = 'django-insecure-47=alantoxcgi6$@4&xv-mj&ifbcni=+(3dw9wl+^@i*gj4p&$
 DEBUG = True
 
 # For deployment environment
+
 ALLOWED_HOSTS = ['kioskotouch.pythonanywhere.com']
 
 # For local environment
