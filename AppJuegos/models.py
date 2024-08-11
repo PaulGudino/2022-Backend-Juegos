@@ -304,7 +304,7 @@ class Styles(models.Model): # Partida
     color_background_game = models.CharField(max_length=50, choices=GAME_BACKGROUND_COLOR , default='Black', verbose_name='color de fondo')
 
 
-    image_machine_game = models.ImageField(upload_to='design/',verbose_name = 'imagen maquina tragamonedas',null=True)
+    image_machine_game = models.ImageField(upload_to='design/',verbose_name = 'imagen máquina tragamonedas',null=True)
     image_box_watch = models.ImageField(upload_to='design/',verbose_name = 'imagen caja reloj',null=True)
 
     image_dice_face_one = models.ImageField(upload_to='design/',verbose_name = 'imagen dado cara uno',null=True)
@@ -333,13 +333,13 @@ class Styles(models.Model): # Partida
     video_screensaver = models.FileField(upload_to='screensaver/',verbose_name = 'video Salvapantallas',null=True)
     video_autoplay=models.BooleanField(default=True,verbose_name='video autoplay')
     video_loop=models.BooleanField(default=True,verbose_name='video loop')
-    title_button_screensaver= models.CharField(max_length=100,verbose_name = 'titulo boton salvapantallas',null=True)
+    title_button_screensaver= models.CharField(max_length=100,verbose_name = 'título botón salvapantallas',null=True)
 
-    scan_code_title=models.CharField(max_length=200,default='Escanear Codigo')
-    scan_code_description=models.CharField(max_length=200,default='Puedes escanear el codigo QR de tu ticket')
+    scan_code_title=models.CharField(max_length=200,default='Escanear Código')
+    scan_code_description=models.CharField(max_length=200,default='Puedes escanear el código QR de tu ticket')
   
-    title_winner = models.CharField(max_length=150, verbose_name='titulo del ganador',null=True,default='JUEGA OTRA VEZ!')
-    description_winner = models.CharField(max_length=200,verbose_name = 'descripcion ganador juego',null=True,default='HAS GANADO!')
+    title_winner = models.CharField(max_length=150, verbose_name='título del ganador',null=True,default='¡JUEGA OTRA VEZ!')
+    description_winner = models.CharField(max_length=200,verbose_name = 'descripción ganador juego',null=True,default='¡HAS GANADO!')
     image_winner = models.FileField(upload_to='design/',verbose_name = 'imagen ganador',null=True)
     
     date_created = models.DateTimeField(auto_now_add=True)
