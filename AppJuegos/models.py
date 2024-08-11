@@ -31,6 +31,30 @@ class CustomUserManager(BaseUserManager):
         return self.create_user(username, email, password, **extra_fields)
 
 
+class CustomUserManager(BaseUserManager):
+    def create_user(self, username, email, password=None, rol=None, **extra_fields):
+        if not email:
+            raise ValueError('El correo electrónico debe ser proporcionado')
+        email = self.normalize_email(email)
+        if rol is None:
+            rol = Rol.objects.get_or_create(name='default_rol')[0]  # Obtener o crear un rol por defecto
+        user = self.model(username=username, email=email, rol=rol, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, username, email, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('El superusuario debe tener is_staff=True.')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('El superusuario debe tener is_superuser=True.')
+
+        return self.create_user(username, email, password, **extra_fields)
+
+
 class Rol(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     name = models.CharField(max_length=50, unique=True, verbose_name='Nombre')
@@ -39,7 +63,7 @@ class Rol(models.Model):
     modified = models.DateTimeField(auto_now=True, verbose_name='Fecha de modificacion')
     is_active = models.BooleanField(default=True)
 
-    def __str__(self):
+    def _str_(self):
         return self.name
 
     class Meta:
@@ -80,7 +104,7 @@ class User(AbstractUser):
 
     objects = CustomUserManager()  # Asignar el CustomUserManager
 
-    def __str__(self):
+    def _str_(self):
         return self.names + ' ' + self.surnames + ' - ' + self.email
 
     class Meta:
@@ -92,7 +116,7 @@ class Permission(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     name = models.CharField(max_length=50, verbose_name='Nombre')
 
-    def __str__(self):
+    def _str_(self):
         return self.name
     
     class Meta:
@@ -105,7 +129,7 @@ class RolPermission(models.Model):
     rol = models.ForeignKey(Rol, on_delete=models.CASCADE, verbose_name='Rol')
     permission = models.ForeignKey(Permission, on_delete=models.CASCADE, verbose_name='Permiso')
 
-    def __str__(self):
+    def _str_(self):
         return self.rol.name + ' ' + self.permission.name
 
     class Meta:
@@ -128,7 +152,7 @@ class Client(models.Model):
     user_client_register = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que registra', related_name='user_client_register')
     user_client_modify = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que modifica', related_name='user_client_modify', null=True, blank=True)
 
-    def __str__(self):
+    def _str_(self):
         return self.names + ' ' + self.surnames + ' - ' + self.email
 
     class Meta:
@@ -148,7 +172,7 @@ class Game(models.Model):
     is_active = models.BooleanField(default=True)
     history = HistoricalRecords()
 
-    def __str__(self):
+    def _str_(self):
         return self.name
 
 
@@ -173,7 +197,7 @@ class Award(models.Model):
     game = models.ForeignKey(Game, on_delete=models.CASCADE, verbose_name='Juego')
     history = HistoricalRecords()
 
-    def __str__(self):
+    def _str_(self):
         return self.name
 
     def delete(self, using=None, keep_parents=False):
@@ -193,7 +217,7 @@ class ForgotPassword(models.Model):
     code = models.CharField(max_length=6, verbose_name='Codigo')
     created = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creacion')
 
-    def __str__(self):
+    def _str_(self):
         return self.email
 
     class Meta:
@@ -215,7 +239,7 @@ class AwardCondition(models.Model):
     user_modify = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario que modifica', related_name='user_modify_award_condition', null=True, blank=True)
     history = HistoricalRecords()
 
-    def __str__(self):
+    def _str_(self):
         return self.award.name
 
     class Meta:

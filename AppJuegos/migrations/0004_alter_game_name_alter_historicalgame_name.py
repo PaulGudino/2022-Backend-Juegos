@@ -4,6 +4,7 @@ from django.db import migrations, models
 import AppJuegos.choices as ch
 
 
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -15,7 +16,7 @@ class Migration(migrations.Migration):
             model_name='game',
             name='name',
             field=models.CharField(choices=ch.GAME_CHOICES, default='Tragamonedas', max_length=50, verbose_name='Nombre'),
-        ),
+
         migrations.AlterField(
             model_name='historicalgame',
             name='name',

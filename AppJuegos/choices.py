@@ -65,11 +65,8 @@ GAME_CHOICES = [
 GAME_STATES = [
     ('Activado', 'Activado'),
     ('Desactivado', 'Desactivado'),
-]
-
 
 KIOSKO_MACHINE = [
     ('1', 'Kiosko 1'),
     ('2', 'Kiosko 2'),
     ('3', 'Kiosko 3'),
-]
