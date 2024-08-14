@@ -328,7 +328,8 @@ class Styles(models.Model): # Partida
     image_background_dados = models.ImageField(upload_to='design/',verbose_name = 'imagen fondo Dados',null=True)
     image_background_puertas = models.ImageField(upload_to='design/',verbose_name = 'imagen fondo Puertas',null=True)
 
-    image_logo = models.ImageField(upload_to='design/',verbose_name = 'imagen logo',null=True)
+    image_background_kiosco = models.ImageField(upload_to='design/',verbose_name = 'imagen fondo Kiosco',null=True)
+    image_logo_kiosco = models.ImageField(upload_to='design/',verbose_name = 'imagen logo Kiosco',null=True)
 
     video_screensaver = models.FileField(upload_to='screensaver/',verbose_name = 'video Salvapantallas',null=True)
     video_autoplay=models.BooleanField(default=True,verbose_name='video autoplay')
