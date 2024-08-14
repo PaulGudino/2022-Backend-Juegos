@@ -17,10 +17,10 @@ DEBUG = True
 
 # For deployment environment
 
-ALLOWED_HOSTS = ['kioskotouch.pythonanywhere.com']
+# ALLOWED_HOSTS = ['kioskotouch.pythonanywhere.com']
 
 # For local environment
-# ALLOWED_HOSTS = []
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -98,28 +98,28 @@ WSGI_APPLICATION = 'Juegos.wsgi.application'
 
 # For deployment environment
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'kioskotouch$juegos',
-        'USER': 'kioskotouch',
-        'PASSWORD': 'Root@123',
-        'HOST': 'kioskotouch.mysql.pythonanywhere-services.com',
-        'PORT': '3306'
-    }
-}
-
-# For local environment
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'juegos',
-#         'USER': 'admin',
+#         'NAME': 'kioskotouch$juegos',
+#         'USER': 'kioskotouch',
 #         'PASSWORD': 'Root@123',
-#         'HOST': 'localhost',
+#         'HOST': 'kioskotouch.mysql.pythonanywhere-services.com',
 #         'PORT': '3306'
 #     }
 # }
+
+# For local environment
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'juegos',
+        'USER': 'admin',
+        'PASSWORD': 'Root@123',
+        'HOST': 'localhost',
+        'PORT': '3306'
+    }
+}
 
 
 # Password validation
@@ -171,9 +171,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOW_ALL_ORIGINS = True
 
 # Local
-# CORS_ALLOWED_ORIGINS = [
-#    'http://localhost:4200',
-# ]
+CORS_ALLOWED_ORIGINS = [
+   'http://localhost:4200',
+]
 
 CORS_ALLOW_CREDENTIALS = True
 
