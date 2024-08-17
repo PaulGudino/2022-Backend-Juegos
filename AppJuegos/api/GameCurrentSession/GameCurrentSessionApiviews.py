@@ -132,6 +132,7 @@ class GameCurrentFilter(generics.ListAPIView):
     filterset_fields = {
         'id': ['exact'],
         'game_id': ['exact'],
+        'gano':['exact'],
         'kiosko_numero': ['exact'],
         'fecha_hora_startgame': ['date__range'],
     }
