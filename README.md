@@ -157,6 +157,12 @@ To uninstall the application, follow these steps:
     ```
 
 ## Appendix
+### Communications folder
+- [Acceptance letter](https://github.com/RobertoEncalada/T2-Backend-Kiosco-Touch/tree/local/Communications/Acceptance%20letter): client acceptance card
+- [Images](https://github.com/RobertoEncalada/T2-Backend-Kiosco-Touch/tree/local/Communications/Images): face-to-face meetings we had
+- [Messages](https://github.com/RobertoEncalada/T2-Backend-Kiosco-Touch/tree/local/Communications/Messages): Whatsapp group chats between us and the client
+
+   
 ### Additional Resources
 - **Documentation:** Refer to the official project documentation for more detailed instructions and advanced configuration options.
 
