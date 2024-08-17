@@ -155,6 +155,11 @@ To uninstall the application, follow these steps:
     ```sql
     DROP DATABASE juegos;
     ```
+## Participants
+### Roberto Encalada
+### Jefferson Eras
+### Irving Macías
+### Nick Arévalo
 
 ## Appendix
 ### Communications folder
