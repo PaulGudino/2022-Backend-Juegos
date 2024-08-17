@@ -156,10 +156,10 @@ To uninstall the application, follow these steps:
     DROP DATABASE juegos;
     ```
 ## Participants
-### Roberto Encalada
-### Jefferson Eras
-### Irving Macías
-### Nick Arévalo
+- Roberto Encalada
+- Jefferson Eras
+- Irving Macías
+- Nick Arévalo
 
 ## Appendix
 ### Communications folder
