@@ -50,12 +50,13 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
 
-    'DEFAULT_AUTHENTICATION_CLASSES': (
+     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
    'DEFAULT_PERMISSION_CLASSES': (
       'rest_framework.permissions.IsAuthenticated',
    )
+
 
 }
 
@@ -109,7 +110,6 @@ DATABASES = {
 }
 
 # For local environment
-
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
@@ -120,6 +120,7 @@ DATABASES = {
 #         'PORT': '3306'
 #     }
 # }
+
 
 
 # Password validation
@@ -167,16 +168,29 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# CORS_ALLOWED_ORIGINS = [
+#     'http://localhost:4200',
+# ]
+
+# Produccion
 CORS_ALLOW_ALL_ORIGINS = True
+
+# Local
+# CORS_ALLOWED_ORIGINS = [
+#    'http://localhost:4200',
+# ]
+
 CORS_ALLOW_CREDENTIALS = True
 
-
 CORS_ALLOW_METHODS = [
-    'DELETE',
     'GET',
     'POST',
     'PUT',
+    'PATCH',  
+    'DELETE',
+    'OPTIONS',
 ]
+
 
 AUTH_USER_MODEL = 'AppJuegos.User'
 

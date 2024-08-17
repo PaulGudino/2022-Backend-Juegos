@@ -57,12 +57,17 @@ CATEGORY = (
 )
 GAME_CHOICES = [
     ('Tragamonedas', 'Tragamonedas'),
-    ('Puertas', 'Puertas'),
+    ('Precision', 'Precision'),
     ('Dados', 'Dados'),
-    ('Precision', 'Precisión'),
+    ('Puertas', 'Puertas')
 ]
 
 GAME_STATES = [
     ('Activado', 'Activado'),
     ('Desactivado', 'Desactivado'),
+]
+KIOSKO_MACHINE = [
+    ('1', 'Kiosko 1'),
+    ('2', 'Kiosko 2'),
+    ('3', 'Kiosko 3'),
 ]

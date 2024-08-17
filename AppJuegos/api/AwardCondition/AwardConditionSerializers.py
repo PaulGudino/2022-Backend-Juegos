@@ -17,7 +17,7 @@ class AwardConditionSerializer(serializers.ModelSerializer):
         fin_juego = Game.objects.get(id=self.initial_data['game']).end_date
 
         if fin_juego < timezone.now():
-            raise serializers.ValidationError("La fecha de disponibilidad del juego ya venció, actulize la fecha de disponibilidad")
+            raise serializers.ValidationError("La fecha de disponibilidad del juego ya venció, actualice la fecha de disponibilidad")
 
         if value <= inicio_juego:
             raise serializers.ValidationError("La fecha de inicio debe ser mayor a la fecha de inicio del juego")
@@ -33,7 +33,7 @@ class AwardConditionSerializer(serializers.ModelSerializer):
         fin_juego = Game.objects.get(id=self.initial_data['game']).end_date
 
         if fin_juego < timezone.now():
-            raise serializers.ValidationError("La fecha de disponibilidad del juego ya venció, actulize la fecha de disponibilidad")
+            raise serializers.ValidationError("La fecha de disponibilidad del juego ya venció, actualice la fecha de disponibilidad")
 
         if value <= inicio_juego:
             raise serializers.ValidationError("La fecha de fin debe ser mayor a la fecha de inicio del juego")
@@ -79,7 +79,7 @@ class AwardConditionUpdateSerializer(serializers.ModelSerializer):
         fin_juego = Game.objects.get(id=self.initial_data['game']).end_date
 
         if fin_juego < timezone.now():
-            raise serializers.ValidationError("La fecha de disponibilidad del juego ya venció, actulize la fecha de disponibilidad")
+            raise serializers.ValidationError("La fecha de disponibilidad del juego ya venció, actualice la fecha de disponibilidad")
 
         if value <= inicio_juego:
             raise serializers.ValidationError("La fecha de inicio debe ser mayor a la fecha de inicio del juego")
@@ -95,7 +95,7 @@ class AwardConditionUpdateSerializer(serializers.ModelSerializer):
         fin_juego = Game.objects.get(id=self.initial_data['game']).end_date
 
         if fin_juego < timezone.now():
-            raise serializers.ValidationError("La fecha de disponibilidad del juego ya venció, actulize la fecha de disponibilidad")
+            raise serializers.ValidationError("La fecha de disponibilidad del juego ya venció, actualice la fecha de disponibilidad")
 
         if value <= inicio_juego:
             raise serializers.ValidationError("La fecha de fin debe ser mayor a la fecha de inicio del juego")

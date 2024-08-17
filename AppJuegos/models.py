@@ -3,7 +3,32 @@ from django.db import models
 from .choices import *
 from simple_history.models import HistoricalRecords
 from django.contrib.auth.models import AbstractUser,BaseUserManager
-from datetime import datetime 
+from datetime import datetime
+from django.db import models
+
+
+class CustomUserManager(BaseUserManager):
+    def create_user(self, username, email, password=None, rol=None, **extra_fields):
+        if not email:
+            raise ValueError('El correo electrónico debe ser proporcionado')
+        email = self.normalize_email(email)
+        if rol is None:
+            rol = Rol.objects.get_or_create(name='default_rol')[0]  # Obtener o crear un rol por defecto
+        user = self.model(username=username, email=email, rol=rol, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, username, email, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('El superusuario debe tener is_staff=True.')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('El superusuario debe tener is_superuser=True.')
+
+        return self.create_user(username, email, password, **extra_fields)
 
 
 class CustomUserManager(BaseUserManager):
@@ -286,7 +311,7 @@ class Match(models.Model): # Partida
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, null=False, related_name='match_ticket')
     award = models.ForeignKey(Award, on_delete=models.CASCADE, null=True, related_name='award')
     date_created = models.DateTimeField(auto_now_add=True)
-    win_match = models.BooleanField(default=False,null=False,verbose_name="gano la partida?")
+    win_match = models.BooleanField(default=False,null=False,verbose_name="¿ganó la partida?")
     delivered = models.BooleanField(default=False,null=False,verbose_name="entrego el premio?")
 
 
@@ -300,24 +325,79 @@ class Styles(models.Model): # Partida
     game_id = models.ForeignKey(Game, on_delete=models.CASCADE,verbose_name = 'Juego' )
     color_text = models.CharField(max_length=50,choices=BASIC_COLORS ,verbose_name = 'color texto',null=True)
     font_letter= models.CharField(max_length=50,choices=BASIC_FONTS ,verbose_name = 'Fuente Letra',null=True)
-
-    image_machine_game = models.ImageField(upload_to='design/',verbose_name = 'imagen maquina tragamonedas',null=True)
-    image_background_game = models.ImageField(upload_to='design/',verbose_name = 'imagen fondo juego',null=True)
-    image_logo_game = models.ImageField(upload_to='design/',verbose_name = 'imagen logo juego',null=True)
     color_background_game = models.CharField(max_length=50, choices=GAME_BACKGROUND_COLOR , default='Black', verbose_name='color de fondo')
+
+
+    image_machine_game = models.ImageField(upload_to='design/',verbose_name = 'imagen máquina tragamonedas',null=True)
+    image_box_watch = models.ImageField(upload_to='design/',verbose_name = 'imagen caja reloj',null=True)
+
+    image_dice_face_one = models.ImageField(upload_to='design/',verbose_name = 'imagen dado cara uno',null=True)
+    image_dice_face_two = models.ImageField(upload_to='design/',verbose_name = 'imagen dado cara dos',null=True)
+    image_dice_face_three = models.ImageField(upload_to='design/',verbose_name = 'imagen dado cara tres',null=True)
+    image_dice_face_four = models.ImageField(upload_to='design/',verbose_name = 'imagen dado cara cuatro',null=True)
+    image_dice_face_five = models.ImageField(upload_to='design/',verbose_name = 'imagen dado cara cinco',null=True)
+    image_dice_face_six = models.ImageField(upload_to='design/',verbose_name = 'imagen dado cara seis',null=True)
+
+    image_door_left = models.ImageField(upload_to='design/',verbose_name = 'imagen puerta izquierda',null=True)
+    image_door_center = models.ImageField(upload_to='design/',verbose_name = 'imagen puerta central',null=True)
+    image_door_right = models.ImageField(upload_to='design/',verbose_name = 'imagen puerta derecha',null=True)
+
+    image_logo_tragamonedas = models.ImageField(upload_to='design/',verbose_name = 'imagen logo juego Tragamonedas',null=True)
+    image_logo_precision = models.ImageField(upload_to='design/',verbose_name = 'imagen logo juego Precisión',null=True)
+    image_logo_dados = models.ImageField(upload_to='design/',verbose_name = 'imagen logo juego Dados',null=True)
+    image_logo_puertas = models.ImageField(upload_to='design/',verbose_name = 'imagen logo juego Puertas',null=True)
+
+    image_background_tragamonedas = models.ImageField(upload_to='design/',verbose_name = 'imagen fondo Tragamonedas',null=True)
+    image_background_precision = models.ImageField(upload_to='design/',verbose_name = 'imagen fondo Precisión',null=True)
+    image_background_dados = models.ImageField(upload_to='design/',verbose_name = 'imagen fondo Dados',null=True)
+    image_background_puertas = models.ImageField(upload_to='design/',verbose_name = 'imagen fondo Puertas',null=True)
+
+    image_background_kiosco = models.ImageField(upload_to='design/',verbose_name = 'imagen fondo Kiosco',null=True)
+    image_logo_kiosco = models.ImageField(upload_to='design/',verbose_name = 'imagen logo Kiosco',null=True)
 
     video_screensaver = models.FileField(upload_to='screensaver/',verbose_name = 'video Salvapantallas',null=True)
     video_autoplay=models.BooleanField(default=True,verbose_name='video autoplay')
     video_loop=models.BooleanField(default=True,verbose_name='video loop')
-    title_button_screensaver= models.CharField(max_length=100,verbose_name = 'titulo boton salvapantallas',null=True)
+    title_button_screensaver= models.CharField(max_length=100,verbose_name = 'título botón salvapantallas',null=True)
 
-    scan_code_title=models.CharField(max_length=200,default='Escanear Codigo')
-    scan_code_description=models.CharField(max_length=200,default='Puedes escanear el codigo QR de tu ticket')
+    scan_code_title=models.CharField(max_length=200,default='Escanear Código')
+    scan_code_description=models.CharField(max_length=200,default='Puedes escanear el código QR de tu ticket')
   
-    title_winner = models.CharField(max_length=150, verbose_name='titulo del ganador',null=True,default='JUEGA OTRA VEZ!')
-    description_winner = models.CharField(max_length=200,verbose_name = 'descripcion ganador juego',null=True,default='HAS GANADO!')
+    title_winner = models.CharField(max_length=150, verbose_name='título del ganador',null=True,default='¡JUEGA OTRA VEZ!')
+    description_winner = models.CharField(max_length=200,verbose_name = 'descripción ganador juego',null=True,default='¡HAS GANADO!')
     image_winner = models.FileField(upload_to='design/',verbose_name = 'imagen ganador',null=True)
     
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
+
+class GameImageUpload(models.Model):
+    game_name = models.CharField(max_length=100)
+    image_type = models.CharField(max_length=100)
+    image = models.ImageField(upload_to=f'media/{game_name}/')
+
+    def __str__(self):
+        return f'{self.game_name} - {self.image_type}'
+
+# ================================================================================================================== 
+# Log del juego enc curso, cliente que juega, en que maquina juega
+# ================================================================================================================== 
+
+class GameCurrentSession(models.Model):
+    # Lista de campos, asegúrate de que `client_id` no esté aquí.
+    kiosko_numero = models.CharField(max_length=100)
+    ticket_id = models.ForeignKey(Ticket, on_delete=models.CASCADE)
+    game_id = models.CharField(max_length=100)  # Cambiado a CharField para almacenar un ID de juego como string
+    gano = models.BooleanField(default=False,null=False,verbose_name="¿ganó la partida?")
+    award_id = models.ForeignKey(Award, null=True, blank=True, on_delete=models.SET_NULL)
+    fecha_hora_startgame = models.DateTimeField()
+    fecha_hora_finalgame = models.DateTimeField(null=True, blank=True)
+
+
+    def __str__(self):
+        return f'Partida {self.id} - Cliente {self.client} - Juego {self.game}'
+
+    class Meta:
+        verbose_name = 'Partida en Curso'
+        verbose_name_plural = 'Partidas en Curso'
+        ordering = ['id']
