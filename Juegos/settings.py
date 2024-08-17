@@ -16,7 +16,7 @@ SECRET_KEY = 'django-insecure-47=alantoxcgi6$@4&xv-mj&ifbcni=+(3dw9wl+^@i*gj4p&$
 DEBUG = True
 
 # For deployment environment
-ALLOWED_HOSTS = ['sistemaskioskotouch.pythonanywhere.com']
+ALLOWED_HOSTS = ['kioskotouch.pythonanywhere.com']
 
 # For local environment
 # ALLOWED_HOSTS = []
@@ -100,10 +100,10 @@ WSGI_APPLICATION = 'Juegos.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'sistemaskioskoto$juegos',
-        'USER': 'sistemaskioskoto',
+        'NAME': 'kioskotouch$juegos',
+        'USER': 'kioskotouch',
         'PASSWORD': 'Root@123',
-        'HOST': 'sistemaskioskotouch.mysql.pythonanywhere-services.com',
+        'HOST': 'kioskotouch.mysql.pythonanywhere-services.com',
         'PORT': '3306'
     }
 }
