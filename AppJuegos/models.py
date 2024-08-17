@@ -311,7 +311,7 @@ class Match(models.Model): # Partida
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, null=False, related_name='match_ticket')
     award = models.ForeignKey(Award, on_delete=models.CASCADE, null=True, related_name='award')
     date_created = models.DateTimeField(auto_now_add=True)
-    win_match = models.BooleanField(default=False,null=False,verbose_name="gano la partida?")
+    win_match = models.BooleanField(default=False,null=False,verbose_name="¿ganó la partida?")
     delivered = models.BooleanField(default=False,null=False,verbose_name="entrego el premio?")
 
 
@@ -352,7 +352,8 @@ class Styles(models.Model): # Partida
     image_background_dados = models.ImageField(upload_to='design/',verbose_name = 'imagen fondo Dados',null=True)
     image_background_puertas = models.ImageField(upload_to='design/',verbose_name = 'imagen fondo Puertas',null=True)
 
-    image_logo = models.ImageField(upload_to='design/',verbose_name = 'imagen logo',null=True)
+    image_background_kiosco = models.ImageField(upload_to='design/',verbose_name = 'imagen fondo Kiosco',null=True)
+    image_logo_kiosco = models.ImageField(upload_to='design/',verbose_name = 'imagen logo Kiosco',null=True)
 
     video_screensaver = models.FileField(upload_to='screensaver/',verbose_name = 'video Salvapantallas',null=True)
     video_autoplay=models.BooleanField(default=True,verbose_name='video autoplay')
@@ -387,7 +388,7 @@ class GameCurrentSession(models.Model):
     kiosko_numero = models.CharField(max_length=100)
     ticket_id = models.ForeignKey(Ticket, on_delete=models.CASCADE)
     game_id = models.CharField(max_length=100)  # Cambiado a CharField para almacenar un ID de juego como string
-    gano = models.BooleanField(null=True, blank=True)
+    gano = models.BooleanField(default=False,null=False,verbose_name="¿ganó la partida?")
     award_id = models.ForeignKey(Award, null=True, blank=True, on_delete=models.SET_NULL)
     fecha_hora_startgame = models.DateTimeField()
     fecha_hora_finalgame = models.DateTimeField(null=True, blank=True)

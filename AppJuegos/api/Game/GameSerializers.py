@@ -16,16 +16,17 @@ class GameSerializers(serializers.ModelSerializer):
             'end_date_nf': instance.end_date,
             'players': instance.players,
             'name': instance.name,
+            'state': instance.state,
         }
 
 
 class GameSerializerCreate(serializers.ModelSerializer):
     class Meta:
         model = Game
-        fields = ('id', 'start_date', 'end_date', 'game',)
+        fields = ('id', 'start_date', 'end_date', 'game','state',)
 
 
 class GameSerializerUpdate(serializers.ModelSerializer):
     class Meta:
         model = Game
-        fields = ('id', 'start_date', 'end_date', 'game', 'is_active',)
+        fields = ('id', 'modification_date', 'state', 'is_active',)

@@ -16,11 +16,10 @@ SECRET_KEY = 'django-insecure-47=alantoxcgi6$@4&xv-mj&ifbcni=+(3dw9wl+^@i*gj4p&$
 DEBUG = True
 
 # For deployment environment
-
-ALLOWED_HOSTS = ['kioskotouch.pythonanywhere.com']
+# ALLOWED_HOSTS = ['sistemaskioskotouch.pythonanywhere.com']
 
 # For local environment
-# ALLOWED_HOSTS = []
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -54,9 +53,9 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
-   'DEFAULT_PERMISSION_CLASSES': (
-      'rest_framework.permissions.IsAuthenticated',
-   )
+#    'DEFAULT_PERMISSION_CLASSES': (
+#       'rest_framework.permissions.IsAuthenticated',
+#    )
 
 }
 
@@ -98,28 +97,29 @@ WSGI_APPLICATION = 'Juegos.wsgi.application'
 
 # For deployment environment
 
+# DATABASES = {
+#   'default': {
+#       'ENGINE': 'django.db.backends.mysql',
+#       'NAME': 'juegos$default',
+#       'USER': 'juegos',
+#       'PASSWORD': 'Root@123',
+#       'HOST': 'juegos.mysql.pythonanywhere-services.com',
+#       'PORT': '3306'
+#   }
+# }
+
+# For local environment
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'kioskotouch$juegos',
-        'USER': 'kioskotouch',
-        'PASSWORD': 'Root@123',
-        'HOST': 'kioskotouch.mysql.pythonanywhere-services.com',
+        'NAME': 'juegos',
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'HOST': 'localhost',
         'PORT': '3306'
     }
 }
-
-# For local environment
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'juegos',
-#         'USER': 'admin',
-#         'PASSWORD': 'Root@123',
-#         'HOST': 'localhost',
-#         'PORT': '3306'
-#     }
-# }
 
 
 # Password validation
@@ -167,13 +167,9 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Produccion
-CORS_ALLOW_ALL_ORIGINS = True
-
-# Local
-# CORS_ALLOWED_ORIGINS = [
-#    'http://localhost:4200',
-# ]
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:4200',
+]
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -186,7 +182,6 @@ CORS_ALLOW_METHODS = [
     'DELETE',
     'OPTIONS',
 ]
-
 
 AUTH_USER_MODEL = 'AppJuegos.User'
 
