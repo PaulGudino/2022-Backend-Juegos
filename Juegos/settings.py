@@ -101,7 +101,7 @@ DATABASES = {
   'default': {
       'ENGINE': 'django.db.backends.mysql',
       'NAME': 'kioskotouch$juegos',
-      'USER': 'admin',
+      'USER': 'kioskotouch',
       'PASSWORD': 'Root@123',
       'HOST': 'kioskotouch.mysql.pythonanywhere-services.com',
       'PORT': '3306'
