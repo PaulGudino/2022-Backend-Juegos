@@ -166,7 +166,7 @@ To uninstall the application, follow these steps:
 - [Acceptance letter](https://github.com/RobertoEncalada/T2-Backend-Kiosco-Touch/tree/local/Communications/Acceptance%20letter): client acceptance card
 - [Images](https://github.com/RobertoEncalada/T2-Backend-Kiosco-Touch/tree/local/Communications/Images): face-to-face meetings we had
 - [Messages](https://github.com/RobertoEncalada/T2-Backend-Kiosco-Touch/tree/local/Communications/Messages): Whatsapp group chats between us and the client
-- [Scrum](https://github.com/RobertoEncalada/T2-Backend-Kiosco-Touch/tree/local/Communications/Messages): Scrum evidence
+- [Scrum](https://github.com/RobertoEncalada/T2-Backend-Kiosco-Touch/tree/local/Communications/Scrum): Scrum evidence
 
    
 ### Additional Resources
