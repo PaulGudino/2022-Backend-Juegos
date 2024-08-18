@@ -16,10 +16,10 @@ SECRET_KEY = 'django-insecure-47=alantoxcgi6$@4&xv-mj&ifbcni=+(3dw9wl+^@i*gj4p&$
 DEBUG = True
 
 # For deployment environment
-ALLOWED_HOSTS = ['kioskotouch.pythonanywhere.com']
+ALLOWED_HOSTS = ['sistemaskioskotouch.pythonanywhere.com']
 
 # For local environment
-# ALLOWED_HOSTS = []
+#ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -50,13 +50,12 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
 
-     'DEFAULT_AUTHENTICATION_CLASSES': (
+    'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
-   'DEFAULT_PERMISSION_CLASSES': (
-      'rest_framework.permissions.IsAuthenticated',
-   )
-
+#    'DEFAULT_PERMISSION_CLASSES': (
+#       'rest_framework.permissions.IsAuthenticated',
+#    )
 
 }
 
@@ -99,28 +98,28 @@ WSGI_APPLICATION = 'Juegos.wsgi.application'
 # For deployment environment
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'kioskotouch$juegos',
-        'USER': 'kioskotouch',
-        'PASSWORD': 'Root@123',
-        'HOST': 'kioskotouch.mysql.pythonanywhere-services.com',
-        'PORT': '3306'
-    }
+  'default': {
+      'ENGINE': 'django.db.backends.mysql',
+      'NAME': 'kioskotouch$juegos',
+      'USER': 'root',
+      'PASSWORD': 'root',
+      'HOST': 'kioskotouch.mysql.pythonanywhere-services.com',
+      'PORT': '3306'
+  }
 }
 
 # For local environment
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
 #         'NAME': 'juegos',
-#         'USER': 'admin',
-#         'PASSWORD': 'Root@123',
+#         'USER': 'root',
+#         'PASSWORD': 'root',
 #         'HOST': 'localhost',
 #         'PORT': '3306'
 #     }
 # }
-
 
 
 # Password validation
@@ -158,40 +157,35 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = '/home/kioskotouch/2022-Backend-Juegos/static'
 
-#STATICFILES_DIRS = [
-#    BASE_DIR / 'static'
-#]
+STATICFILES_DIRS = [
+    BASE_DIR / 'static'
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Produccion
+CORS_ALLOW_ALL_ORIGINS = True
+
+# For local environment
 # CORS_ALLOWED_ORIGINS = [
 #     'http://localhost:4200',
 # ]
 
-# Produccion
-CORS_ALLOW_ALL_ORIGINS = True
-
-# Local
-# CORS_ALLOWED_ORIGINS = [
-#    'http://localhost:4200',
-# ]
-
 CORS_ALLOW_CREDENTIALS = True
+
 
 CORS_ALLOW_METHODS = [
     'GET',
     'POST',
     'PUT',
-    'PATCH',
+    'PATCH',  
     'DELETE',
     'OPTIONS',
 ]
-
 
 AUTH_USER_MODEL = 'AppJuegos.User'
 
