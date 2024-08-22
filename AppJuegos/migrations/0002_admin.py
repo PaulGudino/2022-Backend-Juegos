@@ -66,6 +66,7 @@ class Migration(migrations.Migration):
         game_design_permission = Permission(name='Modificar Diseño del Juego')
         game_winners_permission = Permission(name='Modificar Presentación de Ganadores del Juego')
         game_probability_permission = Permission(name='Modificar Probabilidades del juego')
+        game_activate_permission = Permission(name='Activar/Desactivar Juego')
         
 
                 
@@ -98,6 +99,7 @@ class Migration(migrations.Migration):
         game_design_permission.save()
         game_winners_permission.save()
         game_probability_permission.save()
+        game_activate_permission.save()
         
 		# ==================================================================================================================
         
@@ -127,6 +129,27 @@ class Migration(migrations.Migration):
         )
 
         game_tragamonedas.save()
+
+        game_precision = Game(
+            start_date =  "2022-11-08T00:00:00",
+            end_date = "2029-12-13T12:12:00",
+        )
+
+        game_precision.save()
+
+        game_dados = Game(
+            start_date =  "2022-11-08T00:00:00",
+            end_date = "2029-12-13T12:12:00",
+        )
+
+        game_dados.save()
+
+        game_puertas = Game(
+            start_date =  "2022-11-08T00:00:00",
+            end_date = "2029-12-13T12:12:00",
+        )
+
+        game_puertas.save()
 
 
         #Create default Styles
@@ -191,6 +214,8 @@ class Migration(migrations.Migration):
         RolPermission_23 = RolPermission(rol_id=admin_rol.id, permission_id=game_design_permission.id)
         RolPermission_24 = RolPermission(rol_id=admin_rol.id, permission_id=game_winners_permission.id)
         RolPermission_25 = RolPermission(rol_id=admin_rol.id, permission_id=game_probability_permission.id)
+        RolPermission_26 = RolPermission(rol_id=admin_rol.id, permission_id=game_activate_permission.id)
+
 
 
 		# ==================================================================================================================
@@ -224,6 +249,7 @@ class Migration(migrations.Migration):
         RolPermission_23.save()
         RolPermission_24.save()
         RolPermission_25.save()
+        RolPermission_26.save()
 
 		# ==================================================================================================================
     
