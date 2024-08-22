@@ -131,6 +131,7 @@ class Migration(migrations.Migration):
         game_tragamonedas.save()
 
         game_precision = Game(
+            name = 'Precision',
             start_date =  "2022-11-08T00:00:00",
             end_date = "2029-12-13T12:12:00",
         )
@@ -138,6 +139,7 @@ class Migration(migrations.Migration):
         game_precision.save()
 
         game_dados = Game(
+            name = 'Dados',
             start_date =  "2022-11-08T00:00:00",
             end_date = "2029-12-13T12:12:00",
         )
@@ -145,6 +147,7 @@ class Migration(migrations.Migration):
         game_dados.save()
 
         game_puertas = Game(
+            name = 'Puertas',
             start_date =  "2022-11-08T00:00:00",
             end_date = "2029-12-13T12:12:00",
         )
